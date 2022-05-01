@@ -6,15 +6,15 @@ namespace Ex03.GarageLogic
 {
     class Wheel
     {
-        short m_WheelsCount;
+        short m_WheelsCount; // I think unnecessary. List of wheels in Vehicle would hold size. [Zvika]
         string m_Manufacturer;
         float m_CurrentAirPressure;
         float m_MaxAirPressure;
 
-        public Wheel(short i_NumOfWheels, string i_WheelManufaturer, float i_MaxAirPressure, float i_CurrentAirPressure)
+        public Wheel(short i_NumOfWheels, string i_WheelManufacturer, float i_MaxAirPressure, float i_CurrentAirPressure)
         {
             m_WheelsCount = i_NumOfWheels;
-            m_Manufacturer = i_WheelManufaturer;
+            m_Manufacturer = i_WheelManufacturer;
             m_CurrentAirPressure = i_CurrentAirPressure;
             m_MaxAirPressure = i_MaxAirPressure;
         }
@@ -35,7 +35,7 @@ namespace Ex03.GarageLogic
             }
             else
             {
-                throw new ValueOutOfRangeException();
+             //   throw new ValueOutOfRangeException();
             }
         }
     }

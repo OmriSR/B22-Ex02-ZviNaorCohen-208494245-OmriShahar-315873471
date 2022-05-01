@@ -4,16 +4,16 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    abstract class Vehicel
+    abstract class Vehicle
     {
-        string m_Modle;
+        string m_Model;
         string m_LicenseNumber;
         float m_EnergyLeft;
-        Wheel m_Wheels;
+        Wheel m_Wheels; // I think it should be list [Zvika]
 
-        public Vehicel(string i_VehicelModle, string i_LicenseNumber, float i_CurrentEnergyLevel, Wheel i_Wheels)
+        public Vehicle(string i_VehicleModel, string i_LicenseNumber, float i_CurrentEnergyLevel, Wheel i_Wheels)
         {
-            m_Modle = i_VehicelModle;
+            m_Model = i_VehicleModel;
             m_LicenseNumber = i_LicenseNumber;
             m_EnergyLeft = i_CurrentEnergyLevel;
             m_Wheels = i_Wheels;

@@ -4,14 +4,14 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    class Truck : Vehicel
+    class Truck : Vehicle
     {
         bool HasCoolingUnit;
-        float TrunckCapacity;
+        float TrunkCapacity;
 
-        public Truk()
-        {
-            base();
-        }
+        // public Truck()
+        //   {
+        // base();
+        // }
     }
 }
