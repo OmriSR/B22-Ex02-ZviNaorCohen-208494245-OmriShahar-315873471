@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    class Wheel
+    public class Wheel
     {
         short m_WheelsCount; // I think unnecessary. List of wheels in Vehicle would hold size. [Zvika]
         string m_Manufacturer;
