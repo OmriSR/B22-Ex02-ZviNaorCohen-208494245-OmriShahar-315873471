@@ -2,19 +2,21 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Ex02.ConsoleUtils;
+using Ex03.GarageLogic;
 
 namespace Ex03.ConsoleUI
 {
     class Program
     {
-        private List<GarageLogic.Ticket> m_GarageTickets; // MAYBE USE DICTIONARY FOR THETA(1) FINDINGS???
+        private Dictionary<string, Ticket> m_GarageTickets = new Dictionary<string, Ticket>(); // MAYBE USE DICTIONARY FOR THETA(1) FINDINGS???
 
-        static void Main()
+        public static void Main()
         {
-            RunGarage();
+            Program runProg = new Program();
+            runProg.RunGarage();
         }
 
-        public static void RunGarage()
+        public void RunGarage()
         {
             while(true)
             {
@@ -77,7 +79,7 @@ namespace Ex03.ConsoleUI
             return inputIsValid;
         }
 
-        private static void runMenuOption(short i_MenuOption)
+        private void runMenuOption(short i_MenuOption)
         {
             switch(i_MenuOption)
             {
@@ -92,10 +94,12 @@ namespace Ex03.ConsoleUI
                     }
                 case 3:
                     {
+                        changeStatus();
                         break;
                     }
                 case 4:
                     {
+                        inflateWheels();
                         break;
                     }
                 case 5:
@@ -110,23 +114,31 @@ namespace Ex03.ConsoleUI
                     {
                         break;
                     }
+                default:
+                    {
+                        pressAnyKeyToReturnToMainMenu();
+                        break;
+                    }
             }
         }
 
-        private static void enterNewVehicle()
+        private void enterNewVehicle()
         {
             // Enter vehicle's license plate.
             // Search plate in current tickets list.
             // If exists, change ticket's enum to "In Fixings", and print that vehicle exists.
             // Else, make a new ticket and insert it to garage list.
             string licenseNumber = getLicenseNumberFromUser();
-            if(doesLicenseNumberExists(licenseNumber))
+            if(m_GarageTickets.ContainsKey(licenseNumber) && m_GarageTickets[licenseNumber].currentStatus != Ticket.eCurrentStatus.Paid)
             {
                 // change ticket's enum to in fixings, and print that vehicle exists.
+                Console.WriteLine("Vehicle exists. Changing status to IN FIXINGS.");
+                m_GarageTickets[licenseNumber].currentStatus = Ticket.eCurrentStatus.InFixings;
             }
             else
             {
                 // make a new ticket and insert it to garage list.
+                // But we need to check with Guy what info a vehicle has (Ravid Yael posted on facebook).
             }
         }
 
@@ -138,11 +150,68 @@ namespace Ex03.ConsoleUI
             return userLicenseNumber;
         }
 
-        private static bool doesLicenseNumberExists(string i_LicenseNumber)
+        private void changeStatus()
         {
-            bool exists = false;
-            // CHECK IF LICENSENUMBER IS IN LIST. BUT INSTEAD OF LIST, MAYBE USE DICTIONARY????
-            return exists;
+            string licenseNumber = "", userInput = "";
+            Ticket.eCurrentStatus wantedStatus = Ticket.eCurrentStatus.InFixings;
+            Console.WriteLine("Enter License Number: ");
+            licenseNumber = Console.ReadLine();
+            if(m_GarageTickets.ContainsKey(licenseNumber))
+            {
+                wantedStatus = getStatusFromUser();
+            }
+            else
+            {
+                Console.WriteLine("Vehicle not found. ");
+            }
+        }
+
+        private Ticket.eCurrentStatus getStatusFromUser()
+        {
+            string userInput = "";
+            bool isInputValid = false;
+            Ticket.eCurrentStatus wantedStatus = Ticket.eCurrentStatus.InFixings;
+            Console.WriteLine("Please choose to which status you want to change: ");
+            Console.WriteLine("1. In Fixings. ");
+            Console.WriteLine("2. Fixed. ");
+            Console.WriteLine("3. Paid. ");
+            userInput = Console.ReadLine();
+            while(!isInputValid)
+            {
+                if(userInput == "1")
+                {
+                    wantedStatus = Ticket.eCurrentStatus.InFixings;
+                }
+                else if(userInput == "2")
+                {
+                    wantedStatus = Ticket.eCurrentStatus.Fixed;
+                }
+                else if(userInput == "3")
+                {
+                    wantedStatus = Ticket.eCurrentStatus.Paid;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input. Please try again. ");
+                }
+            }
+
+            return wantedStatus;
+        }
+
+        void inflateWheels()
+        {
+            string userInput = "";
+            Console.WriteLine("Please enter license plate: ");
+            userInput = Console.ReadLine();
+            if(m_GarageTickets.ContainsKey(userInput))
+            {
+              //  m_GarageTickets[userInput].Vehicle.inflateWheels();
+            }
+            else
+            {
+                Console.WriteLine("License plate not found. ");
+            }
         }
     }
 }
