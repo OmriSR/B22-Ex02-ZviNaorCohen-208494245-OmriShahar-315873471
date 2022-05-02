@@ -32,6 +32,7 @@ namespace Ex03.ConsoleUI
             Console.WriteLine("Press any key to return to main menu. ");
             Console.ReadLine();
         }
+
         private static short getMainMenuOption()
         {
             bool validUserInput = true;
