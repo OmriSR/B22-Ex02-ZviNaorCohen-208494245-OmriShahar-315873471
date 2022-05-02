@@ -75,5 +75,10 @@ namespace Ex03.GarageLogic
                 return m_LicenseNumber;
             }
         }
+
+        public void InflateAllWheels()
+        {
+            // run on wheels array and inflate all its wheels to maximum value.
+        }
     }
 }

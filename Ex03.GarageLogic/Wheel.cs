@@ -21,10 +21,7 @@ namespace Ex03.GarageLogic
 
         public float CurrentAirPressure
         {
-            get
-            {
-                return m_CurrentAirPressure;
-            }
+            get;
         }
 
         public void InflateWheel(float i_AirAmount)

@@ -26,37 +26,21 @@ namespace Ex03.GarageLogic
             return m_OwnersPhoneNumber.GetHashCode();
         }
 
-        public Vehicle Vehicle  
+        public Vehicle Vehicle
         {
-            get
-            {
-                return m_Vehicle;
-            }
+            get;
         }
 
         public string OwnerPhoneNumber
         {
-            get
-            {
-                return m_OwnersPhoneNumber;
-            }
-
-            set
-            {
-                m_OwnersPhoneNumber = value;
-            }
+            get;
+            set;
         }   // not sure if needed --- check in the end
 
-        public eCurrentStatus currentStatus
+        public eCurrentStatus CurrentStatus
         {
-            get
-            {
-                return m_CurrentStatus;
-            }
-            set
-            {
-                m_CurrentStatus = value;
-            }
+            get;
+            set;
         }
 }
 }
