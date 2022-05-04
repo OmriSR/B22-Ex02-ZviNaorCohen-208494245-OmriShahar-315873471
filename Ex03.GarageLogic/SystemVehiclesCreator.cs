@@ -35,5 +35,12 @@ namespace Ex03.GarageLogic
 
             return new Car(i_VehicleModel, i_LicenseNumber, fuelEngin);
         }
+
+        public Truck NewGenericFuelTruck(string i_VehicleModel, string i_LicenseNumber)
+        {
+            Fuel fuelEngin = new Fuel(Fuel.eFuelType.Soler, Convert.ToSingle(120));
+
+            return new Truck(i_VehicleModel, i_LicenseNumber, fuelEngin);
+        }
     }
 }

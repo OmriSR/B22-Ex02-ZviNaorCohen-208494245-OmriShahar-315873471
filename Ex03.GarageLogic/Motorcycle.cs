@@ -26,10 +26,10 @@ namespace Ex03.GarageLogic
 
             switch (i_Color.ToLower())
             {
-                case "red":
-                case "white":
-                case "blue":
-                case "green":
+                case "aa":
+                case "a1":
+                case "b1":
+                case "bb":
                     validColor = true;
                     break;
             }
@@ -37,22 +37,21 @@ namespace Ex03.GarageLogic
             return validColor;
         }
 
-        bool isValidEnginCapacity(string i_EnginCapacity, out int o_EnginCapacity)
+        bool isValidEnginCapacity(string i_EnginCapacity)
         {
-            return int.TryParse(i_EnginCapacity, out o_EnginCapacity);
+            return int.TryParse(i_EnginCapacity, out _);
         }
 
-        public override short ValididateUniqueData(string[] i_UniqueData, out int o_EnginCapacity)
+        public override short ValididateUniqueData(string[] i_UniqueData)
         {
             short errorIndex = -1;
-            o_EnginCapacity = -1;
 
             if (!isValidLicenseType(i_UniqueData[0]))
             {
                 errorIndex = 0;
             }
 
-            else if (!isValidEnginCapacity(i_UniqueData[1],out o_EnginCapacity))
+            else if (!isValidEnginCapacity(i_UniqueData[1]))
             {
                 errorIndex = 1;
             }

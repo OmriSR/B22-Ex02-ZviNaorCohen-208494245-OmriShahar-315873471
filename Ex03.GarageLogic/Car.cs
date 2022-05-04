@@ -47,7 +47,7 @@ namespace Ex03.GarageLogic
             return validColor;
         }
 
-        bool isValidDoorCount(string i_DoorCount, out int o_EnginCapacity)
+        bool isValidDoorCount(string i_DoorCount)
         {
             short doorCount;
             bool valid = short.TryParse(i_DoorCount, out doorCount);
@@ -60,17 +60,16 @@ namespace Ex03.GarageLogic
             return valid;
         }
 
-        public override short ValididateUniqueData(string[] i_UniqueData, out int o_DoorCount)
+        public override short ValididateUniqueData(string[] i_UniqueData)
         {
             short errorIndex = -1;
-            o_DoorCount = -1;
 
             if (!isValidColor(i_UniqueData[0]))
             {
                 errorIndex = 0;
             }
 
-            else if(!isValidDoorCount(i_UniqueData[1], out o_DoorCount))
+            else if(!isValidDoorCount(i_UniqueData[1]))
             {
                 errorIndex = 1;
             }
