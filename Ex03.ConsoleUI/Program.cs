@@ -179,7 +179,7 @@ namespace Ex03.ConsoleUI
 
         }
 
-        private void showAllLicensePlates()
+        private void showAllLicensePlates()   // ticket does not contains license plate --- maybe it should
         {
             foreach (KeyValuePair<string, Ticket> ticket in m_GarageTickets)
             {

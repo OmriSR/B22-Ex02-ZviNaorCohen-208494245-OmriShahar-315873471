@@ -6,65 +6,23 @@ namespace Ex03.GarageLogic
 {
     public abstract class Vehicle
     {
-        public class Owner
-        {
-            string m_Name;
-            string m_PhoneNumber;
+        protected string m_Model;
+        protected  string m_LicenseNumber;
+        protected  float m_CurrentEnergyPrecentage;
+        protected  Wheel[] m_Wheels;
+        protected  EnergySource m_EnergySource;
 
-            public string Name
-            {
-                get
-                {
-                    return m_Name;
-                }
 
-                set
-                {
-                    m_Name = value;
-                }
-            }
-
-            public string PhoneNumber
-            { 
-                get
-                {
-                    return m_PhoneNumber;
-                }
-
-                set
-                {
-                    m_PhoneNumber = value;
-                }
-            }
-        }
-
-        string m_Model;
-        string m_LicenseNumber;
-        float m_EnergyLeft;
-        Wheel[] m_Wheels;
-        Owner m_Owner;
-        EnergySource m_EnergySource;
-
-        public Vehicle(string i_VehicleModel, string i_LicenseNumber, Wheel[] i_Wheels, EnergySource i_EnergySource)
-        {
-            m_Model = i_VehicleModel;
-            m_LicenseNumber = i_LicenseNumber;
-            m_EnergyLeft = i_EnergySource.EnergyPercentage;
-            m_Wheels = i_Wheels;
-            m_Owner = null;
-            m_EnergySource = i_EnergySource;
-        }
-
-        public Owner VehicleOwner
+        public float EnergyLeftPercentage
         {
             get
             {
-                return m_Owner;
+                return m_CurrentEnergyPrecentage;
             }
 
             set
             {
-                m_Owner = value;
+                m_CurrentEnergyPrecentage = value;
             }
         }
 
@@ -80,5 +38,26 @@ namespace Ex03.GarageLogic
         {
             // run on wheels array and inflate all its wheels to maximum value.
         }
+
+        public void SetDynamicData(string i_WheelManufacturer, float i_WheelCurrentPressure, float i_CurrentEnginEnergy)
+        {
+            foreach(Wheel wheel in m_Wheels)
+            {
+                wheel.Manufacturer = i_WheelManufacturer;
+                wheel.CurrentAirPressure = i_WheelCurrentPressure;
+            }
+
+            m_EnergySource.CurrentEnergy = i_CurrentEnginEnergy;
+
+            m_CurrentEnergyPrecentage = m_EnergySource.EnergyPercentage;
+        }
+
+        public abstract void SetUniqueData(string[] UniqueData);
+
+        public abstract string[] GetUniqeData
+        {
+            get;
+        }
     }
+
 }
