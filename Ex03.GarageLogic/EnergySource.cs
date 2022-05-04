@@ -23,11 +23,37 @@ namespace Ex03.GarageLogic
             }
         }
 
+        public float CurrentEnergy
+        {
+            get
+            {
+                return m_CurrentEnrgy;
+            }
+
+            set
+            {
+                m_CurrentEnrgy = value;
+            }
+        }
+
         public float EnergyPercentage
         {
             get
             {
                 return ((m_CurrentEnrgy / m_MaxEnrgy) * 100);
+            }
+        }
+
+        public float MaxEnergy
+        {
+            get
+            {
+                return m_MaxEnrgy;
+            }
+
+            set
+            {
+                m_MaxEnrgy = value;
             }
         }
     }
