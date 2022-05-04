@@ -9,7 +9,7 @@ namespace Ex03.ConsoleUI
 {
     class Program
     {
-        private Dictionary<string, Ticket> m_GarageTickets = new Dictionary<string, Ticket>();  // license plate, ticket.
+        private Dictionary<int, Ticket> m_GarageTickets = new Dictionary<int, Ticket>();  // license plate, ticket.
 
         public static void Main()
         {
@@ -138,10 +138,10 @@ namespace Ex03.ConsoleUI
             // If exists, change ticket's enum to "In Fixings", and print that vehicle exists.
             // Else, make a new ticket and insert it to garage list.
             string licenseNumber = getLicenseNumberFromUser();
-            if(m_GarageTickets.ContainsKey(licenseNumber))
+            if(m_GarageTickets.ContainsKey(licenseNumber.GetHashCode()))
             {
                 Console.WriteLine("Vehicle exists. Changing status to IN FIXINGS.");
-                m_GarageTickets[licenseNumber].CurrentStatus = Ticket.eCurrentStatus.InFixings;
+                m_GarageTickets[licenseNumber.GetHashCode()].CurrentStatus = Ticket.eCurrentStatus.InFixings;
             }
             else
             {
@@ -187,9 +187,9 @@ namespace Ex03.ConsoleUI
 
         private void showAllLicensePlates()   // ticket does not contains license plate --- maybe it should
         {
-            foreach (KeyValuePair<string, Ticket> ticket in m_GarageTickets)
+            foreach (KeyValuePair<int, Ticket> ticket in m_GarageTickets)
             {
-                string output = String.Format("Vehicle plate: {0}. Current status: {1}", ticket.Key, ticket.Value.CurrentStatus);
+                string output = String.Format("Vehicle plate: {0}. Current status: {1}", ticket.Value.Vehicle.LicenseNumber, ticket.Value.CurrentStatus);
                 Console.WriteLine(output);
             }
             pressAnyKeyToReturnToMainMenu();
@@ -243,11 +243,11 @@ namespace Ex03.ConsoleUI
                     }
             }
 
-            foreach (KeyValuePair<string, Ticket> ticket in m_GarageTickets)
+            foreach (KeyValuePair<int, Ticket> ticket in m_GarageTickets)
             {
                 if(ticket.Value.CurrentStatus == statusFromUser)
                 {
-                    string output = String.Format("Vehicle plate: {0}. Current status: {1}", ticket.Key, ticket.Value.CurrentStatus);
+                    string output = String.Format("Vehicle plate: {0}. Current status: {1}", ticket.Value.Vehicle.LicenseNumber, ticket.Value.CurrentStatus);
                     Console.WriteLine(output);
                     counter++;
                 }
@@ -267,7 +267,7 @@ namespace Ex03.ConsoleUI
             if (getPlateAndCheckIfInGarageTickets(out licenseNumber))
             {
                 wantedStatus = getStatusFromUser();
-                m_GarageTickets[licenseNumber].CurrentStatus = wantedStatus;
+                m_GarageTickets[licenseNumber.GetHashCode()].CurrentStatus = wantedStatus;
             }
         }
 
@@ -307,17 +307,15 @@ namespace Ex03.ConsoleUI
 
         void inflateWheels()
         {
-            string licensePlate;
-            if(getPlateAndCheckIfInGarageTickets(out licensePlate))
+            if(getPlateAndCheckIfInGarageTickets(out string licensePlate))
             {
-                 m_GarageTickets[licensePlate].Vehicle.InflateAllWheels();
+                 m_GarageTickets[licensePlate.GetHashCode()].Vehicle.InflateAllWheels();
             }
         }
 
         void showCarFullDetails()
         {
-            string licensePlate;
-            if (getPlateAndCheckIfInGarageTickets(out licensePlate))
+            if (getPlateAndCheckIfInGarageTickets(out string licensePlate))
             {
                 // print full details
             }
@@ -325,8 +323,7 @@ namespace Ex03.ConsoleUI
 
         void chargeElectricVehicle()
         {
-            string licensePlate;
-            if(getPlateAndCheckIfInGarageTickets(out licensePlate))
+            if(getPlateAndCheckIfInGarageTickets(out string licensePlate))
             {
                 // check if given plate is electric. if yes, recharge. else, print error.
             }
@@ -334,8 +331,7 @@ namespace Ex03.ConsoleUI
 
         void refillVehicle()
         {
-            string licensePlate;
-            if(getPlateAndCheckIfInGarageTickets(out licensePlate))
+            if(getPlateAndCheckIfInGarageTickets(out string licensePlate))
             {
                 // check if given plate is running on fuel. If yes, recharge. Else, print error.
             }
@@ -347,7 +343,7 @@ namespace Ex03.ConsoleUI
             bool plateInTickets = false;
             Console.WriteLine("Please enter car license plate: ");
             userInput = Console.ReadLine();
-            if (m_GarageTickets.ContainsKey(userInput))
+            if (m_GarageTickets.ContainsKey(userInput.GetHashCode()))
             {
                 plateInTickets = true;
                 o_UserInput = userInput;
