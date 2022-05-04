@@ -8,25 +8,32 @@ namespace Ex03.GarageLogic
     {
         public enum eVehicleType { ElectricCar, FuelCar, ElectricMotoecycle, FuelMotorcycle, FuelTruck }
  
-        public Car NewGenericElectricCar(string i_VehicleModel, string i_LicenseNumber, short i_NumOfWheels)
+        public Car NewGenericElectricCar(string i_VehicleModel, string i_LicenseNumber)
         {
-            Electric ElectricEngin = new Electric();
-            Wheel[] Wheels = new Wheel[4];
+            Electric electricEngin = new Electric(Convert.ToSingle(3.3));
 
-            ElectricEngin.MaxEnergy = Convert.ToSingle(3.3);
-
-            foreach (Wheel wheel in Wheels)
-            {
-                wheel.MaxAirPressure = 29;
-            }
-
-            return new Car(i_VehicleModel, i_LicenseNumber, ElectricEngin, Wheels);
+            return new Car(i_VehicleModel, i_LicenseNumber, electricEngin);
         }
 
-        public Car newFuelCar()
+        public Car NewGenericFuelCar(string i_VehicleModel, string i_LicenseNumber)
         {
-            Car newCar;
-            return newCar;
+            Fuel fuelEngin = new Fuel(Fuel.eFuelType.Octan95, Convert.ToSingle(38));
+
+            return new Car(i_VehicleModel, i_LicenseNumber, fuelEngin);
+        }
+
+        public Motorcycle NewGenericElectricMotorcycle(string i_VehicleModel, string i_LicenseNumber)
+        {
+            Electric electricEngin = new Electric(Convert.ToSingle(2.5));
+
+            return new Motorcycle(i_VehicleModel, i_LicenseNumber, electricEngin);
+        }
+
+        public Car NewGenericFuelMotorcycle(string i_VehicleModel, string i_LicenseNumber)
+        {
+            Fuel fuelEngin = new Fuel(Fuel.eFuelType.Octan98, Convert.ToSingle(6.2));
+
+            return new Car(i_VehicleModel, i_LicenseNumber, fuelEngin);
         }
     }
 }

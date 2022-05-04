@@ -9,6 +9,11 @@ namespace Ex03.GarageLogic
         protected float m_MaxEnrgy;
         protected float m_CurrentEnrgy;
 
+        protected EnergySource(float i_MaxEnergy)
+        {
+            m_MaxEnrgy = i_MaxEnergy;
+        }
+
         virtual public void FillEnergy(float i_AmountToFill)
         {
             float newEnergyAmount = m_CurrentEnrgy + i_AmountToFill;

@@ -12,6 +12,12 @@ namespace Ex03.GarageLogic
         protected  Wheel[] m_Wheels;
         protected  EnergySource m_EnergySource;
 
+        protected Vehicle(string i_VehicleModel, string i_LicenseNumber, EnergySource i_EnergySource)
+        {
+            m_Model = i_VehicleModel;
+            m_LicenseNumber = i_LicenseNumber;
+            m_EnergySource = i_EnergySource;
+        }
 
         public float EnergyLeftPercentage
         {
@@ -51,6 +57,8 @@ namespace Ex03.GarageLogic
 
             m_CurrentEnergyPrecentage = m_EnergySource.EnergyPercentage;
         }
+
+        public abstract short ValididateUniqueData(string[] i_UniqueData, out int o_EnginCapacity);
 
         public abstract void SetUniqueData(string[] UniqueData);
 
