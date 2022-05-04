@@ -58,6 +58,8 @@ namespace Ex03.GarageLogic
             m_CurrentEnergyPrecentage = m_EnergySource.EnergyPercentage;
         }
 
+        public abstract short ValididateUniqueData(string[] i_UniqueData, out int o_EnginCapacity);
+
         public abstract void SetUniqueData(string[] UniqueData);
 
         public abstract string[] GetUniqeData

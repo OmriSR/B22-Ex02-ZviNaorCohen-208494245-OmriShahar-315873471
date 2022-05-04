@@ -19,7 +19,7 @@ namespace Ex03.GarageLogic
             m_Wheels[0].MaxAirPressure = m_Wheels[1].MaxAirPressure = Convert.ToSingle(31);
         }
 
-        //-----------unique data check----------------
+        //-----------unique data check
         bool isValidLicenseType(string i_Color)
         {
             bool validColor = false;
@@ -35,6 +35,29 @@ namespace Ex03.GarageLogic
             }
 
             return validColor;
+        }
+
+        bool isValidEnginCapacity(string i_EnginCapacity, out int o_EnginCapacity)
+        {
+            return int.TryParse(i_EnginCapacity, out o_EnginCapacity);
+        }
+
+        public override short ValididateUniqueData(string[] i_UniqueData, out int o_EnginCapacity)
+        {
+            short errorIndex = -1;
+            o_EnginCapacity = -1;
+
+            if (!isValidLicenseType(i_UniqueData[0]))
+            {
+                errorIndex = 0;
+            }
+
+            else if (!isValidEnginCapacity(i_UniqueData[1],out o_EnginCapacity))
+            {
+                errorIndex = 1;
+            }
+
+            return errorIndex;
         }
 
         //----------------unique data------------------
