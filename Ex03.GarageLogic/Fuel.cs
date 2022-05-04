@@ -10,6 +10,11 @@ namespace Ex03.GarageLogic
 
         eFuelType m_FuelType;
 
+        public Fuel(eFuelType i_FuelType, float i_MaxLiter) : base(i_MaxLiter)
+        {
+            m_FuelType = i_FuelType;
+        }
+
         public void FillFuel(float i_LitersOfFuel, eFuelType i_FuelType)
         {
             if(m_FuelType == i_FuelType)

@@ -12,6 +12,12 @@ namespace Ex03.GarageLogic
         protected  Wheel[] m_Wheels;
         protected  EnergySource m_EnergySource;
 
+        protected Vehicle(string i_VehicleModel, string i_LicenseNumber, EnergySource i_EnergySource)
+        {
+            m_Model = i_VehicleModel;
+            m_LicenseNumber = i_LicenseNumber;
+            m_EnergySource = i_EnergySource;
+        }
 
         public float EnergyLeftPercentage
         {
