@@ -18,7 +18,13 @@ namespace Ex03.GarageLogic
             m_LicenseNumber = i_LicenseNumber;
             m_EnergySource = i_EnergySource;
         }
-
+        public EnergySource EnergySource
+        {
+            get
+            {
+                return m_EnergySource;
+            }
+        }
         public float EnergyLeftPercentage
         {
             get
@@ -32,6 +38,21 @@ namespace Ex03.GarageLogic
             }
         }
 
+        public Wheel[] Wheels
+        {
+            get
+            {
+                return m_Wheels;
+            }
+        }
+        public string ModelName
+        {
+            get
+            {
+                return m_Model;
+            }
+        }
+
         public string LicenseNumber
         {
             get
@@ -40,12 +61,8 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public void InflateAllWheels()
-        {
-            // run on wheels array and inflate all its wheels to maximum value.
-        }
 
-        public void SetDynamicData(string i_WheelManufacturer, float i_WheelCurrentPressure, float i_CurrentEnginEnergy)
+        public void SetDynamicData(string i_WheelManufacturer, float i_WheelCurrentPressure, float i_CurrentEngineEnergy)
         {
             foreach(Wheel wheel in m_Wheels)
             {
@@ -53,8 +70,7 @@ namespace Ex03.GarageLogic
                 wheel.CurrentAirPressure = i_WheelCurrentPressure;
             }
 
-            m_EnergySource.CurrentEnergy = i_CurrentEnginEnergy;
-
+            m_EnergySource.CurrentEnergy = i_CurrentEngineEnergy;
             m_CurrentEnergyPrecentage = m_EnergySource.EnergyPercentage;
         }
 

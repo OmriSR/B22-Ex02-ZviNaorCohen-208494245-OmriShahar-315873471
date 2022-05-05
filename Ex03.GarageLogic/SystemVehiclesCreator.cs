@@ -4,43 +4,42 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    class SystemVehiclesCreator
+    public class SystemVehiclesCreator
     {
-        public enum eVehicleType { ElectricCar, FuelCar, ElectricMotoecycle, FuelMotorcycle, FuelTruck }
+        public enum eVehicleType { ElectricCar, FuelCar, ElectricMotorcycle, FuelMotorcycle, FuelTruck }
  
         public Car NewGenericElectricCar(string i_VehicleModel, string i_LicenseNumber)
         {
-            Electric electricEngin = new Electric(Convert.ToSingle(3.3));
-
-            return new Car(i_VehicleModel, i_LicenseNumber, electricEngin);
+            Electric electricEngine = new Electric(Convert.ToSingle(3.3));
+            return new Car(i_VehicleModel, i_LicenseNumber, electricEngine);
         }
 
         public Car NewGenericFuelCar(string i_VehicleModel, string i_LicenseNumber)
         {
-            Fuel fuelEngin = new Fuel(Fuel.eFuelType.Octan95, Convert.ToSingle(38));
+            Fuel fuelEngine = new Fuel(Fuel.eFuelType.Octan95, Convert.ToSingle(38));
 
-            return new Car(i_VehicleModel, i_LicenseNumber, fuelEngin);
+            return new Car(i_VehicleModel, i_LicenseNumber, fuelEngine);
         }
 
         public Motorcycle NewGenericElectricMotorcycle(string i_VehicleModel, string i_LicenseNumber)
         {
-            Electric electricEngin = new Electric(Convert.ToSingle(2.5));
+            Electric electricEngine = new Electric(Convert.ToSingle(2.5));
 
-            return new Motorcycle(i_VehicleModel, i_LicenseNumber, electricEngin);
+            return new Motorcycle(i_VehicleModel, i_LicenseNumber, electricEngine);
         }
 
-        public Car NewGenericFuelMotorcycle(string i_VehicleModel, string i_LicenseNumber)
+        public static Motorcycle NewGenericFuelMotorcycle(string i_VehicleModel, string i_LicenseNumber)
         {
-            Fuel fuelEngin = new Fuel(Fuel.eFuelType.Octan98, Convert.ToSingle(6.2));
+            Fuel fuelEngine = new Fuel(Fuel.eFuelType.Octan98, Convert.ToSingle(6.2));
 
-            return new Car(i_VehicleModel, i_LicenseNumber, fuelEngin);
+            return new Motorcycle(i_VehicleModel, i_LicenseNumber, fuelEngine);
         }
 
         public Truck NewGenericFuelTruck(string i_VehicleModel, string i_LicenseNumber)
         {
-            Fuel fuelEngin = new Fuel(Fuel.eFuelType.Soler, Convert.ToSingle(120));
+            Fuel fuelEngine = new Fuel(Fuel.eFuelType.Soler, Convert.ToSingle(120));
 
-            return new Truck(i_VehicleModel, i_LicenseNumber, fuelEngin);
+            return new Truck(i_VehicleModel, i_LicenseNumber, fuelEngine);
         }
     }
 }

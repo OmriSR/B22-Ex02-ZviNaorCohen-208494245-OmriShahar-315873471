@@ -4,37 +4,38 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    class Motorcycle : Vehicle
+    public class Motorcycle : Vehicle
     {
         public enum eLicenseType { A, A1, B1, BB }
 
         string m_LicenseType;
-        int m_EngineCapacity;
+        float m_EngineCapacity;
 
         public Motorcycle(string i_VehicleModel, string i_LicenseNumber, EnergySource i_EnergySource) :
             base(i_VehicleModel, i_LicenseNumber, i_EnergySource)
         {
             m_Wheels = new Wheel[2];
-
+            m_Wheels[0] = new Wheel();
+            m_Wheels[1] = new Wheel();
             m_Wheels[0].MaxAirPressure = m_Wheels[1].MaxAirPressure = Convert.ToSingle(31);
         }
 
         //-----------unique data check
-        bool isValidLicenseType(string i_Color)
+        bool isValidLicenseType(string i_License)
         {
-            bool validColor = false;
+            bool validLicense = false;
 
-            switch (i_Color.ToLower())
+            switch (i_License.ToLower())
             {
                 case "aa":
                 case "a1":
                 case "b1":
                 case "bb":
-                    validColor = true;
+                    validLicense = true;
                     break;
             }
 
-            return validColor;
+            return validLicense;
         }
 
         bool isValidEnginCapacity(string i_EnginCapacity)
@@ -63,14 +64,16 @@ namespace Ex03.GarageLogic
         public override void SetUniqueData(string[] i_UniqueData)
         {
             m_LicenseType = i_UniqueData[0];
-            m_EngineCapacity = Convert.ToInt16(i_UniqueData[1]);
+            m_EngineCapacity = Convert.ToSingle(i_UniqueData[1]);
         }
 
         public override string[] GetUniqeData
         {
             get
             {
-                string[] UniqeDataMembers = { "license type", "engin capacity" };   //when reciving
+                // Zvika: I need to check with Omri this implementation.
+                string[] UniqeDataMembers = { "License type: " + m_LicenseType + ".", "Fuel Tank Capacity: " + m_EngineCapacity + "."};  
+                //when reciving
                 return UniqeDataMembers;
             }
         }

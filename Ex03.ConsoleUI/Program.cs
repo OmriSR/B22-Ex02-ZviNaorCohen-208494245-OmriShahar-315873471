@@ -9,7 +9,7 @@ namespace Ex03.ConsoleUI
 {
     class Program
     {
-        private Dictionary<int, Ticket> m_GarageTickets = new Dictionary<int, Ticket>();  // license plate, ticket.
+        private static Dictionary<int, Ticket> m_GarageTickets = new Dictionary<int, Ticket>();  // license plate, ticket.
 
         public static void Main()
         {
@@ -110,7 +110,7 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        private void enterNewVehicle()
+        private static void enterNewVehicle()
         {
             // Enter vehicle's license plate.
             // Search plate in current tickets list.
@@ -124,8 +124,44 @@ namespace Ex03.ConsoleUI
             }
             else
             {
+                Print.PrintVehicleDoesntExist();
+                string userInput = Scan.GetVehicleType();
+                switch(userInput)
+                {
+                    case "1":
+                        {
+                            Motorcycle inputFuelBike = Scan.GetDetailsForFuelBike(licenseNumber);
+                            Ticket fuelBikeTicket = Scan.GetDetailsForTicket(inputFuelBike);
+                            m_GarageTickets.Add(fuelBikeTicket.Vehicle.LicenseNumber.GetHashCode(), fuelBikeTicket);
+                            break;
+                        }
+                    case "2":
+                        {
+                           // getDetailsForElectricBike();
+                            break;
+                        }
+                    case "3":
+                        {
+                           // getDetailsForFuelCar();
+                            break;
+                        }
+                    case "4":
+                        {
+                            //getDetailsForElectricCar();
+                            break;
+                        }
+                    case "5":
+                        {
+                            //getDetailsForTruck();
+                            break;
+                        }
+                    case "6":
+                        {
+                            //getDetailsForOtherVehicle();
+                            break;
+                        }
+                }
                 // make a new ticket and insert it to garage list.
-                // But we need to check with Guy what info a vehicle has (Ravid Yael posted on facebook).
             }
         }
 
@@ -174,7 +210,14 @@ namespace Ex03.ConsoleUI
         {
             if(Scan.getPlateAndCheckIfInGarageTickets(out string licensePlate, m_GarageTickets))
             {
-                 m_GarageTickets[licensePlate.GetHashCode()].Vehicle.InflateAllWheels();
+                 inflateAllWheels(m_GarageTickets[licensePlate.GetHashCode()].Vehicle.Wheels);
+            }
+        }
+        private void inflateAllWheels(Wheel[] i_WheelsArray)
+        {
+            foreach(Wheel wheel in i_WheelsArray)
+            {
+                wheel.InflateWheelToMaximum();
             }
         }
 
@@ -182,7 +225,7 @@ namespace Ex03.ConsoleUI
         {
             if (Scan.getPlateAndCheckIfInGarageTickets(out string licensePlate, m_GarageTickets))
             {
-                // print full details
+                Print.PrintVehicleStaticData(m_GarageTickets[licensePlate.GetHashCode()], licensePlate);
             }
         }
 
@@ -190,7 +233,16 @@ namespace Ex03.ConsoleUI
         {
             if(Scan.getPlateAndCheckIfInGarageTickets(out string licensePlate, m_GarageTickets))
             {
-                // check if given plate is electric. if yes, recharge. else, print error.
+                if (m_GarageTickets[licensePlate.GetHashCode()].Vehicle.EnergySource.GetType() == typeof(Electric))// check if given plate is electric. if yes, recharge. else, print error.
+                {
+                    Scan.GetDetailsForRecharge(out float refillAmount);
+                    m_GarageTickets[licensePlate.GetHashCode()].Vehicle.EnergySource.FillEnergy(refillAmount);
+                }
+                else
+                {
+                    Print.CarIsNotRunningOnElectricity();
+                }
+                
             }
         }
 
@@ -198,7 +250,16 @@ namespace Ex03.ConsoleUI
         {
             if(Scan.getPlateAndCheckIfInGarageTickets(out string licensePlate, m_GarageTickets))
             {
-                // check if given plate is running on fuel. If yes, recharge. Else, print error.
+                if(m_GarageTickets[licensePlate.GetHashCode()].Vehicle.EnergySource.GetType()  == typeof(Fuel)) // Check if car is running on fuel
+                {
+                    Scan.GetDetailsForRefill(out float refillAmount, out Fuel.eFuelType fuelTypeFromUser);
+                    Fuel newObj = m_GarageTickets[licensePlate.GetHashCode()].Vehicle.EnergySource as Fuel; // IM NOT SURE THAT THIS IS THE PERFECT IMPLEMENTATION !!!!
+                    newObj.FillFuel(refillAmount, fuelTypeFromUser);
+                }
+                else
+                {
+                    Print.CarIsNotRunningOnFuel();
+                }
             }
         }
     }

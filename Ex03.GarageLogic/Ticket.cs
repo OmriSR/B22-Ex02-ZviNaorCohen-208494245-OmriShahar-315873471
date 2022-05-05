@@ -13,11 +13,11 @@ namespace Ex03.GarageLogic
         private string m_OwnersPhoneNumber;
         private eCurrentStatus m_CurrentStatus;
 
-        public Ticket(Vehicle i_Vehicle)
+        public Ticket(Vehicle i_Vehicle, string i_OwnerName, string i_OwnerNumber)
         {
             m_Vehicle = i_Vehicle;
-            m_OwnersName = i_Vehicle.VehicleOwner.Name;
-            m_OwnersPhoneNumber = i_Vehicle.VehicleOwner.PhoneNumber;
+            m_OwnersName = i_OwnerName;
+            m_OwnersPhoneNumber = i_OwnerNumber;
             m_CurrentStatus = eCurrentStatus.InFixings;
         }
 
@@ -28,13 +28,30 @@ namespace Ex03.GarageLogic
 
         public Vehicle Vehicle
         {
-            get;
+            get
+            {
+                return m_Vehicle;
+            }
+        }
+
+        public string OwnerName
+        {
+            get
+            {
+                return m_OwnersName;
+            }
         }
 
         public string OwnerPhoneNumber
         {
-            get;
-            set;
+            get
+            {
+                return m_OwnersPhoneNumber;
+            }
+            set
+            {
+                m_OwnersPhoneNumber = value;
+            }
         }   // not sure if needed --- check in the end
 
         public eCurrentStatus CurrentStatus

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    class Fuel : EnergySource
+    public class Fuel : EnergySource
     {
         public enum eFuelType { Soler ,Octan95 ,Octan96 ,Octan98 }
 
