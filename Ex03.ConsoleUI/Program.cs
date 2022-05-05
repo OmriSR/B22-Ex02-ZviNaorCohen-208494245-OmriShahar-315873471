@@ -23,17 +23,11 @@ namespace Ex03.ConsoleUI
             {
                 short menuOption = getMainMenuOption();
                 runMenuOption(menuOption);
-                pressAnyKeyToReturnToMainMenu();
+                Print.PressAnyKeyToReturnToMainMenu();
                 Ex02.ConsoleUtils.Screen.Clear();
             }
         }
-
-        private static void pressAnyKeyToReturnToMainMenu()
-        {
-            Console.WriteLine("Press any key to return to main menu. ");
-            Console.ReadLine();
-        }
-
+        
         private static short getMainMenuOption()
         {
             bool validUserInput = true;
@@ -43,43 +37,28 @@ namespace Ex03.ConsoleUI
             do
             {
                 Ex02.ConsoleUtils.Screen.Clear();
-                userInput = printMainMenu();
-                validUserInput = checkUserInput(userInput);
+                userInput = runMainMenu();
+                validUserInput = Scan.CheckUserInput(userInput);
                 if (!validUserInput)
                 {
                     Ex02.ConsoleUtils.Screen.Clear();
                     Console.WriteLine("Please enter VALID input!");
-                    pressAnyKeyToReturnToMainMenu();
+                    Print.PressAnyKeyToReturnToMainMenu();
                 }
             } while (!validUserInput);
             menuOption = Convert.ToInt16((userInput));
-            
 
             return menuOption;
         }
 
-        private static string printMainMenu()
+        private static string runMainMenu()
         {
-            Console.WriteLine("Hello and welcome to Omri and Zvika's Garage.");
-            Console.WriteLine("Please enter an option: ");
-            Console.WriteLine("1. Enter a new vehicle to the garage. ");
-            Console.WriteLine("2. Show current vehicles license plates in the garage. ");
-            Console.WriteLine("3. Change vehicle's status. ");
-            Console.WriteLine("4. Inflate vehicle wheels. ");
-            Console.WriteLine("5. Refill a vehicle running on fuel. ");
-            Console.WriteLine("6. Refill a vehicle running on electric. ");
-            Console.WriteLine("7. Show full information for specific license plate. ");
+            Print.PrintMainMenu();
             string userInput = Console.ReadLine();
             return userInput;
         }
 
-        private static bool checkUserInput(string i_UserInput)
-        {
-            bool inputIsValid = true;
-            inputIsValid = (i_UserInput == "1" || i_UserInput == "2" || i_UserInput == "3" || i_UserInput == "4"
-                            || i_UserInput == "5" || i_UserInput == "6" || i_UserInput == "7");
-            return inputIsValid;
-        }
+        
 
         private void runMenuOption(short i_MenuOption)
         {
@@ -125,7 +104,7 @@ namespace Ex03.ConsoleUI
                     }
                 default:
                     {
-                        pressAnyKeyToReturnToMainMenu();
+                        Print.PressAnyKeyToReturnToMainMenu();
                         break;
                     }
             }
@@ -137,7 +116,7 @@ namespace Ex03.ConsoleUI
             // Search plate in current tickets list.
             // If exists, change ticket's enum to "In Fixings", and print that vehicle exists.
             // Else, make a new ticket and insert it to garage list.
-            string licenseNumber = getLicenseNumberFromUser();
+            string licenseNumber = Scan.GetLicenseNumberFromUser();
             if(m_GarageTickets.ContainsKey(licenseNumber.GetHashCode()))
             {
                 Console.WriteLine("Vehicle exists. Changing status to IN FIXINGS.");
@@ -150,32 +129,22 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        private static string getLicenseNumberFromUser()
-        {
-            string userLicenseNumber = "";
-            Console.WriteLine("Please enter vehicle's license number. ");
-            userLicenseNumber = Console.ReadLine();
-            return userLicenseNumber;
-        }
-
         private void showLicensePlates()
         {
             bool validInput = false;
-            Console.WriteLine("Choose an option: ");
-            Console.WriteLine("1. Show -ALL- license plates in the garage.");
-            Console.WriteLine("2. Show all license plates depends on its current status.");
+            Print.ShowLicensePlatesPrint();
             while(!validInput)
             {
                 string userInput = "";
                 userInput = Console.ReadLine();
                 if(userInput == "1")
                 {
-                    showAllLicensePlates();
+                    Print.ShowAllLicensePlates(m_GarageTickets);
                     validInput = true;
                 }
                 else if(userInput == "2")
                 {
-                    showSpecificLicensePlates();
+                    Print.ShowSpecificLicensePlates(m_GarageTickets);
                     validInput = true;
                 }
                 else
@@ -185,86 +154,10 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        private void showAllLicensePlates()   // ticket does not contains license plate --- maybe it should
-        {
-            foreach (KeyValuePair<int, Ticket> ticket in m_GarageTickets)
-            {
-                string output = String.Format("Vehicle plate: {0}. Current status: {1}", ticket.Value.Vehicle.LicenseNumber, ticket.Value.CurrentStatus);
-                Console.WriteLine(output);
-            }
-            pressAnyKeyToReturnToMainMenu();
-        }
-
-        private void showSpecificLicensePlates()
-        {
-            bool validInput = false;
-            Console.WriteLine("Please choose which status to see: ");
-            Console.WriteLine("1. In fixings. ");
-            Console.WriteLine("2. Fixed ");
-            Console.WriteLine("3. Paid ");
-            while(!validInput)
-            {
-                string userInput = Console.ReadLine();
-                if(userInput == "1" || userInput == "2" || userInput == "3")
-                {
-                    printSpecificLicensePlateStatus(userInput);
-                }
-                else
-                {
-                    Console.WriteLine("Invalid input. Please try again. ");
-                    continue;
-                }
-
-                validInput = true;
-            }
-            pressAnyKeyToReturnToMainMenu();
-        }
-
-        private void printSpecificLicensePlateStatus(string i_UserInput)
-        {
-            Ticket.eCurrentStatus statusFromUser = Ticket.eCurrentStatus.Fixed;
-            int counter = 0;
-            switch(i_UserInput)
-            {
-                case "1":
-                    {
-                        statusFromUser = Ticket.eCurrentStatus.InFixings;
-                        break;
-                    }
-                case "2":
-                    {
-                        statusFromUser = Ticket.eCurrentStatus.Fixed;
-                        break;
-                    }
-                case "3":
-                    {
-                        statusFromUser = Ticket.eCurrentStatus.Paid;
-                        break;
-                    }
-            }
-
-            foreach (KeyValuePair<int, Ticket> ticket in m_GarageTickets)
-            {
-                if(ticket.Value.CurrentStatus == statusFromUser)
-                {
-                    string output = String.Format("Vehicle plate: {0}. Current status: {1}", ticket.Value.Vehicle.LicenseNumber, ticket.Value.CurrentStatus);
-                    Console.WriteLine(output);
-                    counter++;
-                }
-            }
-
-            if(counter == 0)
-            {
-                Console.WriteLine("No data for vehicles in the status you chose. ");
-            }
-            pressAnyKeyToReturnToMainMenu();
-        }
-
         private void changeStatus()
         {
-            string licenseNumber = "";
             Ticket.eCurrentStatus wantedStatus = Ticket.eCurrentStatus.InFixings;
-            if (getPlateAndCheckIfInGarageTickets(out licenseNumber))
+            if (Scan.getPlateAndCheckIfInGarageTickets(out string licenseNumber, m_GarageTickets))
             {
                 wantedStatus = getStatusFromUser();
                 m_GarageTickets[licenseNumber.GetHashCode()].CurrentStatus = wantedStatus;
@@ -273,88 +166,40 @@ namespace Ex03.ConsoleUI
 
         private Ticket.eCurrentStatus getStatusFromUser()
         {
-            bool isInputValid = false;
-            Ticket.eCurrentStatus wantedStatus = Ticket.eCurrentStatus.InFixings;
-            Console.WriteLine("Please choose to which status you want to change: ");
-            Console.WriteLine("1. In Fixings. ");
-            Console.WriteLine("2. Fixed. ");
-            Console.WriteLine("3. Paid. ");
-            while(!isInputValid)
-            {
-                string userInput = Console.ReadLine();
-                if (userInput == "1")
-                {
-                    wantedStatus = Ticket.eCurrentStatus.InFixings;
-                }
-                else if(userInput == "2")
-                {
-                    wantedStatus = Ticket.eCurrentStatus.Fixed;
-                }
-                else if(userInput == "3")
-                {
-                    wantedStatus = Ticket.eCurrentStatus.Paid;
-                }
-                else
-                {
-                    Console.WriteLine("Invalid input. Please try again. ");
-                    continue;
-                }
-                isInputValid = true;
-            }
-
-            return wantedStatus;
+            Print.GetStatusFromUserPrint();
+            return Scan.GetStatusFromUserScan();
         }
 
-        void inflateWheels()
+        private void inflateWheels()
         {
-            if(getPlateAndCheckIfInGarageTickets(out string licensePlate))
+            if(Scan.getPlateAndCheckIfInGarageTickets(out string licensePlate, m_GarageTickets))
             {
                  m_GarageTickets[licensePlate.GetHashCode()].Vehicle.InflateAllWheels();
             }
         }
 
-        void showCarFullDetails()
+        private void showCarFullDetails()
         {
-            if (getPlateAndCheckIfInGarageTickets(out string licensePlate))
+            if (Scan.getPlateAndCheckIfInGarageTickets(out string licensePlate, m_GarageTickets))
             {
                 // print full details
             }
         }
 
-        void chargeElectricVehicle()
+        private void chargeElectricVehicle()
         {
-            if(getPlateAndCheckIfInGarageTickets(out string licensePlate))
+            if(Scan.getPlateAndCheckIfInGarageTickets(out string licensePlate, m_GarageTickets))
             {
                 // check if given plate is electric. if yes, recharge. else, print error.
             }
         }
 
-        void refillVehicle()
+        private void refillVehicle()
         {
-            if(getPlateAndCheckIfInGarageTickets(out string licensePlate))
+            if(Scan.getPlateAndCheckIfInGarageTickets(out string licensePlate, m_GarageTickets))
             {
                 // check if given plate is running on fuel. If yes, recharge. Else, print error.
             }
-        }
-
-        bool getPlateAndCheckIfInGarageTickets(out string o_UserInput)
-        {
-            string userInput;
-            bool plateInTickets = false;
-            Console.WriteLine("Please enter car license plate: ");
-            userInput = Console.ReadLine();
-            if (m_GarageTickets.ContainsKey(userInput.GetHashCode()))
-            {
-                plateInTickets = true;
-                o_UserInput = userInput;
-            }
-            else
-            {
-                Console.WriteLine("License plate not found. Returning to main menu. ");
-                o_UserInput = "";
-            }
-
-            return plateInTickets;
         }
     }
 }

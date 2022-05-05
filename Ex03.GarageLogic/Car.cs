@@ -34,7 +34,7 @@ namespace Ex03.GarageLogic
         {
             bool validColor = false;
 
-            switch (i_Color.ToLower())
+            switch (i_Color.ToLower()) // Zvika: Maybe we should use if(afterlower == red || afterlower == white etc..). We need to check if this switch works properly.
             {
                 case "red":
                 case "white":
