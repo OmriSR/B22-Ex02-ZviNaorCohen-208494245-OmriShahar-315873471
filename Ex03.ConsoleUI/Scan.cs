@@ -433,12 +433,10 @@ namespace Ex03.ConsoleUI
             out float o_CurrentEnergyAmount,
             out float o_CurrentAirPressure, string i_vehicleType)
         {
-            float currentEnergyAmount;
             o_ModelName = getModelName();
-            getDetailsForSpecificVehicle(out currentEnergyAmount);
+            getDetailsForSpecificVehicle(out float currentEnergyAmount);
             checkValidEnergyAmount(i_vehicleType, currentEnergyAmount, out o_CurrentEnergyAmount);
             getDetailsForWheel(out o_ManufacturerName, out o_CurrentAirPressure, i_vehicleType);
-
         }
 
         //private static void getLicenseTypeForMotorcycle(out Motorcycle.eLicenseType o_LicenseType)

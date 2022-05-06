@@ -27,7 +27,7 @@ namespace Ex03.GarageLogic
 
             switch (i_License.ToLower())
             {
-                case "aa":
+                case "a":
                 case "a1":
                 case "b1":
                 case "bb":
@@ -40,7 +40,7 @@ namespace Ex03.GarageLogic
 
         bool isValidEngineCapacity(string i_EngineCapacity)
         {
-            return int.TryParse(i_EngineCapacity, out _);
+            return float.TryParse(i_EngineCapacity, out _);
         }
 
         public override short ValidateUniqueData(string[] i_UniqueData)
