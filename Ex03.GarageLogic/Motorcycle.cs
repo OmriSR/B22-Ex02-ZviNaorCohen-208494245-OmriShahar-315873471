@@ -38,12 +38,12 @@ namespace Ex03.GarageLogic
             return validLicense;
         }
 
-        bool isValidEnginCapacity(string i_EnginCapacity)
+        bool isValidEngineCapacity(string i_EngineCapacity)
         {
-            return int.TryParse(i_EnginCapacity, out _);
+            return int.TryParse(i_EngineCapacity, out _);
         }
 
-        public override short ValididateUniqueData(string[] i_UniqueData)
+        public override short ValidateUniqueData(string[] i_UniqueData)
         {
             short errorIndex = -1;
 
@@ -52,7 +52,7 @@ namespace Ex03.GarageLogic
                 errorIndex = 0;
             }
 
-            else if (!isValidEnginCapacity(i_UniqueData[1]))
+            else if (!isValidEngineCapacity(i_UniqueData[1]))
             {
                 errorIndex = 1;
             }
@@ -67,14 +67,14 @@ namespace Ex03.GarageLogic
             m_EngineCapacity = Convert.ToSingle(i_UniqueData[1]);
         }
 
-        public override string[] GetUniqeData
+        public override string[] GetUniqueData
         {
             get
             {
                 // Zvika: I need to check with Omri this implementation.
-                string[] UniqeDataMembers = { "License type: " + m_LicenseType + ".", "Fuel Tank Capacity: " + m_EngineCapacity + "."};  
+                string[] UniqueDataMembers = { "License type: " + m_LicenseType + ".", "Fuel Tank / Matzber Time Capacity: " + m_EngineCapacity + "."};  
                 //when reciving
-                return UniqeDataMembers;
+                return UniqueDataMembers;
             }
         }
     }

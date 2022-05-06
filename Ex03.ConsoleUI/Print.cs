@@ -150,6 +150,7 @@ namespace Ex03.ConsoleUI
         public static void PrintVehicleStaticData(Ticket i_VehicleTicket, string i_LicenseNumber)
         {
             Console.WriteLine("Vehicle License Plate: {0}. ", i_LicenseNumber);
+            Console.WriteLine("Vehicle type: {0}. ", i_VehicleTicket.Vehicle.GetType().Name);
             Console.WriteLine("Model Name: {0}. ", i_VehicleTicket.Vehicle.ModelName);
             Console.WriteLine("Owner Name: {0}. Owner Number: {1}. ", i_VehicleTicket.OwnerName, i_VehicleTicket.OwnerPhoneNumber);
             Console.WriteLine("Current Status: {0}. ", i_VehicleTicket.CurrentStatus);
@@ -158,10 +159,10 @@ namespace Ex03.ConsoleUI
             // Energy percent + kind of fuel / electric.
             Console.WriteLine("Energy percent: {0}. Type of energy: {1}", i_VehicleTicket.Vehicle.EnergySource.EnergyPercentage, i_VehicleTicket.Vehicle.EnergySource.GetType().Name);
             // Other vehicle extra information.
-            int uniqueDataLength = i_VehicleTicket.Vehicle.GetUniqeData.Length;
+            int uniqueDataLength = i_VehicleTicket.Vehicle.GetUniqueData.Length;
             for(int i = 0; i < uniqueDataLength; i++)
             {
-                Console.WriteLine(i_VehicleTicket.Vehicle.GetUniqeData[i]);
+                Console.WriteLine(i_VehicleTicket.Vehicle.GetUniqueData[i]);
             }
         }
     }

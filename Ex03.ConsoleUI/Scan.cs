@@ -40,15 +40,14 @@ namespace Ex03.ConsoleUI
             return wantedStatus;
         }
 
-        public static bool getPlateAndCheckIfInGarageTickets(
+        public static bool GetPlateAndCheckIfInGarageTickets(
             out string o_UserInput,
-            Dictionary<int, Ticket> GarageTickets)
+            Dictionary<int, Ticket> m_GarageTickets)
         {
-            string userInput;
             bool plateInTickets = false;
             Console.WriteLine("Please enter car license plate: ");
-            userInput = Console.ReadLine();
-            if(GarageTickets.ContainsKey(userInput.GetHashCode()))
+            string userInput = Console.ReadLine();
+            if(m_GarageTickets.ContainsKey(userInput.GetHashCode()))
             {
                 plateInTickets = true;
                 o_UserInput = userInput;
@@ -148,11 +147,11 @@ namespace Ex03.ConsoleUI
             return fuelUserInput;
         }
 
-        public static void GetDetailsForRecharge(out float o_minutesToFill)
+        public static void GetDetailsForRecharge(out float o_HoursToFill)
         {
             bool isValidInput = false;
-            o_minutesToFill = 0;
-            Console.WriteLine("Please enter your refill amount. ");
+            o_HoursToFill = 0;
+            Console.WriteLine("Please enter your refill amount. (Liters for fuel, hours for electric) ");
             while(!isValidInput)
             {
                 string userInput = Console.ReadLine();
@@ -167,7 +166,7 @@ namespace Ex03.ConsoleUI
                 else
                 {
                     isValidInput = true;
-                    o_minutesToFill = refillAmount;
+                    o_HoursToFill = refillAmount;
                 }
             }
         }
@@ -193,38 +192,72 @@ namespace Ex03.ConsoleUI
             return userInput;
         }
 
-        public static Motorcycle GetDetailsForFuelBike(string i_UserLicensePlate)
+
+        public static Motorcycle GetDetailsForElectricBike(string i_UserLicensePlate)
         {
-            // Need to make this function more "readabily".
-            bool validEnergyAmount = false, validAirPressure = false;
-            string modelName, manufacturerName;
-            float currentEnergyAmount, currentAirPressure;
-            getDetailsForVehicle(out modelName, out currentEnergyAmount);
-            while(!validEnergyAmount)
+            GetDetailsForGenericVehicle(out string modelName, out string manufacturerName, out float currentEnergyAmount, out float currentAirPressure, "ElectricBike");
+            Motorcycle userMotorcycle = SystemVehiclesCreator.NewGenericElectricMotorcycle(modelName, i_UserLicensePlate);
+            userMotorcycle.SetDynamicData(manufacturerName, currentAirPressure, currentEnergyAmount); // as a vehicle
+            Console.WriteLine("Enter license type. A, A1, B1, BB. ");
+            string licenseType = Console.ReadLine();
+            string[] uniqueData = new string[2];
+            uniqueData[0] = licenseType;
+            uniqueData[1] = "2.5";
+            userMotorcycle.SetUniqueData(uniqueData);
+            return userMotorcycle;
+        }
+
+        private static void checkValidEnergyAmount(string i_TypeOfVehicle, float currentEnergyAmount, out  float o_NewValidEnergyAmount)
+        {
+            //string modelName = "";
+            bool validEnergyAmount = false;
+            float maximumEnergy = 0;
+            switch(i_TypeOfVehicle)
             {
-                if (currentEnergyAmount > 6.2)
+                case "FuelBike":
+                    {
+                        maximumEnergy = 6.2f;
+                        break;
+                    }
+                case "ElectricBike":
+                    {
+                        maximumEnergy = 2.5f;
+                        break;
+                    }
+                case "FuelCar":
+                    {
+                        maximumEnergy = 38f;
+                        break;
+                    }
+                case "ElectricCar":
+                    {
+                        maximumEnergy = 3.3f;
+                        break;
+                    }
+                case "Truck":
+                    {
+                        maximumEnergy = 120f;
+                        break;
+                    }
+            }
+            while (!validEnergyAmount)
+            {
+                if (currentEnergyAmount > maximumEnergy)
                 {
-                    Console.WriteLine("Fuel bike don't have more than 6.2 liters. Please try again.");
-                    getDetailsForVehicle(out modelName, out currentEnergyAmount);
+                    Console.WriteLine("Invalid input. Maximum capacity is {0} while you tried to enter {1}. Please try again.", maximumEnergy, currentEnergyAmount);
+                    getDetailsForSpecificVehicle(out currentEnergyAmount);
                 }
                 else
                 {
                     validEnergyAmount = true;
                 }
             }
-            getDetailsForWheel(out manufacturerName, out currentAirPressure);
-            while (!validAirPressure)
-            {
-                if (currentAirPressure > 31)
-                {
-                    Console.WriteLine("Fuel bike don't have more than 31 air pressure. Please try again.");
-                    getDetailsForWheel(out manufacturerName, out currentAirPressure);
-                }
-                else
-                {
-                    validAirPressure = true;
-                }
-            }
+            o_NewValidEnergyAmount = currentEnergyAmount;
+        }
+        public static Motorcycle GetDetailsForFuelBike(string i_UserLicensePlate)
+        {
+            // Need to make this function more "readabily".
+            GetDetailsForGenericVehicle(out string modelName, out string manufacturerName, out float currentEnergyAmount, out float currentAirPressure, "FuelBike");
             Motorcycle userMotorcycle = SystemVehiclesCreator.NewGenericFuelMotorcycle(modelName, i_UserLicensePlate);
             userMotorcycle.SetDynamicData(manufacturerName, currentAirPressure, currentEnergyAmount); // as a vehicle
             Console.WriteLine("Enter license type. A, A1, B1, BB. ");
@@ -232,7 +265,15 @@ namespace Ex03.ConsoleUI
             string[] uniqueData = new string[2];
             uniqueData[0] = licenseType;
             uniqueData[1] = "6.2";
-            userMotorcycle.SetUniqueData(uniqueData);
+            if(userMotorcycle.ValidateUniqueData(uniqueData) != -1)
+            {
+                Console.WriteLine("License Type was not entered properly.");
+                // licensetype or 6.2 were not entered properly.
+            }
+            else
+            {
+                userMotorcycle.SetUniqueData(uniqueData);
+            }
             return userMotorcycle;
         }
 
@@ -247,23 +288,19 @@ namespace Ex03.ConsoleUI
             return ticketToReturn;
         }
 
-        private static void getDetailsForVehicle(
-            out string o_ModelName,
+        private static void getDetailsForSpecificVehicle(
             out float o_CurrentEnergyAmount)
         {
             o_CurrentEnergyAmount = 0;
             bool isValid = false;
-            Console.WriteLine("Enter vehicle model name.");
-            o_ModelName = Console.ReadLine();
             while(!isValid)
             {
                 Console.WriteLine("Enter current litters of fuel tank / hours of battery left. ");
                 string userInput = Console.ReadLine();
                 if(float.TryParse(userInput, out float energyResult))
                 {
-
                     o_CurrentEnergyAmount = energyResult;
-                        isValid = true;
+                    isValid = true;
                 }
                 else
                 {
@@ -272,22 +309,47 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        private static void getDetailsForWheel(out string o_ManufacturerName, out float o_CurrentAirPressure)
+        private static void getDetailsForWheel(out string o_ManufacturerName, out float o_CurrentAirPressure, string i_VehicleType)
         {
+            int maxAirPressure = Int32.MaxValue;
             o_CurrentAirPressure = 0;
             bool isValid = false;
             Console.WriteLine("Enter wheel manufacturer name. ");
             o_ManufacturerName = Console.ReadLine();
             Console.WriteLine("Please enter current air pressure. ");
+            switch (i_VehicleType)
+            {
+                case "ElectricCar":
+                case "FuelCar":
+                    {
+                        maxAirPressure = 29;
+                        break;
+                    }
+                case "FuelBike":
+                case "ElectricBike":
+                    {
+                        maxAirPressure = 31;
+                        break;
+                    }
+                case "Truck":
+                    {
+                        maxAirPressure = 24;
+                        break;
+                    }
+            }
             while(!isValid)
             {
                 string airPressure = Console.ReadLine();
                 if(float.TryParse(airPressure, out float userAirPressure))
                 {
-                    if(userAirPressure > 0)
+                    if(userAirPressure > 0 && userAirPressure <= maxAirPressure)
                     {
                         o_CurrentAirPressure = userAirPressure;
                         isValid = true;
+                    }
+                    else if(userAirPressure > maxAirPressure)
+                    {
+                        Console.WriteLine("You are trying to fill more air pressure than maximum. ");
                     }
                     else
                     {
@@ -299,6 +361,84 @@ namespace Ex03.ConsoleUI
                     Console.WriteLine("Could not read your air pressure. Please make sure you use only numbers.");
                 }
             }
+
+        }
+
+        public static Car GetDetailsForFuelCar(string i_LicenseNumber)
+        {
+            GetDetailsForGenericVehicle(out string modelName, out string manufacturerName, out float currentEnergyAmount, out float currentAirPressure, "FuelCar");
+            // unique data for car: color (red white green blue)
+            // number of doors (2,3,4,5)
+            // octan 95
+            
+            Car userCar = SystemVehiclesCreator.NewGenericFuelCar(modelName, i_LicenseNumber);
+            userCar.SetDynamicData(manufacturerName, currentAirPressure, currentEnergyAmount); // as a vehicle
+            Console.WriteLine("Enter number of doors. "); // move to another function and let user choose from 2,3,4,5.
+            string numberOfDoorsInput = Console.ReadLine();
+            short.TryParse(numberOfDoorsInput, out short numberOfDoors);
+            string[] uniqueData = new string[2];
+            Console.WriteLine("Enter color. ");
+            string color = Console.ReadLine();
+            uniqueData[0] = color;
+            uniqueData[1] = numberOfDoorsInput;
+            userCar.SetUniqueData(uniqueData);
+            return userCar;
+        }
+
+        public static Car GetDetailsForElectricCar(string i_LicenseNumber)
+        {
+            GetDetailsForGenericVehicle(out string modelName, out string manufacturerName, out float currentEnergyAmount, out float currentAirPressure, "ElectricCar");
+            Car userCar = SystemVehiclesCreator.NewGenericElectricCar(modelName, i_LicenseNumber);
+            userCar.SetDynamicData(manufacturerName, currentAirPressure, currentEnergyAmount); // as a vehicle
+            Console.WriteLine("Enter number of doors. "); // move to another function and let user choose from 2,3,4,5.
+            string numberOfDoorsInput = Console.ReadLine();
+            short.TryParse(numberOfDoorsInput, out short numberOfDoors);
+            string[] uniqueData = new string[2];
+            Console.WriteLine("Enter color. ");
+            string color = Console.ReadLine();
+            uniqueData[0] = color;
+            uniqueData[1] = numberOfDoorsInput;
+            userCar.SetUniqueData(uniqueData);
+            return userCar;
+        }
+
+        public static Truck GetDetailsForTruck(string i_LicenseNumber)
+        {
+            GetDetailsForGenericVehicle(out string modelName, out string manufacturerName, out float currentEnergyAmount, out float currentAirPressure, "Truck");
+            Console.WriteLine("Do you contain refrigerated content? 1. Yes. 2. No.");
+            string userInput = Console.ReadLine();
+            bool refrigeratedContent = userInput == "1" ? refrigeratedContent = true : refrigeratedContent = false;
+            Console.WriteLine("What is your cargo capacity?");
+            string capacityInput = Console.ReadLine();
+            float.TryParse(capacityInput, out float capacityFromUser);
+            Truck truckFromUser = SystemVehiclesCreator.NewGenericFuelTruck(modelName, i_LicenseNumber);
+            truckFromUser.SetDynamicData(manufacturerName, currentAirPressure, currentEnergyAmount);
+            string[] uniqueData = new string[2];
+            uniqueData[0] = refrigeratedContent.ToString();
+            uniqueData[1] = capacityFromUser.ToString();
+            truckFromUser.SetUniqueData(uniqueData);
+            return truckFromUser;
+        }
+
+        private static string getModelName()
+        {
+            Console.WriteLine("Enter model name: ");
+            string name = Console.ReadLine();
+            return name;
+        }
+
+        public static void GetDetailsForGenericVehicle(
+            out string o_ModelName,
+            out string o_ManufacturerName,
+            out float o_CurrentEnergyAmount,
+            out float o_CurrentAirPressure, string i_vehicleType)
+        {
+            float currentEnergyAmount;
+            o_ModelName = getModelName();
+            getDetailsForSpecificVehicle(out currentEnergyAmount);
+            checkValidEnergyAmount(i_vehicleType, currentEnergyAmount, out o_CurrentEnergyAmount);
+            getDetailsForWheel(out o_ManufacturerName, out o_CurrentAirPressure, i_vehicleType);
+
         }
 
         //private static void getLicenseTypeForMotorcycle(out Motorcycle.eLicenseType o_LicenseType)

@@ -15,6 +15,10 @@ namespace Ex03.GarageLogic
             base(i_VehicleModel, i_LicenseNumber, i_EnergySource)
         {
             m_Wheels = new Wheel[4];
+            for(int i = 0; i < 4; i++)
+            {
+                m_Wheels[i] = new Wheel();
+            }
             foreach (Wheel wheel in m_Wheels)
             {
                 wheel.MaxAirPressure = 29;
@@ -49,8 +53,7 @@ namespace Ex03.GarageLogic
 
         bool isValidDoorCount(string i_DoorCount)
         {
-            short doorCount;
-            bool valid = short.TryParse(i_DoorCount, out doorCount);
+            bool valid = short.TryParse(i_DoorCount, out short doorCount);
 
             if(valid)
             {
@@ -60,7 +63,7 @@ namespace Ex03.GarageLogic
             return valid;
         }
 
-        public override short ValididateUniqueData(string[] i_UniqueData)
+        public override short ValidateUniqueData(string[] i_UniqueData)
         {
             short errorIndex = -1;
 
@@ -84,12 +87,12 @@ namespace Ex03.GarageLogic
             m_DoorCount = Convert.ToInt16(i_UniqueData[1]);
         }
 
-        public override string[] GetUniqeData
+        public override string[] GetUniqueData
         {
             get
             {
-                string[] UniqeDataMembers = { "car color", "number of Doors" };   //when reciving
-                return UniqeDataMembers;
+                string[] UniqueDataMembers = { "Car color: " + m_Color, "Number of Doors: " + m_DoorCount };   //when reciving
+                return UniqueDataMembers;
             }
         }
     }

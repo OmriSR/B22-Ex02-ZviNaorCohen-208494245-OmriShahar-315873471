@@ -8,20 +8,20 @@ namespace Ex03.GarageLogic
     {
         public enum eVehicleType { ElectricCar, FuelCar, ElectricMotorcycle, FuelMotorcycle, FuelTruck }
  
-        public Car NewGenericElectricCar(string i_VehicleModel, string i_LicenseNumber)
+        public static Car NewGenericElectricCar(string i_VehicleModel, string i_LicenseNumber)
         {
             Electric electricEngine = new Electric(Convert.ToSingle(3.3));
             return new Car(i_VehicleModel, i_LicenseNumber, electricEngine);
         }
 
-        public Car NewGenericFuelCar(string i_VehicleModel, string i_LicenseNumber)
+        public static Car NewGenericFuelCar(string i_VehicleModel, string i_LicenseNumber)
         {
             Fuel fuelEngine = new Fuel(Fuel.eFuelType.Octan95, Convert.ToSingle(38));
 
             return new Car(i_VehicleModel, i_LicenseNumber, fuelEngine);
         }
 
-        public Motorcycle NewGenericElectricMotorcycle(string i_VehicleModel, string i_LicenseNumber)
+        public static Motorcycle NewGenericElectricMotorcycle(string i_VehicleModel, string i_LicenseNumber)
         {
             Electric electricEngine = new Electric(Convert.ToSingle(2.5));
 
@@ -35,7 +35,7 @@ namespace Ex03.GarageLogic
             return new Motorcycle(i_VehicleModel, i_LicenseNumber, fuelEngine);
         }
 
-        public Truck NewGenericFuelTruck(string i_VehicleModel, string i_LicenseNumber)
+        public static Truck NewGenericFuelTruck(string i_VehicleModel, string i_LicenseNumber)
         {
             Fuel fuelEngine = new Fuel(Fuel.eFuelType.Soler, Convert.ToSingle(120));
 

@@ -8,7 +8,7 @@ namespace Ex03.GarageLogic
     {
         protected string m_Model;
         protected  string m_LicenseNumber;
-        protected  float m_CurrentEnergyPrecentage;
+        protected  float m_CurrentEnergyPercentage;
         protected  Wheel[] m_Wheels;
         protected  EnergySource m_EnergySource;
 
@@ -29,12 +29,12 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return m_CurrentEnergyPrecentage;
+                return m_CurrentEnergyPercentage;
             }
 
             set
             {
-                m_CurrentEnergyPrecentage = value;
+                m_CurrentEnergyPercentage = value;
             }
         }
 
@@ -71,15 +71,15 @@ namespace Ex03.GarageLogic
             }
 
             m_EnergySource.CurrentEnergy = i_CurrentEngineEnergy;
-            m_CurrentEnergyPrecentage = m_EnergySource.EnergyPercentage;
+            m_CurrentEnergyPercentage = m_EnergySource.EnergyPercentage;
         }
 
-        public abstract short ValididateUniqueData(string[] i_UniqueData);
+        public abstract short ValidateUniqueData(string[] i_UniqueData);
 
 
-        public abstract void SetUniqueData(string[] UniqueData);
+        public abstract void SetUniqueData(string[] i_UniqueData);
 
-        public abstract string[] GetUniqeData
+        public abstract string[] GetUniqueData
         {
             get;
         }
