@@ -98,7 +98,7 @@ namespace Ex03.GarageLogic
 
         public override string[] PrintUniqueData()
         {
-            string[] uniqueDataMembers = { "Car color: " + m_Color, "Number Of Doors: " + m_DoorCount};
+            string[] uniqueDataMembers = { string.Format("Car color: {0}.\n Number Of Doors: {1}", m_Color, m_DoorCount)};
             return uniqueDataMembers;
         }
     }

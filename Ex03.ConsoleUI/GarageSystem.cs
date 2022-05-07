@@ -233,18 +233,17 @@ namespace Ex03.ConsoleUI
             else
             {
                 float amountToFill;
+                amountToFill = Scan.GetAirPressureToFill();
 
-                foreach (Wheel wheel in i_WheelsArray)
+                if (i_WheelsArray[0].MaxAirPressure < amountToFill)
                 {
-                    amountToFill = Scan.GetAirPressureToFill();
-
-                    try
+                    Console.WriteLine(string.Format("The air pressure given is over the maximum according to {0}'s instructions", i_WheelsArray[0].Manufacturer));
+                }
+                else
+                {
+                    foreach (Wheel wheel in i_WheelsArray)
                     {
-                        wheel.InflateWheel(amountToFill);
-                    }
-                    catch(ValueOutOfRangeException vore)
-                    {
-
+                        wheel.InflateWheel(amountToFill);  // need to try and catch exeption inside the method
                     }
                 }
             }

@@ -72,7 +72,7 @@ namespace Ex03.GarageLogic
         public override string[] PrintUniqueData()
         {
             //   string[] UniqeDataMembers = { "'Yes' if the truck has a cooling unit, 'No' otherwise ", "the trunck capacity" };  
-            string[] uniqueDataMembers = { "Cooling Unit: " + m_HasCoolingUnit, "Trunk Capacity: " + m_TrunkCapacity };
+            string[] uniqueDataMembers = { string.Format("Cooling unit: {0}.\n Trunk capacity: {1}", m_HasCoolingUnit, m_TrunkCapacity) };
             return uniqueDataMembers;
         }
         public override string[] GetUniqueData

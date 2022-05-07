@@ -98,10 +98,17 @@ namespace Ex03.ConsoleUI
 
         public static void ShowAllLicensePlates(Dictionary<int, Ticket> i_GarageTickets)   // ticket does not contains license plate --- maybe it should
         {
-            foreach (KeyValuePair<int, Ticket> ticket in i_GarageTickets)
+            if (i_GarageTickets.Count == 0)
             {
-                string output = String.Format("Vehicle plate: {0}. Current status: {1}", ticket.Value.Vehicle.LicenseNumber, ticket.Value.CurrentStatus);
-                Console.WriteLine(output);
+                Console.WriteLine("The garage is empty! ");
+            }
+            else
+            {
+                foreach (KeyValuePair<int, Ticket> ticket in i_GarageTickets)
+                {
+                    string output = String.Format("Vehicle plate: {0}. Current status: {1}", ticket.Value.Vehicle.LicenseNumber, ticket.Value.CurrentStatus);
+                    Console.WriteLine(output);
+                }
             }
         }
 
@@ -158,9 +165,9 @@ namespace Ex03.ConsoleUI
             Console.WriteLine("Owner Name: {0}. Owner Number: {1}. ", i_VehicleTicket.OwnerName, i_VehicleTicket.OwnerPhoneNumber);
             Console.WriteLine("Current Status: {0}. ", i_VehicleTicket.CurrentStatus);
             // Wheels --> air pressure and manufacturer
-            Console.WriteLine("Number of wheels: {0}. Manufacturer for each: {1}. Current air pressure in each: {2}. ", i_VehicleTicket.Vehicle.Wheels.Length, i_VehicleTicket.Vehicle.Wheels[0].Manufacturer, i_VehicleTicket.Vehicle.Wheels[0].CurrentAirPressure);
+            Console.WriteLine("Number of wheels: {0}.\n Manufacturer for each: {1}.\n Current air pressure in each: {2}. ", i_VehicleTicket.Vehicle.Wheels.Length, i_VehicleTicket.Vehicle.Wheels[0].Manufacturer, i_VehicleTicket.Vehicle.Wheels[0].CurrentAirPressure);
             // Energy percent + kind of fuel / electric.
-            Console.WriteLine("Energy percent: {0}. Type of energy: {1}", i_VehicleTicket.Vehicle.EnergySource.EnergyPercentage, i_VehicleTicket.Vehicle.EnergySource.GetType().Name);
+            Console.WriteLine("Energy percent: {0}.\n Type of energy: {1}", i_VehicleTicket.Vehicle.EnergySource.EnergyPercentage, i_VehicleTicket.Vehicle.EnergySource.GetType().Name);
             // Other vehicle extra information.
             int uniqueDataLength = i_VehicleTicket.Vehicle.GetUniqueData.Length;
             string[] uniqueData = i_VehicleTicket.Vehicle.PrintUniqueData();

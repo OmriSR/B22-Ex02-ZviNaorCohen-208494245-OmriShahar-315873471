@@ -69,7 +69,7 @@ namespace Ex03.GarageLogic
 
         public override string[] PrintUniqueData()
         {
-            string[] UniqueDataMembers = { "License type: " + m_LicenseType + ".", "Engine Capacity: " + m_EngineCapacity + "." };
+            string[] UniqueDataMembers = { string.Format("License type: {0}\n.", "Engine Capacity: {1}.", m_LicenseType, m_EngineCapacity) };
             return UniqueDataMembers;
         }
 
