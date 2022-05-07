@@ -252,7 +252,6 @@ namespace Ex03.ConsoleUI
                     {
                         Console.WriteLine("You tried to charge above maximum, which is impossible. Please try again. ");
                     }
-                    // m_GarageTickets[licensePlate.GetHashCode()].Vehicle.EnergySource.FillEnergy(refillAmount);
                 }
                 else
                 {

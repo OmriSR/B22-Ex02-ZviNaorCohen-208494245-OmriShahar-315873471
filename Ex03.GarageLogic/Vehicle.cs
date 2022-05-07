@@ -83,6 +83,8 @@ namespace Ex03.GarageLogic
         {
             get;
         }
+
+        public abstract string[] PrintUniqueData();
     }
 
 }

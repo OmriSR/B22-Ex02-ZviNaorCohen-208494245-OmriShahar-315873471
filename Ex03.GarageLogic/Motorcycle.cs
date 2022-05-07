@@ -67,12 +67,17 @@ namespace Ex03.GarageLogic
             m_EngineCapacity = Convert.ToSingle(i_UniqueData[1]);
         }
 
+        public override string[] PrintUniqueData()
+        {
+            string[] UniqueDataMembers = { "License type: " + m_LicenseType + ".", "Engine Capacity: " + m_EngineCapacity + "." };
+            return UniqueDataMembers;
+        }
+
         public override string[] GetUniqueData
         {
             get
             {
-                // Zvika: I need to check with Omri this implementation.
-                string[] UniqueDataMembers = { "License type: " + m_LicenseType + ".", "Fuel Tank / Matzber Time Capacity: " + m_EngineCapacity + "."};  
+                string[] UniqueDataMembers = { "License type (A, A1, B1, BB): ", "Engine Capacity: "};  
                 //when reciving
                 return UniqueDataMembers;
             }

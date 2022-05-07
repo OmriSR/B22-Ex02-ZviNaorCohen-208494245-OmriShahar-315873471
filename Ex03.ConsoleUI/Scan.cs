@@ -198,11 +198,7 @@ namespace Ex03.ConsoleUI
             GetDetailsForGenericVehicle(out string modelName, out string manufacturerName, out float currentEnergyAmount, out float currentAirPressure, "ElectricBike");
             Motorcycle userMotorcycle = SystemVehiclesCreator.NewGenericElectricMotorcycle(modelName, i_UserLicensePlate);
             userMotorcycle.SetDynamicData(manufacturerName, currentAirPressure, currentEnergyAmount); // as a vehicle
-            Console.WriteLine("Enter license type. A, A1, B1, BB. ");
-            string licenseType = Console.ReadLine();
-            string[] uniqueData = new string[2];
-            uniqueData[0] = licenseType;
-            uniqueData[1] = "2.5";
+            string[] uniqueData = getUniqueDataFromAnyVehicle(userMotorcycle);
             userMotorcycle.SetUniqueData(uniqueData);
             return userMotorcycle;
         }
@@ -256,24 +252,11 @@ namespace Ex03.ConsoleUI
         }
         public static Motorcycle GetDetailsForFuelBike(string i_UserLicensePlate)
         {
-            // Need to make this function more "readabily".
             GetDetailsForGenericVehicle(out string modelName, out string manufacturerName, out float currentEnergyAmount, out float currentAirPressure, "FuelBike");
             Motorcycle userMotorcycle = SystemVehiclesCreator.NewGenericFuelMotorcycle(modelName, i_UserLicensePlate);
             userMotorcycle.SetDynamicData(manufacturerName, currentAirPressure, currentEnergyAmount); // as a vehicle
-            Console.WriteLine("Enter license type. A, A1, B1, BB. ");
-            string licenseType = Console.ReadLine();
-            string[] uniqueData = new string[2];
-            uniqueData[0] = licenseType;
-            uniqueData[1] = "6.2";
-            if(userMotorcycle.ValidateUniqueData(uniqueData) != -1)
-            {
-                Console.WriteLine("License Type was not entered properly.");
-                // licensetype or 6.2 were not entered properly.
-            }
-            else
-            {
-                userMotorcycle.SetUniqueData(uniqueData);
-            }
+            string[] uniqueData = getUniqueDataFromAnyVehicle(userMotorcycle);
+            userMotorcycle.SetUniqueData(uniqueData);
             return userMotorcycle;
         }
 
@@ -349,7 +332,7 @@ namespace Ex03.ConsoleUI
                     }
                     else if(userAirPressure > maxAirPressure)
                     {
-                        Console.WriteLine("You are trying to fill more air pressure than maximum. ");
+                        Console.WriteLine("You are trying to fill more air pressure than maximum. Maximum is: {0}.", maxAirPressure);
                     }
                     else
                     {
@@ -370,19 +353,36 @@ namespace Ex03.ConsoleUI
             // unique data for car: color (red white green blue)
             // number of doors (2,3,4,5)
             // octan 95
-            
             Car userCar = SystemVehiclesCreator.NewGenericFuelCar(modelName, i_LicenseNumber);
             userCar.SetDynamicData(manufacturerName, currentAirPressure, currentEnergyAmount); // as a vehicle
-            Console.WriteLine("Enter number of doors. "); // move to another function and let user choose from 2,3,4,5.
-            string numberOfDoorsInput = Console.ReadLine();
-            short.TryParse(numberOfDoorsInput, out short numberOfDoors);
-            string[] uniqueData = new string[2];
-            Console.WriteLine("Enter color. ");
-            string color = Console.ReadLine();
-            uniqueData[0] = color;
-            uniqueData[1] = numberOfDoorsInput;
+            string[] uniqueData = getUniqueDataFromAnyVehicle(userCar);
             userCar.SetUniqueData(uniqueData);
             return userCar;
+        }
+
+        private static string[] getUniqueDataFromAnyVehicle(Vehicle i_Vehicle)
+        {
+            bool isValidInput = false;
+            string[] uniqueData = new string[i_Vehicle.GetUniqueData.Length];
+            
+            while (!isValidInput)
+            {
+                for (int i = 0; i < i_Vehicle.GetUniqueData.Length; i++)
+                {
+                    Console.WriteLine("Enter {0}", i_Vehicle.GetUniqueData[i]);
+                    string userInput = Console.ReadLine();
+                    uniqueData[i] = userInput;
+                }
+                if (i_Vehicle.ValidateUniqueData(uniqueData) != -1)
+                {
+                    Console.WriteLine("Unique data was not entered properly. Please try again.");
+                }
+                else
+                {
+                    isValidInput = true;
+                }
+            }
+            return uniqueData;
         }
 
         public static Car GetDetailsForElectricCar(string i_LicenseNumber)
@@ -390,14 +390,7 @@ namespace Ex03.ConsoleUI
             GetDetailsForGenericVehicle(out string modelName, out string manufacturerName, out float currentEnergyAmount, out float currentAirPressure, "ElectricCar");
             Car userCar = SystemVehiclesCreator.NewGenericElectricCar(modelName, i_LicenseNumber);
             userCar.SetDynamicData(manufacturerName, currentAirPressure, currentEnergyAmount); // as a vehicle
-            Console.WriteLine("Enter number of doors. "); // move to another function and let user choose from 2,3,4,5.
-            string numberOfDoorsInput = Console.ReadLine();
-            short.TryParse(numberOfDoorsInput, out short numberOfDoors);
-            string[] uniqueData = new string[2];
-            Console.WriteLine("Enter color. ");
-            string color = Console.ReadLine();
-            uniqueData[0] = color;
-            uniqueData[1] = numberOfDoorsInput;
+            string[] uniqueData = getUniqueDataFromAnyVehicle(userCar);
             userCar.SetUniqueData(uniqueData);
             return userCar;
         }
@@ -405,17 +398,9 @@ namespace Ex03.ConsoleUI
         public static Truck GetDetailsForTruck(string i_LicenseNumber)
         {
             GetDetailsForGenericVehicle(out string modelName, out string manufacturerName, out float currentEnergyAmount, out float currentAirPressure, "Truck");
-            Console.WriteLine("Do you contain refrigerated content? 1. Yes. 2. No.");
-            string userInput = Console.ReadLine();
-            bool refrigeratedContent = userInput == "1" ? refrigeratedContent = true : refrigeratedContent = false;
-            Console.WriteLine("What is your cargo capacity?");
-            string capacityInput = Console.ReadLine();
-            float.TryParse(capacityInput, out float capacityFromUser);
             Truck truckFromUser = SystemVehiclesCreator.NewGenericFuelTruck(modelName, i_LicenseNumber);
             truckFromUser.SetDynamicData(manufacturerName, currentAirPressure, currentEnergyAmount);
-            string[] uniqueData = new string[2];
-            uniqueData[0] = refrigeratedContent.ToString();
-            uniqueData[1] = capacityFromUser.ToString();
+            string[] uniqueData = getUniqueDataFromAnyVehicle(truckFromUser);
             truckFromUser.SetUniqueData(uniqueData);
             return truckFromUser;
         }

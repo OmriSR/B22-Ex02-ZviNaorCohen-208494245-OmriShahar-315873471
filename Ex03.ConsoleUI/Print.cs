@@ -160,9 +160,10 @@ namespace Ex03.ConsoleUI
             Console.WriteLine("Energy percent: {0}. Type of energy: {1}", i_VehicleTicket.Vehicle.EnergySource.EnergyPercentage, i_VehicleTicket.Vehicle.EnergySource.GetType().Name);
             // Other vehicle extra information.
             int uniqueDataLength = i_VehicleTicket.Vehicle.GetUniqueData.Length;
-            for(int i = 0; i < uniqueDataLength; i++)
+            string[] uniqueData = i_VehicleTicket.Vehicle.PrintUniqueData();
+            for (int i = 0; i < uniqueDataLength; i++)
             {
-                Console.WriteLine(i_VehicleTicket.Vehicle.GetUniqueData[i]);
+                Console.WriteLine(uniqueData[i]);
             }
         }
     }

@@ -91,9 +91,15 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                string[] UniqueDataMembers = { "Car color: " + m_Color, "Number of Doors: " + m_DoorCount };   //when reciving
+                string[] UniqueDataMembers = { "Car color (red/white/blue/green): ", "Number of Doors (2/3/4/5): "};   //when reciving
                 return UniqueDataMembers;
             }
+        }
+
+        public override string[] PrintUniqueData()
+        {
+            string[] uniqueDataMembers = { "Car color: " + m_Color, "Number Of Doors: " + m_DoorCount};
+            return uniqueDataMembers;
         }
     }
 }

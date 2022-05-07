@@ -39,10 +39,9 @@ namespace Ex03.GarageLogic
             return validColor;
         }
 
-        bool isValidCapacity(string i_TrunckCapacity)
+        bool isValidCapacity(string i_TrunkCapacity)
         {
-            float TrunckCapacity;
-            return float.TryParse(i_TrunckCapacity, out TrunckCapacity);
+            return float.TryParse(i_TrunkCapacity, out float TrunkCapacity);
         }
 
         public override short ValidateUniqueData(string[] i_UniqueData)
@@ -66,17 +65,23 @@ namespace Ex03.GarageLogic
         public override void SetUniqueData(string[] i_UniqueData)
         {
            // m_HasCoolingUnit = i_UniqueData[0].ToLower() == "True";
-           m_HasCoolingUnit = i_UniqueData[0] == "True" ? m_HasCoolingUnit = true : m_HasCoolingUnit = false;
+            m_HasCoolingUnit = i_UniqueData[0].ToLower() == "yes" ? m_HasCoolingUnit = true : m_HasCoolingUnit = false;
             m_TrunkCapacity = Convert.ToSingle(i_UniqueData[1]);
         }
 
+        public override string[] PrintUniqueData()
+        {
+            //   string[] UniqeDataMembers = { "'Yes' if the truck has a cooling unit, 'No' otherwise ", "the trunck capacity" };  
+            string[] uniqueDataMembers = { "Cooling Unit: " + m_HasCoolingUnit, "Trunk Capacity: " + m_TrunkCapacity };
+            return uniqueDataMembers;
+        }
         public override string[] GetUniqueData
         {
             get
             {
              //   string[] UniqeDataMembers = { "'Yes' if the truck has a cooling unit, 'No' otherwise ", "the trunck capacity" };  
-             string[] UniqueDataMembers = { "Cooling Unit: " + m_HasCoolingUnit, "Trunk Capacity: " + m_TrunkCapacity };
-             return UniqueDataMembers;
+             string[] uniqueDataMembers = { "Cooling Unit (YES/NO): ", "Trunk Capacity: "};
+             return uniqueDataMembers;
             }
         }
     }
