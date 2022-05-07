@@ -79,7 +79,6 @@ namespace Ex03.ConsoleUI
             {
                 Console.WriteLine("No data for vehicles in the status you chose. ");
             }
-            PressAnyKeyToReturnToMainMenu();
         }
 
         public static void PressAnyKeyToReturnToMainMenu()
@@ -131,7 +130,6 @@ namespace Ex03.ConsoleUI
 
                 validInput = true;
             }
-            PressAnyKeyToReturnToMainMenu();
         }
 
         public static void PrintMainMenu()
@@ -171,10 +169,10 @@ namespace Ex03.ConsoleUI
             // Other vehicle extra information.
             int uniqueDataLength = i_VehicleTicket.Vehicle.GetUniqueData.Length;
             string[] uniqueData = i_VehicleTicket.Vehicle.PrintUniqueData();
-            for (int i = 0; i < uniqueDataLength; i++)
-            {
-                Console.WriteLine(uniqueData[i]);
-            }
+           // for (int i = 0; i < uniqueDataLength; i++)
+           // {
+                Console.WriteLine(uniqueData[0]);
+           // }
         }
     }
 }
