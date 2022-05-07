@@ -41,5 +41,12 @@ namespace Ex03.GarageLogic
 
             return new Truck(i_VehicleModel, i_LicenseNumber, fuelEngine);
         }
+
+        public static Vehicle NewGenericTypeOfVehicle(string i_VehicleModel, string i_LicenseNumber)
+        {
+            Electric electricEngine = new Electric(Convert.ToSingle(2.5));
+
+            return new Bimba(i_VehicleModel, i_LicenseNumber, electricEngine);
+        }
     }
 }

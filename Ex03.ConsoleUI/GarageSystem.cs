@@ -157,12 +157,14 @@ namespace Ex03.ConsoleUI
                         }
                     case "6":
                         {
-                            //getDetailsForOtherVehicle();
+                            Vehicle inputNewType = Scan.getDetailsForOtherVehicle(licenseNumber);
+                            Ticket newTypeTicket = Scan.GetDetailsForTicket(inputNewType);
+                            m_GarageTickets.Add(newTypeTicket.Vehicle.LicenseNumber.GetHashCode(), newTypeTicket);
                             break;
                         }
                     default:
                         {
-                            Console.WriteLine("Invalid input. Returning to main menu. ");
+                            Console.WriteLine("Invalid input. Returning to main menu.");
                             break;
                         }
                 }
