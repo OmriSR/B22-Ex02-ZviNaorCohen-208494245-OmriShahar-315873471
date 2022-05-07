@@ -9,6 +9,32 @@ namespace Ex03.ConsoleUI
 {
     class Scan
     {
+        public static bool GetTypeOfWheelInflation()
+        {
+            bool fillToMax;
+
+            Console.WriteLine("Enter '1' for costume air Pressure or any other key for maximum possible:'\n'");
+            fillToMax = Console.ReadLine() == "1";
+
+            return fillToMax;
+        }
+
+        public static float GetAirPressureToFill()
+        {
+            float airAmount;
+
+            Console.WriteLine("Please enter wanted air pressure:'\n'");
+
+            while(!float.TryParse(Console.ReadLine(), out airAmount))
+            {
+                Console.WriteLine("Invalid Input. Please try again.");
+                Ex02.ConsoleUtils.Screen.Clear();
+                Console.WriteLine("Please enter wanted air pressure:'\n'");
+            }
+
+            return airAmount;
+        }
+
         public static Ticket.eCurrentStatus GetStatusFromUserScan()
         {
             Ticket.eCurrentStatus wantedStatus = Ticket.eCurrentStatus.InFixings;
@@ -40,9 +66,7 @@ namespace Ex03.ConsoleUI
             return wantedStatus;
         }
 
-        public static bool GetPlateAndCheckIfInGarageTickets(
-            out string o_UserInput,
-            Dictionary<int, Ticket> m_GarageTickets)
+        public static bool GetPlateAndCheckIfInGarageTickets(out string o_UserInput, Dictionary<int, Ticket> m_GarageTickets)
         {
             bool plateInTickets = false;
             Console.WriteLine("Please enter car license plate: ");
@@ -192,7 +216,6 @@ namespace Ex03.ConsoleUI
             return userInput;
         }
 
-
         public static Motorcycle GetDetailsForElectricBike(string i_UserLicensePlate)
         {
             GetDetailsForGenericVehicle(out string modelName, out string manufacturerName, out float currentEnergyAmount, out float currentAirPressure, "ElectricBike");
@@ -250,6 +273,7 @@ namespace Ex03.ConsoleUI
             }
             o_NewValidEnergyAmount = currentEnergyAmount;
         }
+
         public static Motorcycle GetDetailsForFuelBike(string i_UserLicensePlate)
         {
             GetDetailsForGenericVehicle(out string modelName, out string manufacturerName, out float currentEnergyAmount, out float currentAirPressure, "FuelBike");
@@ -259,7 +283,6 @@ namespace Ex03.ConsoleUI
             userMotorcycle.SetUniqueData(uniqueData);
             return userMotorcycle;
         }
-
 
         public static Ticket GetDetailsForTicket(Vehicle i_Vehicle)
         {
@@ -271,8 +294,7 @@ namespace Ex03.ConsoleUI
             return ticketToReturn;
         }
 
-        private static void getDetailsForSpecificVehicle(
-            out float o_CurrentEnergyAmount)
+        private static void getDetailsForSpecificVehicle(out float o_CurrentEnergyAmount)
         {
             o_CurrentEnergyAmount = 0;
             bool isValid = false;
@@ -297,9 +319,11 @@ namespace Ex03.ConsoleUI
             int maxAirPressure = Int32.MaxValue;
             o_CurrentAirPressure = 0;
             bool isValid = false;
+
             Console.WriteLine("Enter wheel manufacturer name. ");
             o_ManufacturerName = Console.ReadLine();
             Console.WriteLine("Please enter current air pressure. ");
+
             switch (i_VehicleType)
             {
                 case "ElectricCar":
@@ -373,6 +397,7 @@ namespace Ex03.ConsoleUI
                     string userInput = Console.ReadLine();
                     uniqueData[i] = userInput;
                 }
+
                 if (i_Vehicle.ValidateUniqueData(uniqueData) != -1)
                 {
                     Console.WriteLine("Unique data was not entered properly. Please try again.");
