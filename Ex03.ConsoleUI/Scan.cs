@@ -13,8 +13,9 @@ namespace Ex03.ConsoleUI
         {
             bool fillToMax;
 
-            Console.WriteLine("Enter '1' for costume air Pressure or any other key for maximum possible:'\n'");
-            fillToMax = Console.ReadLine() == "1";
+            Console.WriteLine("Enter '1' for costume air Pressure or any other key for maximum possible: ");
+            
+            fillToMax = Console.ReadLine() != "1";
 
             return fillToMax;
         }
@@ -23,13 +24,14 @@ namespace Ex03.ConsoleUI
         {
             float airAmount;
 
-            Console.WriteLine("Please enter wanted air pressure:'\n'");
+            Console.WriteLine("Please enter wanted air pressure: ");
 
-            while(!float.TryParse(Console.ReadLine(), out airAmount))
+            while(!(float.TryParse(Console.ReadLine(), out airAmount)))
             {
-                Console.WriteLine("Invalid Input. Please try again.");
                 Ex02.ConsoleUtils.Screen.Clear();
-                Console.WriteLine("Please enter wanted air pressure:'\n'");
+
+                Console.WriteLine("Invalid Input. Please try again. \n");
+                Console.WriteLine("Please enter wanted air pressure: ");
             }
 
             return airAmount;
