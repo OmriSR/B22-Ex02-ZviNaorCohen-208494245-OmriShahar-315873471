@@ -4,22 +4,22 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    public class Truck : Vehicle
+    class Bimba : Vehicle
     {
-        bool m_HasCoolingUnit;
-        float m_TrunkCapacity;
+        bool m_HasUnderSeatStorage;
+        short m_NumberOfSeats;
 
-        public Truck(string i_VehicleModel, string i_LicenseNumber, EnergySource i_EnergySource) :
+        public Bimba(string i_VehicleModel, string i_LicenseNumber, EnergySource i_EnergySource) :
             base(i_VehicleModel, i_LicenseNumber, i_EnergySource)
         {
-            m_Wheels = new Wheel[16];
-            for(int i = 0; i < 16; i++)
+            m_Wheels = new Wheel[5];
+            for (int i = 0; i < 5; i++)
             {
                 m_Wheels[i] = new Wheel();
             }
             foreach (Wheel wheel in m_Wheels)
             {
-                wheel.MaxAirPressure = 24;
+                wheel.MaxAirPressure = 15;
             }
         }
 
@@ -64,24 +64,23 @@ namespace Ex03.GarageLogic
         //----------------unique data------------------
         public override void SetUniqueData(string[] i_UniqueData)
         {
-            m_HasCoolingUnit = i_UniqueData[0].ToLower() == "yes";
-            m_TrunkCapacity = Convert.ToSingle(i_UniqueData[1]);
+            m_HasUnderSeatStorage = i_UniqueData[0].ToLower() == "yes" ;
+            m_NumberOfSeats = Convert.ToInt16(i_UniqueData[1]);
         }
 
         public override string[] PrintUniqueData()
         {
             //   string[] UniqeDataMembers = { "'Yes' if the truck has a cooling unit, 'No' otherwise ", "the trunck capacity" };  
-            string[] uniqueDataMembers = { string.Format("Cooling unit: {0}.{2} Trunk capacity: {1}", m_HasCoolingUnit, m_TrunkCapacity, System.Environment.NewLine) };
+            string[] uniqueDataMembers = { string.Format("Cooling unit: {0}.\n Trunk capacity: {1}", m_HasUnderSeatStorage, m_NumberOfSeats) };
             return uniqueDataMembers;
         }
-
         public override string[] GetUniqueData
         {
             get
             {
-             //   string[] UniqeDataMembers = { "'Yes' if the truck has a cooling unit, 'No' otherwise ", "the trunck capacity" };  
-             string[] uniqueDataMembers = { "Cooling Unit (YES/NO): ", "Trunk Capacity: "};
-             return uniqueDataMembers;
+                //   string[] UniqeDataMembers = { "'Yes' if the truck has a cooling unit, 'No' otherwise ", "the trunck capacity" };  
+                string[] uniqueDataMembers = { "storage (YES/NO): ", "number of seats: " };
+                return uniqueDataMembers;
             }
         }
     }
