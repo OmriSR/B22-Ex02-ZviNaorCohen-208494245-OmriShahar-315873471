@@ -25,6 +25,7 @@ namespace Ex03.ConsoleUI
             Console.WriteLine("5. Truck. ");
             Console.WriteLine("6. Other. ");
         }
+
         public static void PrintFuelOptionsToRefill()
         {
             Console.WriteLine("Please enter type of fuel.");
@@ -33,6 +34,7 @@ namespace Ex03.ConsoleUI
             Console.WriteLine("3. Octan 96.");
             Console.WriteLine("4. Octan 98.");
         }
+
         public static void ShowLicensePlatesPrint()
         {
             Console.WriteLine("Choose an option: ");
@@ -142,6 +144,7 @@ namespace Ex03.ConsoleUI
         {
             Console.WriteLine("Car is not running on fuel. Can't refill vehicle given. ");
         }
+
         public static void CarIsNotRunningOnElectricity()
         {
             Console.WriteLine("Car is not running on electricity. Can't recharge vehicle given. ");
