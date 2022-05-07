@@ -15,6 +15,24 @@ namespace Ex03.ConsoleUI
             Console.WriteLine("3. Paid. ");
         }
 
+        public static void PrintVehicleDoesntExist()
+        {
+            Console.WriteLine("Vehicle doesn't exist. We need to open a new ticket. Please choose the type of vehicle: ");
+            Console.WriteLine("1. Fuel bike.");
+            Console.WriteLine("2. Electric bike.");
+            Console.WriteLine("3. Fuel car.");
+            Console.WriteLine("4. Electric car. ");
+            Console.WriteLine("5. Truck. ");
+            Console.WriteLine("6. Other. ");
+        }
+        public static void PrintFuelOptionsToRefill()
+        {
+            Console.WriteLine("Please enter type of fuel.");
+            Console.WriteLine("1. Soler.");
+            Console.WriteLine("2. Octan 95.");
+            Console.WriteLine("3. Octan 96.");
+            Console.WriteLine("4. Octan 98.");
+        }
         public static void ShowLicensePlatesPrint()
         {
             Console.WriteLine("Choose an option: ");
@@ -83,7 +101,6 @@ namespace Ex03.ConsoleUI
                 string output = String.Format("Vehicle plate: {0}. Current status: {1}", ticket.Value.Vehicle.LicenseNumber, ticket.Value.CurrentStatus);
                 Console.WriteLine(output);
             }
-            Print.PressAnyKeyToReturnToMainMenu();
         }
 
         public static void ShowSpecificLicensePlates(Dictionary<int, Ticket> i_GarageTickets)
@@ -119,6 +136,35 @@ namespace Ex03.ConsoleUI
             Console.WriteLine("5. Refill a vehicle running on fuel. ");
             Console.WriteLine("6. Refill a vehicle running on electric. ");
             Console.WriteLine("7. Show full information for specific license plate. ");
+        }
+
+        public static void CarIsNotRunningOnFuel()
+        {
+            Console.WriteLine("Car is not running on fuel. Can't refill vehicle given. ");
+        }
+        public static void CarIsNotRunningOnElectricity()
+        {
+            Console.WriteLine("Car is not running on electricity. Can't recharge vehicle given. ");
+        }
+
+        public static void PrintVehicleStaticData(Ticket i_VehicleTicket, string i_LicenseNumber)
+        {
+            Console.WriteLine("Vehicle License Plate: {0}. ", i_LicenseNumber);
+            Console.WriteLine("Vehicle type: {0}. ", i_VehicleTicket.Vehicle.GetType().Name);
+            Console.WriteLine("Model Name: {0}. ", i_VehicleTicket.Vehicle.ModelName);
+            Console.WriteLine("Owner Name: {0}. Owner Number: {1}. ", i_VehicleTicket.OwnerName, i_VehicleTicket.OwnerPhoneNumber);
+            Console.WriteLine("Current Status: {0}. ", i_VehicleTicket.CurrentStatus);
+            // Wheels --> air pressure and manufacturer
+            Console.WriteLine("Number of wheels: {0}. Manufacturer for each: {1}. Current air pressure in each: {2}. ", i_VehicleTicket.Vehicle.Wheels.Length, i_VehicleTicket.Vehicle.Wheels[0].Manufacturer, i_VehicleTicket.Vehicle.Wheels[0].CurrentAirPressure);
+            // Energy percent + kind of fuel / electric.
+            Console.WriteLine("Energy percent: {0}. Type of energy: {1}", i_VehicleTicket.Vehicle.EnergySource.EnergyPercentage, i_VehicleTicket.Vehicle.EnergySource.GetType().Name);
+            // Other vehicle extra information.
+            int uniqueDataLength = i_VehicleTicket.Vehicle.GetUniqueData.Length;
+            string[] uniqueData = i_VehicleTicket.Vehicle.PrintUniqueData();
+            for (int i = 0; i < uniqueDataLength; i++)
+            {
+                Console.WriteLine(uniqueData[i]);
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Ex03.GarageLogic
     {
         protected string m_Model;
         protected  string m_LicenseNumber;
-        protected  float m_CurrentEnergyPrecentage;
+        protected  float m_CurrentEnergyPercentage;
         protected  Wheel[] m_Wheels;
         protected  EnergySource m_EnergySource;
 
@@ -18,17 +18,38 @@ namespace Ex03.GarageLogic
             m_LicenseNumber = i_LicenseNumber;
             m_EnergySource = i_EnergySource;
         }
-
+        public EnergySource EnergySource
+        {
+            get
+            {
+                return m_EnergySource;
+            }
+        }
         public float EnergyLeftPercentage
         {
             get
             {
-                return m_CurrentEnergyPrecentage;
+                return m_CurrentEnergyPercentage;
             }
 
             set
             {
-                m_CurrentEnergyPrecentage = value;
+                m_CurrentEnergyPercentage = value;
+            }
+        }
+
+        public Wheel[] Wheels
+        {
+            get
+            {
+                return m_Wheels;
+            }
+        }
+        public string ModelName
+        {
+            get
+            {
+                return m_Model;
             }
         }
 
@@ -40,12 +61,8 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public void InflateAllWheels()
-        {
-            // run on wheels array and inflate all its wheels to maximum value.
-        }
 
-        public void SetDynamicData(string i_WheelManufacturer, float i_WheelCurrentPressure, float i_CurrentEnginEnergy)
+        public void SetDynamicData(string i_WheelManufacturer, float i_WheelCurrentPressure, float i_CurrentEngineEnergy)
         {
             foreach(Wheel wheel in m_Wheels)
             {
@@ -53,20 +70,21 @@ namespace Ex03.GarageLogic
                 wheel.CurrentAirPressure = i_WheelCurrentPressure;
             }
 
-            m_EnergySource.CurrentEnergy = i_CurrentEnginEnergy;
-
-            m_CurrentEnergyPrecentage = m_EnergySource.EnergyPercentage;
+            m_EnergySource.CurrentEnergy = i_CurrentEngineEnergy;
+            m_CurrentEnergyPercentage = m_EnergySource.EnergyPercentage;
         }
 
-        public abstract short ValididateUniqueData(string[] i_UniqueData);
+        public abstract short ValidateUniqueData(string[] i_UniqueData);
 
 
-        public abstract void SetUniqueData(string[] UniqueData);
+        public abstract void SetUniqueData(string[] i_UniqueData);
 
-        public abstract string[] GetUniqeData
+        public abstract string[] GetUniqueData
         {
             get;
         }
+
+        public abstract string[] PrintUniqueData();
     }
 
 }

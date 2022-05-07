@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    class ValueOutOfRangeException : Exception
+    public class ValueOutOfRangeException : Exception
     {
         string m_VehicelModle;
         string m_RangeIdentifier;
@@ -13,6 +13,7 @@ namespace Ex03.GarageLogic
 
         public ValueOutOfRangeException()
         {
+            
         }
     }
 }

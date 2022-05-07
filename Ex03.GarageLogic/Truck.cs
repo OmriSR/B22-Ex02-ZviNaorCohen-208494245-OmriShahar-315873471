@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    class Truck : Vehicle
+    public class Truck : Vehicle
     {
         bool m_HasCoolingUnit;
         float m_TrunkCapacity;
@@ -13,6 +13,10 @@ namespace Ex03.GarageLogic
             base(i_VehicleModel, i_LicenseNumber, i_EnergySource)
         {
             m_Wheels = new Wheel[16];
+            for(int i = 0; i < 16; i++)
+            {
+                m_Wheels[i] = new Wheel();
+            }
             foreach (Wheel wheel in m_Wheels)
             {
                 wheel.MaxAirPressure = 24;
@@ -35,13 +39,12 @@ namespace Ex03.GarageLogic
             return validColor;
         }
 
-        bool isValidCapacity(string i_TrunckCapacity)
+        bool isValidCapacity(string i_TrunkCapacity)
         {
-            float TrunckCapacity;
-            return float.TryParse(i_TrunckCapacity, out TrunckCapacity);
+            return float.TryParse(i_TrunkCapacity, out float TrunkCapacity);
         }
 
-        public override short ValididateUniqueData(string[] i_UniqueData)
+        public override short ValidateUniqueData(string[] i_UniqueData)
         {
             short errorIndex = -1;
 
@@ -61,16 +64,24 @@ namespace Ex03.GarageLogic
         //----------------unique data------------------
         public override void SetUniqueData(string[] i_UniqueData)
         {
-            m_HasCoolingUnit = i_UniqueData[0].ToLower() == "yes";
+           // m_HasCoolingUnit = i_UniqueData[0].ToLower() == "True";
+            m_HasCoolingUnit = i_UniqueData[0].ToLower() == "yes" ? m_HasCoolingUnit = true : m_HasCoolingUnit = false;
             m_TrunkCapacity = Convert.ToSingle(i_UniqueData[1]);
         }
 
-        public override string[] GetUniqeData
+        public override string[] PrintUniqueData()
+        {
+            //   string[] UniqeDataMembers = { "'Yes' if the truck has a cooling unit, 'No' otherwise ", "the trunck capacity" };  
+            string[] uniqueDataMembers = { "Cooling Unit: " + m_HasCoolingUnit, "Trunk Capacity: " + m_TrunkCapacity };
+            return uniqueDataMembers;
+        }
+        public override string[] GetUniqueData
         {
             get
             {
-                string[] UniqeDataMembers = { "'Yes' if the truck has a cooling unit, 'No' otherwise ", "the trunck capacity" };  
-                return UniqeDataMembers;
+             //   string[] UniqeDataMembers = { "'Yes' if the truck has a cooling unit, 'No' otherwise ", "the trunck capacity" };  
+             string[] uniqueDataMembers = { "Cooling Unit (YES/NO): ", "Trunk Capacity: "};
+             return uniqueDataMembers;
             }
         }
     }
