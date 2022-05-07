@@ -11,6 +11,7 @@ namespace Ex03.GarageLogic
         public static Car NewGenericElectricCar(string i_VehicleModel, string i_LicenseNumber)
         {
             Electric electricEngine = new Electric(Convert.ToSingle(3.3));
+
             return new Car(i_VehicleModel, i_LicenseNumber, electricEngine);
         }
 

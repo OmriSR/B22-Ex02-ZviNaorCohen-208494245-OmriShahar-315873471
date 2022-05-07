@@ -46,6 +46,7 @@ namespace Ex03.ConsoleUI
         {
             Ticket.eCurrentStatus statusFromUser = Ticket.eCurrentStatus.Fixed;
             int counter = 0;
+
             switch (i_UserInput)
             {
                 case "1":
@@ -101,6 +102,7 @@ namespace Ex03.ConsoleUI
             {
                 Console.WriteLine("The garage is empty! ");
             }
+
             else
             {
                 foreach (KeyValuePair<int, Ticket> ticket in i_GarageTickets)
@@ -114,7 +116,9 @@ namespace Ex03.ConsoleUI
         public static void ShowSpecificLicensePlates(Dictionary<int, Ticket> i_GarageTickets)
         {
             bool validInput = false;
+
             PrintSpecificPlatesMenu();
+
             while (!validInput)
             {
                 string userInput = Console.ReadLine();
@@ -122,6 +126,7 @@ namespace Ex03.ConsoleUI
                 {
                     PrintSpecificLicensePlateStatus(userInput, i_GarageTickets);
                 }
+
                 else
                 {
                     Console.WriteLine("Invalid input. Please try again. ");
@@ -167,7 +172,6 @@ namespace Ex03.ConsoleUI
             // Energy percent + kind of fuel / electric.
             Console.WriteLine("Energy percent: {0}.\n Type of energy: {1}", i_VehicleTicket.Vehicle.EnergySource.EnergyPercentage, i_VehicleTicket.Vehicle.EnergySource.GetType().Name);
             // Other vehicle extra information.
-            int uniqueDataLength = i_VehicleTicket.Vehicle.GetUniqueData.Length;
             string[] uniqueData = i_VehicleTicket.Vehicle.PrintUniqueData();
            // for (int i = 0; i < uniqueDataLength; i++)
            // {

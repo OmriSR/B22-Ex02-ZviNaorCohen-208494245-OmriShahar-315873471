@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Reflection.PortableExecutable;
 using System.Runtime.CompilerServices;
 using Ex02.ConsoleUtils;
@@ -13,9 +14,11 @@ namespace Ex03.ConsoleUI
 
         public void RunGarage()
         {
-            while(true)
+            bool runGarage = true;
+            while(runGarage)
             {
                 short menuOption = getMainMenuOption();
+                // if menuOption == 7 then exit?
                 runMenuOption(menuOption);
                 Print.PressAnyKeyToReturnToMainMenu();
                 Ex02.ConsoleUtils.Screen.Clear();
@@ -52,6 +55,7 @@ namespace Ex03.ConsoleUI
         {
             Print.PrintMainMenu();
             string userInput = Console.ReadLine();
+
             return userInput;
         }
 
@@ -64,39 +68,46 @@ namespace Ex03.ConsoleUI
                         enterNewVehicle();
                         break;
                     }
+
                 case 2:
                     {
                         showLicensePlates();
                         break;
                     }
+
                 case 3:
                     {
                         changeStatus();
                         break;
                     }
+
                 case 4:
                     {
                         inflateWheels();
                         break;
                     }
+
                 case 5:
                     {
                         // refill vehicle that is using fuel
                         refillVehicle();
                         break;
                     }
+
                 case 6:
                     {
                         // charge vehicle that use electricity.
                         chargeElectricVehicle();
                         break;
                     }
+
                 case 7:
                     {
                         // show car full details
                         showCarFullDetails();
                         break;
                     }
+
                 default:
                     {
                         Print.PressAnyKeyToReturnToMainMenu();
@@ -114,81 +125,112 @@ namespace Ex03.ConsoleUI
                 Console.WriteLine("Vehicle exists. Changing status to IN FIXINGS.");
                 m_GarageTickets[licenseNumber.GetHashCode()].CurrentStatus = Ticket.eCurrentStatus.InFixings;
             }
+
             else
             {
                 Print.PrintVehicleDoesntExist();
                 string userInput = Scan.GetVehicleType();
-                switch(userInput)
+                try
                 {
-                    case "1":
-                        {
-                            Motorcycle inputFuelBike = Scan.GetDetailsForFuelBike(licenseNumber);
-                            Ticket fuelBikeTicket = Scan.GetDetailsForTicket(inputFuelBike);
-                            m_GarageTickets.Add(fuelBikeTicket.Vehicle.LicenseNumber.GetHashCode(), fuelBikeTicket);
-                            break;
-                        }
-                    case "2":
-                        {
-                            Motorcycle inputElectricBike = Scan.GetDetailsForElectricBike(licenseNumber);
-                            Ticket electricBikeTicket = Scan.GetDetailsForTicket(inputElectricBike);
-                            m_GarageTickets.Add(electricBikeTicket.Vehicle.LicenseNumber.GetHashCode(), electricBikeTicket);
-                            break;
-                        }
-                    case "3":
-                        {
-                            Car inputFuelCar = Scan.GetDetailsForFuelCar(licenseNumber);
-                            Ticket fuelCarTicket = Scan.GetDetailsForTicket(inputFuelCar);
-                            m_GarageTickets.Add(fuelCarTicket.Vehicle.LicenseNumber.GetHashCode(), fuelCarTicket);
-                            break;
-                        }
-                    case "4":
-                        {
-                            Car electricCar = Scan.GetDetailsForElectricCar(licenseNumber);
-                            Ticket electricCarTicket = Scan.GetDetailsForTicket(electricCar);
-                            m_GarageTickets.Add(electricCarTicket.Vehicle.LicenseNumber.GetHashCode(), electricCarTicket);
-                            break;
-                        }
-                    case "5":
-                        {
-                            Truck inputTruck = Scan.GetDetailsForTruck(licenseNumber);
-                            Ticket truckTicket = Scan.GetDetailsForTicket(inputTruck);
-                            m_GarageTickets.Add(truckTicket.Vehicle.LicenseNumber.GetHashCode(), truckTicket);
-                            break;
-                        }
-                    case "6":
-                        {
-                            Vehicle inputNewType = Scan.getDetailsForOtherVehicle(licenseNumber);
-                            Ticket newTypeTicket = Scan.GetDetailsForTicket(inputNewType);
-                            m_GarageTickets.Add(newTypeTicket.Vehicle.LicenseNumber.GetHashCode(), newTypeTicket);
-                            break;
-                        }
-                    default:
-                        {
-                            Console.WriteLine("Invalid input. Returning to main menu.");
-                            break;
-                        }
+                    switch(userInput)
+                    {
+                        case "1":
+                            {
+                                Motorcycle inputFuelBike = Scan.GetDetailsForFuelBike(licenseNumber);
+                                Ticket fuelBikeTicket = Scan.GetDetailsForTicket(inputFuelBike);
+                                m_GarageTickets.Add(fuelBikeTicket.Vehicle.LicenseNumber.GetHashCode(), fuelBikeTicket);
+                                break;
+                            }
+
+                        case "2":
+                            {
+                                Motorcycle inputElectricBike = Scan.GetDetailsForElectricBike(licenseNumber);
+                                Ticket electricBikeTicket = Scan.GetDetailsForTicket(inputElectricBike);
+                                m_GarageTickets.Add(
+                                    electricBikeTicket.Vehicle.LicenseNumber.GetHashCode(),
+                                    electricBikeTicket);
+                                break;
+                            }
+
+                        case "3":
+                            {
+                                Car inputFuelCar = Scan.GetDetailsForFuelCar(licenseNumber);
+                                Ticket fuelCarTicket = Scan.GetDetailsForTicket(inputFuelCar);
+                                m_GarageTickets.Add(fuelCarTicket.Vehicle.LicenseNumber.GetHashCode(), fuelCarTicket);
+                                break;
+                            }
+
+                        case "4":
+                            {
+                                Car electricCar = Scan.GetDetailsForElectricCar(licenseNumber);
+                                Ticket electricCarTicket = Scan.GetDetailsForTicket(electricCar);
+                                m_GarageTickets.Add(
+                                    electricCarTicket.Vehicle.LicenseNumber.GetHashCode(),
+                                    electricCarTicket);
+                                break;
+                            }
+
+                        case "5":
+                            {
+                                Truck inputTruck = Scan.GetDetailsForTruck(licenseNumber);
+                                Ticket truckTicket = Scan.GetDetailsForTicket(inputTruck);
+                                m_GarageTickets.Add(truckTicket.Vehicle.LicenseNumber.GetHashCode(), truckTicket);
+                                break;
+                            }
+
+                        case "6":
+                            {
+                                Vehicle inputNewType = Scan.GetDetailsForOtherVehicle(licenseNumber);
+                                Ticket newTypeTicket = Scan.GetDetailsForTicket(inputNewType);
+                                m_GarageTickets.Add(newTypeTicket.Vehicle.LicenseNumber.GetHashCode(), newTypeTicket);
+                                break;
+                            }
+
+                        default:
+                            {
+                                Console.WriteLine("Invalid input. Returning to main menu.");
+                                break;
+                            }
+
+                    }
                 }
+
+                catch(ArgumentOutOfRangeException)
+                {
+                    Console.WriteLine("You filled owner number with letters, which is impossible. Please try again. ");
+                }
+
+                catch(ValueOutOfRangeException)
+                {
+                    Console.WriteLine("You tried to initialize higher value than maximum.");
+                }
+
             }
         }
 
         private void showLicensePlates()
         {
             bool validInput = false;
+
             Print.ShowLicensePlatesPrint();
+
             while(!validInput)
             {
                 string userInput = "";
                 userInput = Console.ReadLine();
+
                 if(userInput == "1")
                 {
                     Print.ShowAllLicensePlates(m_GarageTickets);
                     validInput = true;
                 }
+
                 else if(userInput == "2")
                 {
                     Print.ShowSpecificLicensePlates(m_GarageTickets);
                     validInput = true;
                 }
+
                 else
                 {
                     Console.WriteLine("Invalid input, please try again.");
@@ -199,6 +241,7 @@ namespace Ex03.ConsoleUI
         private void changeStatus()
         {
             Ticket.eCurrentStatus wantedStatus = Ticket.eCurrentStatus.InFixings;
+
             if (Scan.GetPlateAndCheckIfInGarageTickets(out string licenseNumber, m_GarageTickets))
             {
                 wantedStatus = getStatusFromUser();
@@ -209,12 +252,12 @@ namespace Ex03.ConsoleUI
         private Ticket.eCurrentStatus getStatusFromUser()
         {
             Print.GetStatusFromUserPrint();
+
             return Scan.GetStatusFromUserScan();
         }
 
         private void inflateWheels()
         {
-
             if(Scan.GetPlateAndCheckIfInGarageTickets(out string licensePlate, m_GarageTickets))
             {
                 bool fillToMax = Scan.GetTypeOfWheelInflation();
@@ -232,20 +275,29 @@ namespace Ex03.ConsoleUI
                     wheel.InflateWheelToMaximum();
                 }
             }
+
             else
             {
-                float amountToFill;
-                amountToFill = Scan.GetAirPressureToFill();
+                float amountToFill = Scan.GetAirPressureToFill();
 
                 if (i_WheelsArray[0].MaxAirPressure < amountToFill)
                 {
                     Console.WriteLine(string.Format("The air pressure given is over the maximum according to {0}'s instructions", i_WheelsArray[0].Manufacturer));
                 }
+
                 else
                 {
-                    foreach (Wheel wheel in i_WheelsArray)
+                    try
                     {
-                        wheel.InflateWheel(amountToFill);  // need to try and catch exeption inside the method
+                        foreach(Wheel wheel in i_WheelsArray)
+                        {
+                            wheel.InflateWheel(amountToFill); // need to try and catch exeption inside the method
+                        }
+                    }
+
+                    catch(ValueOutOfRangeException)
+                    {
+                        Console.WriteLine("You tried to fill more air than maximum. Please try again. ");
                     }
                 }
             }
@@ -270,6 +322,7 @@ namespace Ex03.ConsoleUI
                     {
                         m_GarageTickets[licensePlate.GetHashCode()].Vehicle.EnergySource.FillEnergy(refillAmount);
                     }
+
                     catch(ValueOutOfRangeException)
                     {
                         Console.WriteLine("You tried to charge above maximum, which is impossible. Please try again. ");
@@ -279,7 +332,6 @@ namespace Ex03.ConsoleUI
                 {
                     Print.CarIsNotRunningOnElectricity();
                 }
-                
             }
         }
 
@@ -289,9 +341,24 @@ namespace Ex03.ConsoleUI
             {
                 if(m_GarageTickets[licensePlate.GetHashCode()].Vehicle.EnergySource.GetType() == typeof(Fuel)) // Check if car is running on fuel
                 {
-                    Scan.GetDetailsForRefill(out float refillAmount, out Fuel.eFuelType fuelTypeFromUser);
-                    Fuel newObj = m_GarageTickets[licensePlate.GetHashCode()].Vehicle.EnergySource as Fuel; // IM NOT SURE THAT THIS IS THE PERFECT IMPLEMENTATION !!!!
-                    newObj.FillFuel(refillAmount, fuelTypeFromUser);
+                    try
+                    {
+                        Scan.GetDetailsForRefill(out float refillAmount, out Fuel.eFuelType fuelTypeFromUser);
+                        Fuel newObj =
+                            m_GarageTickets[licensePlate.GetHashCode()].Vehicle
+                                .EnergySource as Fuel; // IM NOT SURE THAT THIS IS THE PERFECT IMPLEMENTATION !!!!
+                        newObj.FillFuel(refillAmount, fuelTypeFromUser);
+                    }
+
+                    catch(ArgumentException)
+                    {
+                        Console.WriteLine("You tried to fill different fuel than vehicle's fuel. Please try again. ");
+                    }
+
+                    catch(ValueOutOfRangeException)
+                    {
+                        Console.WriteLine("You tried to fill more fuel than maximum. Please try again.");
+                    }
                 }
                 else
                 {
