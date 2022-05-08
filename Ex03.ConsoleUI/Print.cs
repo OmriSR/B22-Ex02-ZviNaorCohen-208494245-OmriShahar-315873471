@@ -175,6 +175,11 @@ namespace Ex03.ConsoleUI
             // Energy percent + kind of fuel / electric.
             Console.WriteLine("Energy percent: {0}. ", i_VehicleTicket.Vehicle.EnergySource.EnergyPercentage);
             Console.WriteLine("Type of energy: {0}", i_VehicleTicket.Vehicle.EnergySource.GetType().Name);
+            if(i_VehicleTicket.Vehicle.EnergySource.GetType().Name == "Fuel")
+            {
+                Fuel fuelToPrint = i_VehicleTicket.Vehicle.EnergySource as Fuel;
+                Console.WriteLine("Type of fuel: {0}. ", fuelToPrint.FuelType().ToString());
+            }
             // Other vehicle extra information.
             string[] uniqueData = i_VehicleTicket.Vehicle.PrintUniqueData();
             Console.WriteLine(uniqueData[0]);

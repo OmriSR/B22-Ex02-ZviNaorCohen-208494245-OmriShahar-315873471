@@ -6,8 +6,8 @@ namespace Ex03.GarageLogic
 {
     public abstract class EnergySource
     {
-        protected float m_MaxEnergy;
-        protected float m_CurrentEnergy;
+        private float m_MaxEnergy;
+        private float m_CurrentEnergy;
 
         protected EnergySource(float i_MaxEnergy)
         {

@@ -193,7 +193,7 @@ namespace Ex03.ConsoleUI
 
                     if(supportNewVehicle)
                     {
-                        Scan.GetDetailsForOtherVehicle(licenseNumber, chassis);
+                        Scan.GetDetailsForOtherVehicle(chassis);
                         Ticket chassisTicket = Scan.GetDetailsForTicket(chassis);
                         m_GarageTickets.Add(chassisTicket.Vehicle.LicenseNumber.GetHashCode(), chassisTicket);
                     }

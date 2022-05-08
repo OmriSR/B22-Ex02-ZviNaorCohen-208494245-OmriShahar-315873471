@@ -25,18 +25,18 @@ namespace Ex03.GarageLogic
                 return m_EnergySource;
             }
         }
-        public float EnergyLeftPercentage
-        {
-            get
-            {
-                return m_CurrentEnergyPercentage;
-            }
+        //public float EnergyLeftPercentage
+        //{
+        //    get
+        //    {
+        //        return m_CurrentEnergyPercentage;
+        //    }
 
-            set
-            {
-                m_CurrentEnergyPercentage = value;
-            }
-        }
+        //    set
+        //    {
+        //        m_CurrentEnergyPercentage = value;
+        //    }
+        //}
 
         public Wheel[] Wheels
         {

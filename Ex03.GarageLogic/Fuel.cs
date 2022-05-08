@@ -8,11 +8,16 @@ namespace Ex03.GarageLogic
     {
         public enum eFuelType { Soler ,Octan95 ,Octan96 ,Octan98 ,Unsupported }
 
-        eFuelType m_FuelType;
+        readonly eFuelType m_FuelType;
 
         public Fuel(eFuelType i_FuelType, float i_MaxLiter) : base(i_MaxLiter)
         {
             m_FuelType = i_FuelType;
+        }
+
+        public eFuelType FuelType()
+        {
+            return m_FuelType;
         }
 
         public void FillFuel(float i_LitersOfFuel, eFuelType i_FuelType)
@@ -25,15 +30,6 @@ namespace Ex03.GarageLogic
             {
                 throw new ArgumentException();
             }
-        }
-
-        public eFuelType FuelType
-        {
-            get
-            {
-                return m_FuelType;
-            }
-            
         }
     }
 }
