@@ -498,69 +498,10 @@ namespace Ex03.ConsoleUI
             return userCar;
         }
 
-        private static Fuel.eFuelType getFuelTypeFromUser()
-        {
-            int userInput = -1;
-            bool validInput = false;
-            Fuel.eFuelType fuelType;
 
-            do
-            {
-                Console.WriteLine(string.Format(@"Please select Vehicle's fuel type:
-                                              1. Octan 95
-                                              2. Octan 96
-                                              3. Octan 98
-                                              4. Soler"));
-
-                int.TryParse(Console.ReadLine(), out userInput);
-                validInput = userInput < 5 && userInput > 0;
-
-                if (!validInput)
-                {
-                    Console.WriteLine("Invalid input.Try again");
-                }
-            }
-            while (!validInput);
-
-            switch (userInput)
-            {
-                case 1:
-                    fuelType = Fuel.eFuelType.Octan95;
-                    break;
-                case 2:
-                    fuelType = Fuel.eFuelType.Octan96;
-                    break;
-                case 3:
-                    fuelType = Fuel.eFuelType.Octan98;
-                    break;
-                case 4:
-                    fuelType = Fuel.eFuelType.Soler;
-                    break;
-                default:
-                    fuelType = Fuel.eFuelType.Unsupported;
-                    break;
-            }
-
-            return fuelType;
-        }
-        private static float getMaxEngineCapacity(string i_Massage)
-        {
-            float fuelCapacity = 0;
-            bool validInput = false;
-
-            Console.WriteLine(string.Format("Please enter the {0}", i_Massage));
-
-            while (!validInput)
-            {
-                validInput = float.TryParse(Console.ReadLine(), out fuelCapacity);
-                Console.WriteLine("Invalid input.Try again");
-                Console.WriteLine(i_Massage);
-            }
-
-            return fuelCapacity;
-        }
-
+     
         public static void GetDetailsForOtherVehicle(string i_LicenseNumber, Vehicle userVehicle)
+
         {
             float currentEnergyAmount, currentAirPressure;
             string manufacturerName;
