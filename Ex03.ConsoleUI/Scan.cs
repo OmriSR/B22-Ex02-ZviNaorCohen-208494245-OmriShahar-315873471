@@ -112,7 +112,7 @@ namespace Ex03.ConsoleUI
         {
             bool inputIsValid = true;
             inputIsValid = (i_UserInput == "1" || i_UserInput == "2" || i_UserInput == "3" || i_UserInput == "4"
-                            || i_UserInput == "5" || i_UserInput == "6" || i_UserInput == "7");
+                            || i_UserInput == "5" || i_UserInput == "6" || i_UserInput == "7" || i_UserInput == "8");
 
             return inputIsValid;
         }
@@ -251,58 +251,58 @@ namespace Ex03.ConsoleUI
             return userMotorcycle;
         }
 
-        private static void checkValidEnergyAmount(string i_TypeOfVehicle, float currentEnergyAmount, out  float o_NewValidEnergyAmount)
-        {
-            //string modelName = "";
-            bool validEnergyAmount = false;
-            float maximumEnergy = 0;
-            switch(i_TypeOfVehicle)
-            {
-                case "FuelBike":
-                    {
-                        maximumEnergy = 6.2f;
-                        break;
-                    }
+        //private static void checkValidEnergyAmount(string i_TypeOfVehicle, float currentEnergyAmount, out  float o_NewValidEnergyAmount)
+        //{
+        //    //string modelName = "";
+        //    bool validEnergyAmount = false;
+        //    float maximumEnergy = 0;
+        //    switch(i_TypeOfVehicle)
+        //    {
+        //        case "FuelBike":
+        //            {
+        //                maximumEnergy = 6.2f;
+        //                break;
+        //            }
 
-                case "ElectricBike":
-                    {
-                        maximumEnergy = 2.5f;
-                        break;
-                    }
+        //        case "ElectricBike":
+        //            {
+        //                maximumEnergy = 2.5f;
+        //                break;
+        //            }
 
-                case "FuelCar":
-                    {
-                        maximumEnergy = 38f;
-                        break;
-                    }
+        //        case "FuelCar":
+        //            {
+        //                maximumEnergy = 38f;
+        //                break;
+        //            }
 
-                case "ElectricCar":
-                    {
-                        maximumEnergy = 3.3f;
-                        break;
-                    }
+        //        case "ElectricCar":
+        //            {
+        //                maximumEnergy = 3.3f;
+        //                break;
+        //            }
 
-                case "Truck":
-                    {
-                        maximumEnergy = 120f;
-                        break;
-                    }
-            }
-            while (!validEnergyAmount)
-            {
-                if (currentEnergyAmount > maximumEnergy)
-                {
-                    Console.WriteLine("Invalid input. Maximum capacity is {0} while you tried to enter {1}. Please try again.", maximumEnergy, currentEnergyAmount);
-                    getEnergyDetailsForVehicle(out currentEnergyAmount);
-                }
+        //        case "Truck":
+        //            {
+        //                maximumEnergy = 120f;
+        //                break;
+        //            }
+        //    }
+        //    while (!validEnergyAmount)
+        //    {
+        //        if (currentEnergyAmount > maximumEnergy)
+        //        {
+        //            Console.WriteLine("Invalid input. Maximum capacity is {0} while you tried to enter {1}. Please try again.", maximumEnergy, currentEnergyAmount);
+        //            getEnergyDetailsForVehicle(out currentEnergyAmount, );
+        //        }
 
-                else
-                {
-                    validEnergyAmount = true;
-                }
-            }
-            o_NewValidEnergyAmount = currentEnergyAmount;
-        }
+        //        else
+        //        {
+        //            validEnergyAmount = true;
+        //        }
+        //    }
+        //    o_NewValidEnergyAmount = currentEnergyAmount;
+        //}
 
         public static Motorcycle GetDetailsForFuelBike(string i_UserLicensePlate, string o_ModelName)
         {
@@ -327,7 +327,7 @@ namespace Ex03.ConsoleUI
             return ticketToReturn;
         }
 
-        private static void getEnergyDetailsForVehicle(out float o_CurrentEnergyAmount)
+        private static void getEnergyDetailsForVehicle(out float o_CurrentEnergyAmount, Vehicle i_Vehicle)
         {
             o_CurrentEnergyAmount = 0;
             bool isValid = false;
@@ -337,6 +337,11 @@ namespace Ex03.ConsoleUI
                 string userInput = Console.ReadLine();
                 if(float.TryParse(userInput, out float energyResult))
                 {
+                    if(i_Vehicle.EnergySource.MaxEnergy < energyResult)
+                    {
+                        throw new ValueOutOfRangeException();
+                    }
+
                     o_CurrentEnergyAmount = energyResult;
                     isValid = true;
                 }
@@ -481,7 +486,6 @@ namespace Ex03.ConsoleUI
 
         public static Car GetDetailsForFuelCar(string i_LicenseNumber, string o_ModelName)
         {
-         //  GetDetailsForGenericVehicle(out string modelName, out string manufacturerName, out float currentEnergyAmount, out float currentAirPressure, "FuelCar");
             // unique data for car: color (red white green blue)
             // number of doors (2,3,4,5)
             // octan 95
@@ -490,11 +494,7 @@ namespace Ex03.ConsoleUI
         }
         public static Car GetDetailsForElectricCar(string i_LicenseNumber, string o_ModelName)
         {
-            //  GetDetailsForGenericVehicle(out string modelName, out string manufacturerName, out float currentEnergyAmount, out float currentAirPressure, "ElectricCar");
             Car userCar = SystemVehiclesCreator.NewGenericElectricCar(o_ModelName, i_LicenseNumber);
-            //userCar.SetDynamicData(manufacturerName, currentAirPressure, currentEnergyAmount); // as a vehicle
-            //string[] uniqueData = getUniqueDataFromAnyVehicle(userCar);
-            //userCar.SetUniqueData(uniqueData);
             return userCar;
         }
 
@@ -564,16 +564,8 @@ namespace Ex03.ConsoleUI
         {
             float currentEnergyAmount, currentAirPressure;
             string manufacturerName;
-
-            getEnergyDetailsForVehicle(out currentEnergyAmount);
-
-          //  Vehicle userVehicle = SystemVehiclesCreator.NewGenericTypeOfVehicle(modelName, i_LicenseNumber);
-
-            if(userVehicle.EnergySource.MaxEnergy < currentEnergyAmount)
-            {
-                throw new ValueOutOfRangeException();
-            }
-
+ 
+            getEnergyDetailsForVehicle(out currentEnergyAmount, userVehicle);
             getDetailsForGenericWheel(out manufacturerName, out currentAirPressure, userVehicle.Wheels[0].MaxAirPressure);
             userVehicle.SetDynamicData(manufacturerName, currentAirPressure, currentEnergyAmount);
             string[] uniqueData = getUniqueDataFromAnyVehicle(userVehicle);
@@ -594,17 +586,17 @@ namespace Ex03.ConsoleUI
             return name;
         }
 
-        public static void GetDetailsForGenericVehicle(
-            out string o_ModelName,
-            out string o_ManufacturerName,
-            out float o_CurrentEnergyAmount,
-            out float o_CurrentAirPressure, string i_vehicleType)
-        {
-            o_ModelName = getModelName();
-            getEnergyDetailsForVehicle(out float currentEnergyAmount);
-            checkValidEnergyAmount(i_vehicleType, currentEnergyAmount, out o_CurrentEnergyAmount);
-            getDetailsForWheel(out o_ManufacturerName, out o_CurrentAirPressure, i_vehicleType);
-        }
+        //public static void GetDetailsForGenericVehicle(
+        //    out string o_ModelName,
+        //    out string o_ManufacturerName,
+        //    out float o_CurrentEnergyAmount,
+        //    out float o_CurrentAirPressure, string i_vehicleType)
+        //{
+        //    o_ModelName = getModelName();
+        //    getEnergyDetailsForVehicle(out float currentEnergyAmount);
+        //    checkValidEnergyAmount(i_vehicleType, currentEnergyAmount, out o_CurrentEnergyAmount);
+        //    getDetailsForWheel(out o_ManufacturerName, out o_CurrentAirPressure, i_vehicleType);
+        //}
 
         //private static void getLicenseTypeForMotorcycle(out Motorcycle.eLicenseType o_LicenseType)
         //{

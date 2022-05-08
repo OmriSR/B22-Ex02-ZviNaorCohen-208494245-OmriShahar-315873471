@@ -148,6 +148,7 @@ namespace Ex03.ConsoleUI
             Console.WriteLine("5. Refill a vehicle running on fuel. ");
             Console.WriteLine("6. Refill a vehicle running on electric. ");
             Console.WriteLine("7. Show full information for specific license plate. ");
+            Console.WriteLine("8. Exit. ");
         }
 
         public static void CarIsNotRunningOnFuel()
