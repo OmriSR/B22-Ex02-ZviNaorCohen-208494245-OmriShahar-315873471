@@ -58,12 +58,15 @@ namespace Ex03.GarageLogic
         
         public static Vehicle NewGenericTypeOfVehicle(string i_VehicleModel, string i_LicenseNumber)
         {
+            /*
+            Electric electricEngine = new Electric(Convert.ToSingle(ENTER_MAXIMUM_HOURS_HERE));
 
-            Electric electricEngine = new Electric(Convert.ToSingle(2.5));
+            OR
 
-            
+            Fuel fuelEngine = new Fuel(Fuel.eFuelType.(ENTER_FUELTYPE_HERE), Convert.ToSingle(ENTER_MAXIMUM_LITERS_HERE));
 
-            return new Bimba(i_VehicleModel, i_LicenseNumber, electricEngine);
+            return new (ENTER_NEW_TYPE_CLASS_NAME_HERE)(i_VehicleModel, i_LicenseNumber, electricEngine);
+            */
         }
     }
 }
