@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace Ex03.GarageLogic
 {
     public class Truck : Vehicle
     {
-        bool m_HasCoolingUnit;
-        float m_TrunkCapacity;
+        private bool m_HasCoolingUnit;
+        private float m_TrunkCapacity;
 
         public Truck(string i_VehicleModel, string i_LicenseNumber, EnergySource i_EnergySource) :
             base(i_VehicleModel, i_LicenseNumber, i_EnergySource)
@@ -25,7 +22,6 @@ namespace Ex03.GarageLogic
             }
         }
 
-        //-----------unique data check
         bool isValidAnswer(string i_Input)
         {
             bool validInput = false;
@@ -63,7 +59,6 @@ namespace Ex03.GarageLogic
             return errorIndex;
         }
 
-        //----------------unique data------------------
         public override void SetUniqueData(string[] i_UniqueData)
         {
             m_HasCoolingUnit = i_UniqueData[0].ToLower() == "yes";

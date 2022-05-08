@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Reflection.PortableExecutable;
-using System.Runtime.CompilerServices;
-using Ex02.ConsoleUtils;
 using Ex03.GarageLogic;
 
 namespace Ex03.ConsoleUI
 {
     class GarageSystem
     {
-        private static Dictionary<int, Ticket> m_GarageTickets = new Dictionary<int, Ticket>();  // license plate, ticket.
+        private static Dictionary<int, Ticket> m_GarageTickets = new Dictionary<int, Ticket>(); 
 
         public void RunGarage()
         {
@@ -20,7 +16,6 @@ namespace Ex03.ConsoleUI
                 short menuOption = getMainMenuOption();
                 if(menuOption == 8)
                 {
-                    runGarage = false;
                     break;
                 }
                 runMenuOption(menuOption);
@@ -94,21 +89,18 @@ namespace Ex03.ConsoleUI
 
                 case 5:
                     {
-                        // refill vehicle that is using fuel
                         refillVehicle();
                         break;
                     }
 
                 case 6:
                     {
-                        // charge vehicle that use electricity.
                         chargeElectricVehicle();
                         break;
                     }
 
                 case 7:
                     {
-                        // show car full details
                         showCarFullDetails();
                         break;
                     }
@@ -183,10 +175,12 @@ namespace Ex03.ConsoleUI
                                 {
                                     chassis = SystemVehiclesCreator.NewGenericTypeOfVehicle(modelName, licenseNumber, newVehicle);
                                 }
+
                                 else
                                 {
                                     Console.WriteLine("Type of vehicle is not supported. Please try filling a new ticket for an existing type of vehicle. ");
                                 }
+
                                 break;
                             }
                     }
@@ -348,9 +342,7 @@ namespace Ex03.ConsoleUI
                     try
                     {
                         Scan.GetDetailsForRefill(out float refillAmount, out Fuel.eFuelType fuelTypeFromUser);
-                        Fuel newObj =
-                            m_GarageTickets[licensePlate.GetHashCode()].Vehicle
-                                .EnergySource as Fuel; // IM NOT SURE THAT THIS IS THE PERFECT IMPLEMENTATION !!!!
+                        Fuel newObj = m_GarageTickets[licensePlate.GetHashCode()].Vehicle.EnergySource as Fuel; 
                         newObj.FillFuel(refillAmount, fuelTypeFromUser);
                     }
 
@@ -364,6 +356,7 @@ namespace Ex03.ConsoleUI
                         Console.WriteLine("You tried to fill more fuel than maximum. Please try again.");
                     }
                 }
+
                 else
                 {
                     Print.CarIsNotRunningOnFuel();

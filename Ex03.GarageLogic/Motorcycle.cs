@@ -56,7 +56,6 @@ namespace Ex03.GarageLogic
             return errorIndex;
         }
 
-        //----------------unique data------------------
         public override void SetUniqueData(string[] i_UniqueData)
         {
             m_LicenseType = i_UniqueData[0];

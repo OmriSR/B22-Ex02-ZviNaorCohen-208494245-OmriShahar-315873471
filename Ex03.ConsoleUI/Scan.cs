@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection.Metadata.Ecma335;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
 using Ex03.GarageLogic;
 
 namespace Ex03.ConsoleUI
@@ -110,17 +106,16 @@ namespace Ex03.ConsoleUI
 
         public static bool CheckUserInput(string i_UserInput)
         {
-            bool inputIsValid = true;
-            inputIsValid = (i_UserInput == "1" || i_UserInput == "2" || i_UserInput == "3" || i_UserInput == "4"
-                            || i_UserInput == "5" || i_UserInput == "6" || i_UserInput == "7" || i_UserInput == "8");
+            bool inputIsValid = (i_UserInput == "1" || i_UserInput == "2" || i_UserInput == "3" || i_UserInput == "4"
+                                 || i_UserInput == "5" || i_UserInput == "6" || i_UserInput == "7" || i_UserInput == "8");
 
             return inputIsValid;
         }
 
-        public static void GetDetailsForRefill(out float o_refillAmount, out Fuel.eFuelType o_FuelType)
+        public static void GetDetailsForRefill(out float o_RefillAmount, out Fuel.eFuelType o_FuelType)
         {
             bool isValidInput = false;
-            o_refillAmount = 0;
+            o_RefillAmount = 0;
             o_FuelType = Fuel.eFuelType.Soler;
             Console.WriteLine("Please enter your refill amount. ");
 
@@ -143,7 +138,7 @@ namespace Ex03.ConsoleUI
                     Fuel.eFuelType fuelToRefill = getFuelTypeToRefillFromUser();
                     o_FuelType = fuelToRefill;
                     isValidInput = true;
-                    o_refillAmount = refillAmount;
+                    o_RefillAmount = refillAmount;
                 }
             }
         }
@@ -246,15 +241,15 @@ namespace Ex03.ConsoleUI
 
         public static Motorcycle GetDetailsForElectricBike(string i_UserLicensePlate, string o_ModelName)
         {
-           // GetDetailsForGenericVehicle(out string modelName, out string manufacturerName, out float currentEnergyAmount, out float currentAirPressure, "ElectricBike");
             Motorcycle userMotorcycle = SystemVehiclesCreator.NewGenericElectricMotorcycle(o_ModelName, i_UserLicensePlate);
+
             return userMotorcycle;
         }
 
         public static Motorcycle GetDetailsForFuelBike(string i_UserLicensePlate, string o_ModelName)
         {
-         //   GetDetailsForGenericVehicle(out string modelName, out string manufacturerName, out float currentEnergyAmount, out float currentAirPressure, "FuelBike");
             Motorcycle userMotorcycle = SystemVehiclesCreator.NewGenericFuelMotorcycle(o_ModelName, i_UserLicensePlate);
+
             return userMotorcycle;
         }
 
@@ -292,6 +287,7 @@ namespace Ex03.ConsoleUI
                     o_CurrentEnergyAmount = energyResult;
                     isValid = true;
                 }
+
                 else
                 {
                     Console.WriteLine("Invalid input. Please try again. ");
@@ -351,10 +347,7 @@ namespace Ex03.ConsoleUI
                     Console.WriteLine("Could not read your air pressure. Please make sure you use only numbers.");
                 }
             }
-
         }
-
-        
 
         private static string[] getUniqueDataFromAnyVehicle(Vehicle i_Vehicle)
         {
@@ -386,33 +379,30 @@ namespace Ex03.ConsoleUI
 
         public static Car GetDetailsForFuelCar(string i_LicenseNumber, string o_ModelName)
         {
-            // unique data for car: color (red white green blue)
-            // number of doors (2,3,4,5)
-            // octan 95
             Car userCar = SystemVehiclesCreator.NewGenericFuelCar(o_ModelName, i_LicenseNumber);
+
             return userCar;
         }
         public static Car GetDetailsForElectricCar(string i_LicenseNumber, string o_ModelName)
         {
             Car userCar = SystemVehiclesCreator.NewGenericElectricCar(o_ModelName, i_LicenseNumber);
+
             return userCar;
         }
-
-
-     
-        public static void GetDetailsForOtherVehicle(Vehicle userVehicle)
+        public static void GetDetailsForOtherVehicle(Vehicle i_UserVehicle)
 
         {
-            getEnergyDetailsForVehicle(out float currentEnergyAmount, userVehicle);
-            getDetailsForGenericWheel(out string manufacturerName, out float currentAirPressure, userVehicle.Wheels[0].MaxAirPressure);
-            userVehicle.SetDynamicData(manufacturerName, currentAirPressure, currentEnergyAmount);
-            string[] uniqueData = getUniqueDataFromAnyVehicle(userVehicle);
-            userVehicle.SetUniqueData(uniqueData);
+            getEnergyDetailsForVehicle(out float currentEnergyAmount, i_UserVehicle);
+            getDetailsForGenericWheel(out string manufacturerName, out float currentAirPressure, i_UserVehicle.Wheels[0].MaxAirPressure);
+            i_UserVehicle.SetDynamicData(manufacturerName, currentAirPressure, currentEnergyAmount);
+            string[] uniqueData = getUniqueDataFromAnyVehicle(i_UserVehicle);
+            i_UserVehicle.SetUniqueData(uniqueData);
         }
 
         public static Truck GetDetailsForTruck(string i_LicenseNumber, string o_ModelName)
         {
             Truck truckFromUser = SystemVehiclesCreator.NewGenericFuelTruck(o_ModelName, i_LicenseNumber);
+
             return truckFromUser;
         }
 

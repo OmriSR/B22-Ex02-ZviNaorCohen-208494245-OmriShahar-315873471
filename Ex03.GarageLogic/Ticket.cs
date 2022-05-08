@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Ex03.GarageLogic
+﻿namespace Ex03.GarageLogic
 {
     public class Ticket
     {
         public enum eCurrentStatus { InFixings, Fixed, Paid }
 
-        Vehicle m_Vehicle;
-        private string m_OwnersName;
+        private readonly Vehicle r_Vehicle;
+        private readonly string r_OwnersName;
         private string m_OwnersPhoneNumber;
         private eCurrentStatus m_CurrentStatus;
 
         public Ticket(Vehicle i_Vehicle, string i_OwnerName, string i_OwnerNumber)
         {
-            m_Vehicle = i_Vehicle;
-            m_OwnersName = i_OwnerName;
+            r_Vehicle = i_Vehicle;
+            r_OwnersName = i_OwnerName;
             m_OwnersPhoneNumber = i_OwnerNumber;
             m_CurrentStatus = eCurrentStatus.InFixings;
         }
@@ -30,7 +26,7 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return m_Vehicle;
+                return r_Vehicle;
             }
         }
 
@@ -38,7 +34,7 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return m_OwnersName;
+                return r_OwnersName;
             }
         }
 

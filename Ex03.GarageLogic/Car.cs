@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Ex03.GarageLogic
 {
     public class Car : Vehicle
     {
-        string m_Color;
-        short m_DoorCount;
+        private string m_Color;
+        private short m_DoorCount;
 
         public Car(string i_VehicleModel, string i_LicenseNumber, EnergySource i_EnergySource) : 
             base(i_VehicleModel, i_LicenseNumber, i_EnergySource)
@@ -24,7 +22,6 @@ namespace Ex03.GarageLogic
             }
         }
 
-        //-----------unique data check
         private bool isValidColor(string i_Color)
         {
             bool validColor = false;
@@ -71,7 +68,6 @@ namespace Ex03.GarageLogic
             return errorIndex;
         }
 
-        //----------------unique data------------------
         public override void SetUniqueData(string[] i_UniqueData)
         {
             m_Color = i_UniqueData[0];

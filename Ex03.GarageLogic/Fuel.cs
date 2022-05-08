@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Ex03.GarageLogic
 {
     public class Fuel : EnergySource
     {
-        public enum eFuelType { Soler ,Octan95 ,Octan96 ,Octan98 ,Unsupported }
+        public enum eFuelType { Soler ,Octan95 ,Octan96 ,Octan98 }
 
         readonly eFuelType m_FuelType;
 
