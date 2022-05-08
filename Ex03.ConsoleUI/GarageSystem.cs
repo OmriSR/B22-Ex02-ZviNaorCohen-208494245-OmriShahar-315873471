@@ -124,7 +124,7 @@ namespace Ex03.ConsoleUI
         private static void enterNewVehicle()
         {
             string licenseNumber = Scan.GetLicenseNumberFromUser();
-
+            bool supportNewVehicle = true;
             if(m_GarageTickets.ContainsKey(licenseNumber.GetHashCode()))
             {
                 Console.WriteLine("Vehicle exists. Changing status to IN FIXINGS.");
@@ -134,15 +134,11 @@ namespace Ex03.ConsoleUI
             else
             {
                 Print.PrintVehicleDoesntExist();
+
                 string userInput = Scan.GetVehicleType();
-
-                // 5. Get the rest of the data
-                // 6. Make ticket and send to garage tickets.
-
-
-                string modelName = Scan.getModelName();
-                Vehicle chassis = SystemVehiclesCreator. NewGenericTypeOfVehicle(modelName, licenseNumber);
+                string modelName = Scan.GetModelName();
                 
+                Vehicle chassis = null;
                 try
                 {
                     switch (userInput)
@@ -178,22 +174,30 @@ namespace Ex03.ConsoleUI
                             }
 
                         case "6":
+
                             {
-                                //Scan.GetDetailsForOtherVehicle(licenseNumber, chassis);
-                                //Ticket newTypeTicket = Scan.GetDetailsForTicket(inputNewType);
-                                //m_GarageTickets.Add(newTypeTicket.Vehicle.LicenseNumber.GetHashCode(), newTypeTicket);
+                                Console.WriteLine("Enter vehicle type: ");
+                                string newVehicle = Console.ReadLine();
+                                supportNewVehicle = Scan.DoSupportNewVehicle(newVehicle);
+                                if (supportNewVehicle)
+                                {
+                                    chassis = SystemVehiclesCreator.NewGenericTypeOfVehicle(modelName, licenseNumber, newVehicle);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Type of vehicle is not supported. Please try filling a new ticket for an existing type of vehicle. ");
+                                }
                                 break;
                             }
-
-                            //default:
-                            //    {
-                            //        Console.WriteLine("Invalid input. Returning to main menu.");
-                            //        break;
-                            //    }
                     }
-                    Scan.GetDetailsForOtherVehicle(licenseNumber, chassis);
-                    Ticket chassisTicket = Scan.GetDetailsForTicket(chassis);
-                    m_GarageTickets.Add(chassisTicket.Vehicle.LicenseNumber.GetHashCode(), chassisTicket);
+
+                    if(supportNewVehicle)
+                    {
+                        Scan.GetDetailsForOtherVehicle(licenseNumber, chassis);
+                        Ticket chassisTicket = Scan.GetDetailsForTicket(chassis);
+                        m_GarageTickets.Add(chassisTicket.Vehicle.LicenseNumber.GetHashCode(), chassisTicket);
+                    }
+                    
                 }
 
                 catch(ArgumentOutOfRangeException)

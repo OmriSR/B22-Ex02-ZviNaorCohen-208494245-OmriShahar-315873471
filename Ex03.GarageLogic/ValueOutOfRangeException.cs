@@ -11,9 +11,9 @@ namespace Ex03.GarageLogic
         float m_MaxRange;
         float m_MinRange = 0;
 
-        public ValueOutOfRangeException()
+        public ValueOutOfRangeException(string i_Message)
         {
-            
+            Console.WriteLine(i_Message);
         }
     }
 }

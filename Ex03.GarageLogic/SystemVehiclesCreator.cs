@@ -6,9 +6,7 @@ namespace Ex03.GarageLogic
 {
     public class SystemVehiclesCreator
     {
-        public enum eVehicleType { ElectricCar, FuelCar, ElectricMotorcycle, FuelMotorcycle, FuelTruck }
-
-        public static List<Type> m_VehicleTypes = new List<Type>() { typeof(Motorcycle) };
+        public static List<Type> m_VehicleTypes = new List<Type>() { typeof(Motorcycle), typeof(Car), typeof(Truck)};
 
         public static List<Type> VehicleTypes
         {

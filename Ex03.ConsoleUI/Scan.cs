@@ -339,7 +339,7 @@ namespace Ex03.ConsoleUI
                 {
                     if(i_Vehicle.EnergySource.MaxEnergy < energyResult)
                     {
-                        throw new ValueOutOfRangeException();
+                        throw new ValueOutOfRangeException(string.Format("Max energy is {0}. You tried to fill {1} ", i_Vehicle.EnergySource.MaxEnergy, energyResult));
                     }
 
                     o_CurrentEnergyAmount = energyResult;
@@ -352,67 +352,83 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        //-----This is the old one!! here only for the rest of the UN_GENERIC code-----------------
-        private static void getDetailsForWheel(out string o_ManufacturerName, out float o_CurrentAirPressure, string i_VehicleType)
+        public static bool DoSupportNewVehicle(string i_NewVehicle)
         {
-            int maxAirPressure = Int32.MaxValue;
-            o_CurrentAirPressure = 0;
-            bool isValid = false;
+            bool doWeSupport = false;
+            List<Type> vehiclesTypesList = SystemVehiclesCreator.VehicleTypes;
 
-            Console.WriteLine("Enter wheel manufacturer name. ");
-            o_ManufacturerName = Console.ReadLine();
-            Console.WriteLine("Please enter current air pressure. ");
-
-            switch (i_VehicleType)
+            foreach(Type vehicleType in vehiclesTypesList)
             {
-                case "ElectricCar":
-                case "FuelCar":
-                    {
-                        maxAirPressure = 29;
-                        break;
-                    }
-
-                case "FuelBike":
-                case "ElectricBike":
-                    {
-                        maxAirPressure = 31;
-                        break;
-                    }
-
-                case "Truck":
-                    {
-                        maxAirPressure = 24;
-                        break;
-                    }
-            }
-            while (!isValid)
-            {
-                string airPressure = Console.ReadLine();
-                if (float.TryParse(airPressure, out float userAirPressure))
+                if (i_NewVehicle.ToLower() == vehicleType.Name.ToLower())
                 {
-                    if (userAirPressure > 0 && userAirPressure <= maxAirPressure)
-                    {
-                        o_CurrentAirPressure = userAirPressure;
-                        isValid = true;
-                    }
-
-                    else if (userAirPressure > maxAirPressure)
-                    {
-                        Console.WriteLine("You are trying to fill more air pressure than maximum. Maximum is: {0}.", maxAirPressure);
-                    }
-
-                    else
-                    {
-                        Console.WriteLine("Air pressure can't have values under 0.");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Could not read your air pressure. Please make sure you use only numbers.");
+                    doWeSupport = true;
                 }
             }
 
+            return doWeSupport;
         }
+
+        //-----This is the old one!! here only for the rest of the UN_GENERIC code-----------------
+        //private static void getDetailsForWheel(out string o_ManufacturerName, out float o_CurrentAirPressure, string i_VehicleType)
+        //{
+        //    int maxAirPressure = Int32.MaxValue;
+        //    o_CurrentAirPressure = 0;
+        //    bool isValid = false;
+
+        //    Console.WriteLine("Enter wheel manufacturer name. ");
+        //    o_ManufacturerName = Console.ReadLine();
+        //    Console.WriteLine("Please enter current air pressure. ");
+
+        //    switch (i_VehicleType)
+        //    {
+        //        case "ElectricCar":
+        //        case "FuelCar":
+        //            {
+        //                maxAirPressure = 29;
+        //                break;
+        //            }
+
+        //        case "FuelBike":
+        //        case "ElectricBike":
+        //            {
+        //                maxAirPressure = 31;
+        //                break;
+        //            }
+
+        //        case "Truck":
+        //            {
+        //                maxAirPressure = 24;
+        //                break;
+        //            }
+        //    }
+        //    while (!isValid)
+        //    {
+        //        string airPressure = Console.ReadLine();
+        //        if (float.TryParse(airPressure, out float userAirPressure))
+        //        {
+        //            if (userAirPressure > 0 && userAirPressure <= maxAirPressure)
+        //            {
+        //                o_CurrentAirPressure = userAirPressure;
+        //                isValid = true;
+        //            }
+
+        //            else if (userAirPressure > maxAirPressure)
+        //            {
+        //                Console.WriteLine("You are trying to fill more air pressure than maximum. Maximum is: {0}.", maxAirPressure);
+        //            }
+
+        //            else
+        //            {
+        //                Console.WriteLine("Air pressure can't have values under 0.");
+        //            }
+        //        }
+        //        else
+        //        {
+        //            Console.WriteLine("Could not read your air pressure. Please make sure you use only numbers.");
+        //        }
+        //    }
+
+        //}
 
         //----------------New and Generic -----------------------
         private static void getDetailsForGenericWheel(out string o_ManufacturerName, out float o_CurrentAirPressure, float i_MaxAirPressure)
@@ -456,7 +472,7 @@ namespace Ex03.ConsoleUI
 
         
 
-        public static string[] getUniqueDataFromAnyVehicle(Vehicle i_Vehicle)
+        public static string[] GetUniqueDataFromAnyVehicle(Vehicle i_Vehicle)
         {
             bool isValidInput = false;
             string[] uniqueData = new string[i_Vehicle.GetUniqueData.Length];
@@ -503,13 +519,10 @@ namespace Ex03.ConsoleUI
         public static void GetDetailsForOtherVehicle(string i_LicenseNumber, Vehicle userVehicle)
 
         {
-            float currentEnergyAmount, currentAirPressure;
-            string manufacturerName;
- 
-            getEnergyDetailsForVehicle(out currentEnergyAmount, userVehicle);
-            getDetailsForGenericWheel(out manufacturerName, out currentAirPressure, userVehicle.Wheels[0].MaxAirPressure);
+            getEnergyDetailsForVehicle(out float currentEnergyAmount, userVehicle);
+            getDetailsForGenericWheel(out string manufacturerName, out float currentAirPressure, userVehicle.Wheels[0].MaxAirPressure);
             userVehicle.SetDynamicData(manufacturerName, currentAirPressure, currentEnergyAmount);
-            string[] uniqueData = getUniqueDataFromAnyVehicle(userVehicle);
+            string[] uniqueData = GetUniqueDataFromAnyVehicle(userVehicle);
             userVehicle.SetUniqueData(uniqueData);
         }
 
@@ -519,7 +532,7 @@ namespace Ex03.ConsoleUI
             return truckFromUser;
         }
 
-        public static string getModelName()
+        public static string GetModelName()
         {
             Console.WriteLine("Enter model name: ");
             string name = Console.ReadLine();
