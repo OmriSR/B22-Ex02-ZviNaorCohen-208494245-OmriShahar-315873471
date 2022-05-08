@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Ex03.GarageLogic
+﻿namespace Ex03.GarageLogic
 {
     public class Wheel
     {
@@ -57,7 +53,7 @@ namespace Ex03.GarageLogic
             }
             else
             {
-                throw new ValueOutOfRangeException();
+                throw new ValueOutOfRangeException(string.Format("You tried to fill {0}, but now we have {1} and the maximum is {2}. Request failed.", i_AirAmount, m_CurrentAirPressure, m_MaxAirPressure));
             }
         }
 

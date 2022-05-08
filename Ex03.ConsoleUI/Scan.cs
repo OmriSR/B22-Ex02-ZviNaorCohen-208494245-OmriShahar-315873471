@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection.Metadata.Ecma335;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
 using Ex03.GarageLogic;
 
 namespace Ex03.ConsoleUI
@@ -110,17 +106,16 @@ namespace Ex03.ConsoleUI
 
         public static bool CheckUserInput(string i_UserInput)
         {
-            bool inputIsValid = true;
-            inputIsValid = (i_UserInput == "1" || i_UserInput == "2" || i_UserInput == "3" || i_UserInput == "4"
-                            || i_UserInput == "5" || i_UserInput == "6" || i_UserInput == "7" || i_UserInput == "8");
+            bool inputIsValid = (i_UserInput == "1" || i_UserInput == "2" || i_UserInput == "3" || i_UserInput == "4"
+                                 || i_UserInput == "5" || i_UserInput == "6" || i_UserInput == "7" || i_UserInput == "8");
 
             return inputIsValid;
         }
 
-        public static void GetDetailsForRefill(out float o_refillAmount, out Fuel.eFuelType o_FuelType)
+        public static void GetDetailsForRefill(out float o_RefillAmount, out Fuel.eFuelType o_FuelType)
         {
             bool isValidInput = false;
-            o_refillAmount = 0;
+            o_RefillAmount = 0;
             o_FuelType = Fuel.eFuelType.Soler;
             Console.WriteLine("Please enter your refill amount. ");
 
@@ -143,7 +138,7 @@ namespace Ex03.ConsoleUI
                     Fuel.eFuelType fuelToRefill = getFuelTypeToRefillFromUser();
                     o_FuelType = fuelToRefill;
                     isValidInput = true;
-                    o_refillAmount = refillAmount;
+                    o_RefillAmount = refillAmount;
                 }
             }
         }
@@ -246,68 +241,15 @@ namespace Ex03.ConsoleUI
 
         public static Motorcycle GetDetailsForElectricBike(string i_UserLicensePlate, string o_ModelName)
         {
-           // GetDetailsForGenericVehicle(out string modelName, out string manufacturerName, out float currentEnergyAmount, out float currentAirPressure, "ElectricBike");
             Motorcycle userMotorcycle = SystemVehiclesCreator.NewGenericElectricMotorcycle(o_ModelName, i_UserLicensePlate);
+
             return userMotorcycle;
         }
 
-        //private static void checkValidEnergyAmount(string i_TypeOfVehicle, float currentEnergyAmount, out  float o_NewValidEnergyAmount)
-        //{
-        //    //string modelName = "";
-        //    bool validEnergyAmount = false;
-        //    float maximumEnergy = 0;
-        //    switch(i_TypeOfVehicle)
-        //    {
-        //        case "FuelBike":
-        //            {
-        //                maximumEnergy = 6.2f;
-        //                break;
-        //            }
-
-        //        case "ElectricBike":
-        //            {
-        //                maximumEnergy = 2.5f;
-        //                break;
-        //            }
-
-        //        case "FuelCar":
-        //            {
-        //                maximumEnergy = 38f;
-        //                break;
-        //            }
-
-        //        case "ElectricCar":
-        //            {
-        //                maximumEnergy = 3.3f;
-        //                break;
-        //            }
-
-        //        case "Truck":
-        //            {
-        //                maximumEnergy = 120f;
-        //                break;
-        //            }
-        //    }
-        //    while (!validEnergyAmount)
-        //    {
-        //        if (currentEnergyAmount > maximumEnergy)
-        //        {
-        //            Console.WriteLine("Invalid input. Maximum capacity is {0} while you tried to enter {1}. Please try again.", maximumEnergy, currentEnergyAmount);
-        //            getEnergyDetailsForVehicle(out currentEnergyAmount, );
-        //        }
-
-        //        else
-        //        {
-        //            validEnergyAmount = true;
-        //        }
-        //    }
-        //    o_NewValidEnergyAmount = currentEnergyAmount;
-        //}
-
         public static Motorcycle GetDetailsForFuelBike(string i_UserLicensePlate, string o_ModelName)
         {
-         //   GetDetailsForGenericVehicle(out string modelName, out string manufacturerName, out float currentEnergyAmount, out float currentAirPressure, "FuelBike");
             Motorcycle userMotorcycle = SystemVehiclesCreator.NewGenericFuelMotorcycle(o_ModelName, i_UserLicensePlate);
+
             return userMotorcycle;
         }
 
@@ -339,12 +281,13 @@ namespace Ex03.ConsoleUI
                 {
                     if(i_Vehicle.EnergySource.MaxEnergy < energyResult)
                     {
-                        throw new ValueOutOfRangeException();
+                        throw new ValueOutOfRangeException(string.Format("Max energy is {0}. You tried to fill {1} ", i_Vehicle.EnergySource.MaxEnergy, energyResult));
                     }
 
                     o_CurrentEnergyAmount = energyResult;
                     isValid = true;
                 }
+
                 else
                 {
                     Console.WriteLine("Invalid input. Please try again. ");
@@ -352,69 +295,22 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        //-----This is the old one!! here only for the rest of the UN_GENERIC code-----------------
-        private static void getDetailsForWheel(out string o_ManufacturerName, out float o_CurrentAirPressure, string i_VehicleType)
+        public static bool DoSupportNewVehicle(string i_NewVehicle)
         {
-            int maxAirPressure = Int32.MaxValue;
-            o_CurrentAirPressure = 0;
-            bool isValid = false;
+            bool doWeSupport = false;
+            List<Type> vehiclesTypesList = SystemVehiclesCreator.VehicleTypes;
 
-            Console.WriteLine("Enter wheel manufacturer name. ");
-            o_ManufacturerName = Console.ReadLine();
-            Console.WriteLine("Please enter current air pressure. ");
-
-            switch (i_VehicleType)
+            foreach(Type vehicleType in vehiclesTypesList)
             {
-                case "ElectricCar":
-                case "FuelCar":
-                    {
-                        maxAirPressure = 29;
-                        break;
-                    }
-
-                case "FuelBike":
-                case "ElectricBike":
-                    {
-                        maxAirPressure = 31;
-                        break;
-                    }
-
-                case "Truck":
-                    {
-                        maxAirPressure = 24;
-                        break;
-                    }
-            }
-            while (!isValid)
-            {
-                string airPressure = Console.ReadLine();
-                if (float.TryParse(airPressure, out float userAirPressure))
+                if (i_NewVehicle.ToLower() == vehicleType.Name.ToLower())
                 {
-                    if (userAirPressure > 0 && userAirPressure <= maxAirPressure)
-                    {
-                        o_CurrentAirPressure = userAirPressure;
-                        isValid = true;
-                    }
-
-                    else if (userAirPressure > maxAirPressure)
-                    {
-                        Console.WriteLine("You are trying to fill more air pressure than maximum. Maximum is: {0}.", maxAirPressure);
-                    }
-
-                    else
-                    {
-                        Console.WriteLine("Air pressure can't have values under 0.");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Could not read your air pressure. Please make sure you use only numbers.");
+                    doWeSupport = true;
                 }
             }
 
+            return doWeSupport;
         }
 
-        //----------------New and Generic -----------------------
         private static void getDetailsForGenericWheel(out string o_ManufacturerName, out float o_CurrentAirPressure, float i_MaxAirPressure)
         {
             o_CurrentAirPressure = 0;
@@ -451,12 +347,9 @@ namespace Ex03.ConsoleUI
                     Console.WriteLine("Could not read your air pressure. Please make sure you use only numbers.");
                 }
             }
-
         }
 
-        
-
-        public static string[] getUniqueDataFromAnyVehicle(Vehicle i_Vehicle)
+        private static string[] getUniqueDataFromAnyVehicle(Vehicle i_Vehicle)
         {
             bool isValidInput = false;
             string[] uniqueData = new string[i_Vehicle.GetUniqueData.Length];
@@ -486,101 +379,40 @@ namespace Ex03.ConsoleUI
 
         public static Car GetDetailsForFuelCar(string i_LicenseNumber, string o_ModelName)
         {
-            // unique data for car: color (red white green blue)
-            // number of doors (2,3,4,5)
-            // octan 95
             Car userCar = SystemVehiclesCreator.NewGenericFuelCar(o_ModelName, i_LicenseNumber);
+
             return userCar;
         }
         public static Car GetDetailsForElectricCar(string i_LicenseNumber, string o_ModelName)
         {
             Car userCar = SystemVehiclesCreator.NewGenericElectricCar(o_ModelName, i_LicenseNumber);
+
             return userCar;
         }
-
-
-     
-        public static void GetDetailsForOtherVehicle(string i_LicenseNumber, Vehicle userVehicle)
+        public static void GetDetailsForOtherVehicle(Vehicle i_UserVehicle)
 
         {
-            float currentEnergyAmount, currentAirPressure;
-            string manufacturerName;
- 
-            getEnergyDetailsForVehicle(out currentEnergyAmount, userVehicle);
-            getDetailsForGenericWheel(out manufacturerName, out currentAirPressure, userVehicle.Wheels[0].MaxAirPressure);
-            userVehicle.SetDynamicData(manufacturerName, currentAirPressure, currentEnergyAmount);
-            string[] uniqueData = getUniqueDataFromAnyVehicle(userVehicle);
-            userVehicle.SetUniqueData(uniqueData);
+            getEnergyDetailsForVehicle(out float currentEnergyAmount, i_UserVehicle);
+            getDetailsForGenericWheel(out string manufacturerName, out float currentAirPressure, i_UserVehicle.Wheels[0].MaxAirPressure);
+            i_UserVehicle.SetDynamicData(manufacturerName, currentAirPressure, currentEnergyAmount);
+            string[] uniqueData = getUniqueDataFromAnyVehicle(i_UserVehicle);
+            i_UserVehicle.SetUniqueData(uniqueData);
         }
 
         public static Truck GetDetailsForTruck(string i_LicenseNumber, string o_ModelName)
         {
             Truck truckFromUser = SystemVehiclesCreator.NewGenericFuelTruck(o_ModelName, i_LicenseNumber);
+
             return truckFromUser;
         }
 
-        public static string getModelName()
+        public static string GetModelName()
         {
             Console.WriteLine("Enter model name: ");
             string name = Console.ReadLine();
 
             return name;
         }
-
-        //public static void GetDetailsForGenericVehicle(
-        //    out string o_ModelName,
-        //    out string o_ManufacturerName,
-        //    out float o_CurrentEnergyAmount,
-        //    out float o_CurrentAirPressure, string i_vehicleType)
-        //{
-        //    o_ModelName = getModelName();
-        //    getEnergyDetailsForVehicle(out float currentEnergyAmount);
-        //    checkValidEnergyAmount(i_vehicleType, currentEnergyAmount, out o_CurrentEnergyAmount);
-        //    getDetailsForWheel(out o_ManufacturerName, out o_CurrentAirPressure, i_vehicleType);
-        //}
-
-        //private static void getLicenseTypeForMotorcycle(out Motorcycle.eLicenseType o_LicenseType)
-        //{
-        //    bool validLicense = false;
-        //    o_LicenseType = Motorcycle.eLicenseType.B1;
-        //    Console.WriteLine("Please enter license type. ");
-        //    while(!validLicense)
-        //    {
-        //        string userInput = Console.ReadLine();
-        //        switch (userInput.ToLower())
-        //        {
-        //            case "a":
-        //                {
-        //                    o_LicenseType = Motorcycle.eLicenseType.A;
-        //                    validLicense = true;
-        //                    break;
-        //                }
-        //            case "a1":
-        //                {
-        //                    o_LicenseType = Motorcycle.eLicenseType.A1;
-        //                    validLicense = true;
-        //                    break;
-        //                }
-        //            case "b1":
-        //                {
-        //                    o_LicenseType = Motorcycle.eLicenseType.B1;
-        //                    validLicense = true;
-        //                    break;
-        //                }
-        //            case "bb":
-        //                {
-        //                    o_LicenseType = Motorcycle.eLicenseType.BB;
-        //                    validLicense = true;
-        //                    break;
-        //                }
-        //            default:
-        //                {
-        //                    Console.WriteLine("Please enter valid motorcycle license. A, A1, B1, BB. ");
-        //                    break;
-        //                }
-        //        }
-        //    }
-        //}
     }
 }
 

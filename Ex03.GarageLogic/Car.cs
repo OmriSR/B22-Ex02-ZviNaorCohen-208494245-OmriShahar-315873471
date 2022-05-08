@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Ex03.GarageLogic
 {
     public class Car : Vehicle
     {
-        public enum eColor { Red, White, Green, Blue }
-
-        string m_Color;
-        short m_DoorCount;
+        private string m_Color;
+        private short m_DoorCount;
 
         public Car(string i_VehicleModel, string i_LicenseNumber, EnergySource i_EnergySource) : 
             base(i_VehicleModel, i_LicenseNumber, i_EnergySource)
@@ -26,20 +22,11 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public short DoorCount
-        {
-            set
-            {
-                m_DoorCount = value;
-            }
-        }
-
-        //-----------unique data check
         private bool isValidColor(string i_Color)
         {
             bool validColor = false;
 
-            switch (i_Color.ToLower()) // Zvika: Maybe we should use if(afterlower == red || afterlower == white etc..). We need to check if this switch works properly.
+            switch (i_Color.ToLower())
             {
                 case "red":
                 case "white":
@@ -81,7 +68,6 @@ namespace Ex03.GarageLogic
             return errorIndex;
         }
 
-        //----------------unique data------------------
         public override void SetUniqueData(string[] i_UniqueData)
         {
             m_Color = i_UniqueData[0];

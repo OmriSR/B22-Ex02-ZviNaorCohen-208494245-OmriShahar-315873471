@@ -6,15 +6,15 @@ namespace Ex03.GarageLogic
 {
     public abstract class EnergySource
     {
-        protected float m_MaxEnergy;
-        protected float m_CurrentEnergy;
+        private float m_MaxEnergy;
+        private float m_CurrentEnergy;
 
         protected EnergySource(float i_MaxEnergy)
         {
             m_MaxEnergy = i_MaxEnergy;
         }
 
-        public virtual void FillEnergy(float i_AmountToFill)
+        public void FillEnergy(float i_AmountToFill)
         {
             float newEnergyAmount = m_CurrentEnergy + i_AmountToFill;
 
@@ -24,7 +24,7 @@ namespace Ex03.GarageLogic
             }
             else
             {
-                throw new ValueOutOfRangeException();
+                throw new ValueOutOfRangeException(string.Format("You tried to fill {0}. But now we have {1} and the maximum is {2}.", i_AmountToFill, m_CurrentEnergy, m_MaxEnergy));
             }
         }
 

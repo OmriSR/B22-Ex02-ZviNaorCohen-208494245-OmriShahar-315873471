@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Ex03.GarageLogic;
 
 namespace Ex03.ConsoleUI
@@ -42,7 +41,7 @@ namespace Ex03.ConsoleUI
             Console.WriteLine("2. Show all license plates depends on its current status.");
         }
 
-        public static void PrintSpecificLicensePlateStatus(string i_UserInput, Dictionary<int, Ticket> i_GarageTickets)
+        private static void printSpecificLicensePlateStatus(string i_UserInput, Dictionary<int, Ticket> i_GarageTickets)
         {
             Ticket.eCurrentStatus statusFromUser = Ticket.eCurrentStatus.Fixed;
             int counter = 0;
@@ -88,7 +87,7 @@ namespace Ex03.ConsoleUI
             Console.ReadLine();
         }
 
-        public static void PrintSpecificPlatesMenu()
+        private static void printSpecificPlatesMenu()
         {
             Console.WriteLine("Please choose which status to see: ");
             Console.WriteLine("1. In fixings. ");
@@ -117,14 +116,14 @@ namespace Ex03.ConsoleUI
         {
             bool validInput = false;
 
-            PrintSpecificPlatesMenu();
+            printSpecificPlatesMenu();
 
             while (!validInput)
             {
                 string userInput = Console.ReadLine();
                 if (userInput == "1" || userInput == "2" || userInput == "3")
                 {
-                    PrintSpecificLicensePlateStatus(userInput, i_GarageTickets);
+                    printSpecificLicensePlateStatus(userInput, i_GarageTickets);
                 }
 
                 else
@@ -168,16 +167,18 @@ namespace Ex03.ConsoleUI
             Console.WriteLine("Model Name: {0}. ", i_VehicleTicket.Vehicle.ModelName);
             Console.WriteLine("Owner Name: {0}. Owner Number: {1}. ", i_VehicleTicket.OwnerName, i_VehicleTicket.OwnerPhoneNumber);
             Console.WriteLine("Current Status: {0}. ", i_VehicleTicket.CurrentStatus);
-            // Wheels --> air pressure and manufacturer
-            Console.WriteLine("Number of wheels: {0}.\n Manufacturer for each: {1}.\n Current air pressure in each: {2}. ", i_VehicleTicket.Vehicle.Wheels.Length, i_VehicleTicket.Vehicle.Wheels[0].Manufacturer, i_VehicleTicket.Vehicle.Wheels[0].CurrentAirPressure);
-            // Energy percent + kind of fuel / electric.
-            Console.WriteLine("Energy percent: {0}.\n Type of energy: {1}", i_VehicleTicket.Vehicle.EnergySource.EnergyPercentage, i_VehicleTicket.Vehicle.EnergySource.GetType().Name);
-            // Other vehicle extra information.
+            Console.WriteLine("Number of wheels: {0}.", i_VehicleTicket.Vehicle.Wheels.Length);
+            Console.WriteLine("Manufacturer for each: {0}.", i_VehicleTicket.Vehicle.Wheels[0].Manufacturer);
+            Console.WriteLine("Current air pressure in each: {0}. ", i_VehicleTicket.Vehicle.Wheels[0].CurrentAirPressure);
+            Console.WriteLine("Energy percent: {0}. ", i_VehicleTicket.Vehicle.EnergySource.EnergyPercentage);
+            Console.WriteLine("Type of energy: {0}", i_VehicleTicket.Vehicle.EnergySource.GetType().Name);
+            if(i_VehicleTicket.Vehicle.EnergySource.GetType().Name == "Fuel")
+            {
+                Fuel fuelToPrint = i_VehicleTicket.Vehicle.EnergySource as Fuel;
+                Console.WriteLine("Type of fuel: {0}. ", fuelToPrint.FuelType().ToString());
+            }
             string[] uniqueData = i_VehicleTicket.Vehicle.PrintUniqueData();
-           // for (int i = 0; i < uniqueDataLength; i++)
-           // {
-                Console.WriteLine(uniqueData[0]);
-           // }
+            Console.WriteLine(uniqueData[0]);
         }
     }
 }
