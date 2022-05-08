@@ -18,11 +18,16 @@ namespace Ex03.ConsoleUI
             while(runGarage)
             {
                 short menuOption = getMainMenuOption();
-                // if menuOption == 7 then exit?
+                if(menuOption == 8)
+                {
+                    runGarage = false;
+                    break;
+                }
                 runMenuOption(menuOption);
                 Print.PressAnyKeyToReturnToMainMenu();
                 Ex02.ConsoleUtils.Screen.Clear();
             }
+            Console.WriteLine("Exiting program. Have a wonderful day. ");
         }
         
         private static short getMainMenuOption()   // scan class
@@ -129,23 +134,8 @@ namespace Ex03.ConsoleUI
             else
             {
                 Print.PrintVehicleDoesntExist();
-                //  string userInput = Scan.GetVehicleType();
+                string userInput = Scan.GetVehicleType();
 
-                // SystemVehiclesCreator.eVehicleType userInputVehicleType = GetUserInputVehicleType(); // Here I check if the type is supported by our garage.
-                // If input is not valid, return to main menu and don't enter switches.
-                // else, input is valid:
-                //Scan.GetDetailsForGenericVehicle(out string modelName, out string manufacturerName, out float currentEnergyAmount, out float currentAirPressure, userInput.ToLower());
-
-
-
-                Console.WriteLine("Enter type of supported vehicle (for now: Motorcycle / Car / ...");
-                string userInput = "fuelcar";
-
-                // relevant to new implementation:
-                // 1. Check that the vehicle is supported.
-                // 2. If it is, convert it ToLower
-                // 3. Make a generic vehicle with generic values.
-                // 4. Make the specific type of vehicle the user requested.
                 // 5. Get the rest of the data
                 // 6. Make ticket and send to garage tickets.
 
@@ -157,54 +147,53 @@ namespace Ex03.ConsoleUI
                 {
                     switch (userInput)
                     {
-                        case "fuelbike":
+                        case "1":
                             {
                                 chassis = Scan.GetDetailsForFuelBike(licenseNumber, modelName);
                                 break;
                             }
 
-                        case "electricbike":
+                        case "2":
                             {
                                 chassis = Scan.GetDetailsForElectricBike(licenseNumber, modelName);
                                 break;
                             }
 
-                        case "fuelcar":
+                        case "3":
                             {
                                 chassis = Scan.GetDetailsForFuelCar(licenseNumber, modelName);
                                 break;
                             }
 
-                        case "electriccar":
+                        case "4":
                             {
                                 chassis = Scan.GetDetailsForElectricCar(licenseNumber, modelName);
                                 break;
                             }
 
-                        case "truck":
+                        case "5":
                             {
                                 chassis = Scan.GetDetailsForTruck(licenseNumber, modelName);
                                 break;
                             }
 
-                        //case "other":
-                        //    {
-                        //        Vehicle inputNewType = Scan.GetDetailsForOtherVehicle(licenseNumber);
-                        //        Ticket newTypeTicket = Scan.GetDetailsForTicket(inputNewType);
-                        //        m_GarageTickets.Add(newTypeTicket.Vehicle.LicenseNumber.GetHashCode(), newTypeTicket);
-                        //        break;
-                        //    }
+                        case "6":
+                            {
+                                //Scan.GetDetailsForOtherVehicle(licenseNumber, chassis);
+                                //Ticket newTypeTicket = Scan.GetDetailsForTicket(inputNewType);
+                                //m_GarageTickets.Add(newTypeTicket.Vehicle.LicenseNumber.GetHashCode(), newTypeTicket);
+                                break;
+                            }
 
-                        //default:
-                        //    {
-                        //        Console.WriteLine("Invalid input. Returning to main menu.");
-                        //        break;
-                        //    }
+                            //default:
+                            //    {
+                            //        Console.WriteLine("Invalid input. Returning to main menu.");
+                            //        break;
+                            //    }
                     }
-
                     Scan.GetDetailsForOtherVehicle(licenseNumber, chassis);
-                    Ticket shildaTicket = Scan.GetDetailsForTicket(chassis);
-                    m_GarageTickets.Add(shildaTicket.Vehicle.LicenseNumber.GetHashCode(), shildaTicket);
+                    Ticket chassisTicket = Scan.GetDetailsForTicket(chassis);
+                    m_GarageTickets.Add(chassisTicket.Vehicle.LicenseNumber.GetHashCode(), chassisTicket);
                 }
 
                 catch(ArgumentOutOfRangeException)
@@ -216,7 +205,6 @@ namespace Ex03.ConsoleUI
                 {
                     Console.WriteLine("You tried to initialize higher value than maximum.");
                 }
-
             }
         }
 
