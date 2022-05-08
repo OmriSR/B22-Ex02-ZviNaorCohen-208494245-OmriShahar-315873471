@@ -17,6 +17,7 @@ namespace Ex03.GarageLogic
             {
                 m_Wheels[i] = new Wheel();
             }
+
             foreach (Wheel wheel in m_Wheels)
             {
                 wheel.MaxAirPressure = 15;
@@ -24,7 +25,7 @@ namespace Ex03.GarageLogic
         }
 
         //-----------unique data check
-        bool isValidAnswer(string i_Input)
+        private bool isValidAnswer(string i_Input)
         {
             bool validInput = false;
 
@@ -39,9 +40,9 @@ namespace Ex03.GarageLogic
             return validInput;
         }
 
-        bool isValidCapacity(string i_TrunkCapacity)
+        private bool isValidCapacity(string i_TrunkCapacity)
         {
-            return float.TryParse(i_TrunkCapacity, out float TrunkCapacity);
+            return float.TryParse(i_TrunkCapacity, out float trunkCapacity);
         }
 
         public override short ValidateUniqueData(string[] i_UniqueData)
@@ -72,6 +73,7 @@ namespace Ex03.GarageLogic
         {
             //   string[] UniqeDataMembers = { "'Yes' if the truck has a cooling unit, 'No' otherwise ", "the trunck capacity" };  
             string[] uniqueDataMembers = { string.Format("Cooling unit: {0}.\n Trunk capacity: {1}", m_HasUnderSeatStorage, m_NumberOfSeats) };
+
             return uniqueDataMembers;
         }
         public override string[] GetUniqueData
@@ -80,6 +82,7 @@ namespace Ex03.GarageLogic
             {
                 //   string[] UniqeDataMembers = { "'Yes' if the truck has a cooling unit, 'No' otherwise ", "the trunck capacity" };  
                 string[] uniqueDataMembers = { "storage (YES/NO): ", "number of seats: " };
+
                 return uniqueDataMembers;
             }
         }

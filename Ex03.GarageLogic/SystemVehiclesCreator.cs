@@ -7,10 +7,23 @@ namespace Ex03.GarageLogic
     public class SystemVehiclesCreator
     {
         public enum eVehicleType { ElectricCar, FuelCar, ElectricMotorcycle, FuelMotorcycle, FuelTruck }
- 
+
+        public static List<Type> m_VehicleTypes = new List<Type>() { typeof(Motorcycle) };
+
+
+        public static List<Type> VehicleTypes
+        {
+            get
+            {
+                return m_VehicleTypes;
+            }
+        }
+
+
         public static Car NewGenericElectricCar(string i_VehicleModel, string i_LicenseNumber)
         {
             Electric electricEngine = new Electric(Convert.ToSingle(3.3));
+
             return new Car(i_VehicleModel, i_LicenseNumber, electricEngine);
         }
 
@@ -45,7 +58,10 @@ namespace Ex03.GarageLogic
         
         public static Vehicle NewGenericTypeOfVehicle(string i_VehicleModel, string i_LicenseNumber)
         {
+
             Electric electricEngine = new Electric(Convert.ToSingle(2.5));
+
+            
 
             return new Bimba(i_VehicleModel, i_LicenseNumber, electricEngine);
         }

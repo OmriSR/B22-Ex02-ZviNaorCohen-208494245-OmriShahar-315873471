@@ -19,6 +19,7 @@ namespace Ex03.GarageLogic
             {
                 m_Wheels[i] = new Wheel();
             }
+
             foreach (Wheel wheel in m_Wheels)
             {
                 wheel.MaxAirPressure = 29;
@@ -34,7 +35,7 @@ namespace Ex03.GarageLogic
         }
 
         //-----------unique data check
-        bool isValidColor(string i_Color)
+        private bool isValidColor(string i_Color)
         {
             bool validColor = false;
 
@@ -51,7 +52,7 @@ namespace Ex03.GarageLogic
             return validColor;
         }
 
-        bool isValidDoorCount(string i_DoorCount)
+        private bool isValidDoorCount(string i_DoorCount)
         {
             bool valid = short.TryParse(i_DoorCount, out short doorCount);
 
@@ -92,6 +93,7 @@ namespace Ex03.GarageLogic
             get
             {
                 string[] UniqueDataMembers = { "Car color (red/white/blue/green): ", "Number of Doors (2/3/4/5): "};   //when reciving
+
                 return UniqueDataMembers;
             }
         }
@@ -99,6 +101,7 @@ namespace Ex03.GarageLogic
         public override string[] PrintUniqueData()
         {
             string[] uniqueDataMembers = { string.Format("Car color: {0}.\n Number Of Doors: {1}", m_Color, m_DoorCount)};
+
             return uniqueDataMembers;
         }
     }

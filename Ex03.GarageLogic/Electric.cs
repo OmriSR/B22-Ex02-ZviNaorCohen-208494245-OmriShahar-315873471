@@ -7,7 +7,5 @@ namespace Ex03.GarageLogic
     public class Electric : EnergySource
     {
         public Electric(float i_MaxHours) : base(i_MaxHours) { }
-
-
     }
 }

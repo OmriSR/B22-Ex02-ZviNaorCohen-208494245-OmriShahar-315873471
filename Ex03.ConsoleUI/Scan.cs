@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using Ex03.GarageLogic;
 
 namespace Ex03.ConsoleUI
@@ -11,11 +12,9 @@ namespace Ex03.ConsoleUI
     {
         public static bool GetTypeOfWheelInflation()
         {
-            bool fillToMax;
-
             Console.WriteLine("Enter '1' for costume air Pressure or any other key for maximum possible: ");
             
-            fillToMax = Console.ReadLine() != "1";
+            bool fillToMax = Console.ReadLine() != "1";
 
             return fillToMax;
         }
@@ -30,7 +29,7 @@ namespace Ex03.ConsoleUI
             {
                 Ex02.ConsoleUtils.Screen.Clear();
 
-                Console.WriteLine("Invalid Input. Please try again. \n");
+                Console.WriteLine("Invalid Input. Please try again.");
                 Console.WriteLine("Please enter wanted air pressure: ");
             }
 
@@ -48,14 +47,17 @@ namespace Ex03.ConsoleUI
                 {
                     wantedStatus = Ticket.eCurrentStatus.InFixings;
                 }
+
                 else if(userInput == "2")
                 {
                     wantedStatus = Ticket.eCurrentStatus.Fixed;
                 }
+
                 else if(userInput == "3")
                 {
                     wantedStatus = Ticket.eCurrentStatus.Paid;
                 }
+
                 else
                 {
                     Console.WriteLine("Invalid input. Please try again. ");
@@ -73,17 +75,28 @@ namespace Ex03.ConsoleUI
             bool plateInTickets = false;
             Console.WriteLine("Please enter car license plate: ");
             string userInput = Console.ReadLine();
-            if(m_GarageTickets.ContainsKey(userInput.GetHashCode()))
+
+            try
             {
-                plateInTickets = true;
-                o_UserInput = userInput;
-            }
-            else
-            {
-                Console.WriteLine("License plate not found. Returning to main menu. ");
-                o_UserInput = "";
+                if(m_GarageTickets.ContainsKey(userInput.GetHashCode()))
+                {
+                    plateInTickets = true;
+                    o_UserInput = userInput;
+                }
+
+                else
+                {
+                    Console.WriteLine("License plate not found. Returning to main menu. ");
+                    o_UserInput = "";
+                }
             }
 
+            catch(NullReferenceException)
+            {
+                Console.WriteLine("You tried to enter empty input, which is not valid. ");
+                o_UserInput = "";
+            }
+            
             return plateInTickets;
         }
 
@@ -91,6 +104,7 @@ namespace Ex03.ConsoleUI
         {
             Console.WriteLine("Please enter vehicle's license number. ");
             string userLicenseNumber = Console.ReadLine();
+
             return userLicenseNumber;
         }
 
@@ -99,6 +113,7 @@ namespace Ex03.ConsoleUI
             bool inputIsValid = true;
             inputIsValid = (i_UserInput == "1" || i_UserInput == "2" || i_UserInput == "3" || i_UserInput == "4"
                             || i_UserInput == "5" || i_UserInput == "6" || i_UserInput == "7");
+
             return inputIsValid;
         }
 
@@ -108,6 +123,7 @@ namespace Ex03.ConsoleUI
             o_refillAmount = 0;
             o_FuelType = Fuel.eFuelType.Soler;
             Console.WriteLine("Please enter your refill amount. ");
+
             while(!isValidInput)
             {
                 string userInput = Console.ReadLine();
@@ -115,10 +131,12 @@ namespace Ex03.ConsoleUI
                 {
                     Console.WriteLine("You entered invalid input. Please enter a number above 0.");
                 }
+
                 else if(refillAmount < 0)
                 {
                     Console.WriteLine("Can't add negative values to refill amount. Please write numbers above 0.");
                 }
+
                 else
                 {
                     Print.PrintFuelOptionsToRefill();
@@ -149,16 +167,19 @@ namespace Ex03.ConsoleUI
                                 fuelUserInput = Fuel.eFuelType.Soler;
                                 break;
                             }
+
                         case "2":
                             {
                                 fuelUserInput = Fuel.eFuelType.Octan95;
                                 break;
                             }
+
                         case "3":
                             {
                                 fuelUserInput = Fuel.eFuelType.Octan96;
                                 break;
                             }
+
                         case "4":
                             {
                                 fuelUserInput = Fuel.eFuelType.Octan98;
@@ -178,6 +199,7 @@ namespace Ex03.ConsoleUI
             bool isValidInput = false;
             o_HoursToFill = 0;
             Console.WriteLine("Please enter your refill amount. (Liters for fuel, hours for electric) ");
+
             while(!isValidInput)
             {
                 string userInput = Console.ReadLine();
@@ -185,10 +207,12 @@ namespace Ex03.ConsoleUI
                 {
                     Console.WriteLine("You entered invalid input. Please enter a number above 0.");
                 }
+
                 else if(refillAmount < 0)
                 {
                     Console.WriteLine("Can't add negative values to refill amount. Please write numbers above 0.");
                 }
+
                 else
                 {
                     isValidInput = true;
@@ -201,6 +225,7 @@ namespace Ex03.ConsoleUI
         {
             bool validInput = false;
             string userInput = Console.ReadLine();
+
             while(!validInput)
             {
                 if(userInput == "1" || userInput == "2" || userInput == "3" || userInput == "4" || userInput == "5"
@@ -208,6 +233,7 @@ namespace Ex03.ConsoleUI
                 {
                     validInput = true;
                 }
+
                 else
                 {
                     Console.WriteLine("Invalid input. Please choose 1-6.");
@@ -218,13 +244,10 @@ namespace Ex03.ConsoleUI
             return userInput;
         }
 
-        public static Motorcycle GetDetailsForElectricBike(string i_UserLicensePlate)
+        public static Motorcycle GetDetailsForElectricBike(string i_UserLicensePlate, string o_ModelName)
         {
-            GetDetailsForGenericVehicle(out string modelName, out string manufacturerName, out float currentEnergyAmount, out float currentAirPressure, "ElectricBike");
-            Motorcycle userMotorcycle = SystemVehiclesCreator.NewGenericElectricMotorcycle(modelName, i_UserLicensePlate);
-            userMotorcycle.SetDynamicData(manufacturerName, currentAirPressure, currentEnergyAmount); // as a vehicle
-            string[] uniqueData = getUniqueDataFromAnyVehicle(userMotorcycle);
-            userMotorcycle.SetUniqueData(uniqueData);
+           // GetDetailsForGenericVehicle(out string modelName, out string manufacturerName, out float currentEnergyAmount, out float currentAirPressure, "ElectricBike");
+            Motorcycle userMotorcycle = SystemVehiclesCreator.NewGenericElectricMotorcycle(o_ModelName, i_UserLicensePlate);
             return userMotorcycle;
         }
 
@@ -240,21 +263,25 @@ namespace Ex03.ConsoleUI
                         maximumEnergy = 6.2f;
                         break;
                     }
+
                 case "ElectricBike":
                     {
                         maximumEnergy = 2.5f;
                         break;
                     }
+
                 case "FuelCar":
                     {
                         maximumEnergy = 38f;
                         break;
                     }
+
                 case "ElectricCar":
                     {
                         maximumEnergy = 3.3f;
                         break;
                     }
+
                 case "Truck":
                     {
                         maximumEnergy = 120f;
@@ -266,8 +293,9 @@ namespace Ex03.ConsoleUI
                 if (currentEnergyAmount > maximumEnergy)
                 {
                     Console.WriteLine("Invalid input. Maximum capacity is {0} while you tried to enter {1}. Please try again.", maximumEnergy, currentEnergyAmount);
-                    getDetailsForSpecificVehicle(out currentEnergyAmount);
+                    getEnergyDetailsForVehicle(out currentEnergyAmount);
                 }
+
                 else
                 {
                     validEnergyAmount = true;
@@ -276,13 +304,10 @@ namespace Ex03.ConsoleUI
             o_NewValidEnergyAmount = currentEnergyAmount;
         }
 
-        public static Motorcycle GetDetailsForFuelBike(string i_UserLicensePlate)
+        public static Motorcycle GetDetailsForFuelBike(string i_UserLicensePlate, string o_ModelName)
         {
-            GetDetailsForGenericVehicle(out string modelName, out string manufacturerName, out float currentEnergyAmount, out float currentAirPressure, "FuelBike");
-            Motorcycle userMotorcycle = SystemVehiclesCreator.NewGenericFuelMotorcycle(modelName, i_UserLicensePlate);
-            userMotorcycle.SetDynamicData(manufacturerName, currentAirPressure, currentEnergyAmount); // as a vehicle
-            string[] uniqueData = getUniqueDataFromAnyVehicle(userMotorcycle);
-            userMotorcycle.SetUniqueData(uniqueData);
+         //   GetDetailsForGenericVehicle(out string modelName, out string manufacturerName, out float currentEnergyAmount, out float currentAirPressure, "FuelBike");
+            Motorcycle userMotorcycle = SystemVehiclesCreator.NewGenericFuelMotorcycle(o_ModelName, i_UserLicensePlate);
             return userMotorcycle;
         }
 
@@ -292,11 +317,17 @@ namespace Ex03.ConsoleUI
             string ownerName = Console.ReadLine();
             Console.WriteLine("Please enter owner phone number.");
             string ownerNumber = Console.ReadLine();
+            if(!double.TryParse(ownerNumber, out _))
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
             Ticket ticketToReturn = new Ticket(i_Vehicle, ownerName, ownerNumber);
+
             return ticketToReturn;
         }
 
-        private static void getDetailsForSpecificVehicle(out float o_CurrentEnergyAmount)
+        private static void getEnergyDetailsForVehicle(out float o_CurrentEnergyAmount)
         {
             o_CurrentEnergyAmount = 0;
             bool isValid = false;
@@ -335,12 +366,14 @@ namespace Ex03.ConsoleUI
                         maxAirPressure = 29;
                         break;
                     }
+
                 case "FuelBike":
                 case "ElectricBike":
                     {
                         maxAirPressure = 31;
                         break;
                     }
+
                 case "Truck":
                     {
                         maxAirPressure = 24;
@@ -357,10 +390,12 @@ namespace Ex03.ConsoleUI
                         o_CurrentAirPressure = userAirPressure;
                         isValid = true;
                     }
+
                     else if (userAirPressure > maxAirPressure)
                     {
                         Console.WriteLine("You are trying to fill more air pressure than maximum. Maximum is: {0}.", maxAirPressure);
                     }
+
                     else
                     {
                         Console.WriteLine("Air pressure can't have values under 0.");
@@ -395,10 +430,12 @@ namespace Ex03.ConsoleUI
                         o_CurrentAirPressure = userAirPressure;
                         isValid = true;
                     }
+
                     else if (userAirPressure > i_MaxAirPressure)
                     {
                         Console.WriteLine("You are trying to fill more air pressure than maximum. Maximum is: {0}.", i_MaxAirPressure);
                     }
+
                     else
                     {
                         Console.WriteLine("Air pressure can't have values under 0.");
@@ -412,20 +449,9 @@ namespace Ex03.ConsoleUI
 
         }
 
-        public static Car GetDetailsForFuelCar(string i_LicenseNumber)
-        {
-            GetDetailsForGenericVehicle(out string modelName, out string manufacturerName, out float currentEnergyAmount, out float currentAirPressure, "FuelCar");
-            // unique data for car: color (red white green blue)
-            // number of doors (2,3,4,5)
-            // octan 95
-            Car userCar = SystemVehiclesCreator.NewGenericFuelCar(modelName, i_LicenseNumber);
-            userCar.SetDynamicData(manufacturerName, currentAirPressure, currentEnergyAmount); // as a vehicle
-            string[] uniqueData = getUniqueDataFromAnyVehicle(userCar);
-            userCar.SetUniqueData(uniqueData);
-            return userCar;
-        }
+        
 
-        private static string[] getUniqueDataFromAnyVehicle(Vehicle i_Vehicle)
+        public static string[] getUniqueDataFromAnyVehicle(Vehicle i_Vehicle)
         {
             bool isValidInput = false;
             string[] uniqueData = new string[i_Vehicle.GetUniqueData.Length];
@@ -443,33 +469,46 @@ namespace Ex03.ConsoleUI
                 {
                     Console.WriteLine("Unique data was not entered properly. Please try again.");
                 }
+
                 else
                 {
                     isValidInput = true;
                 }
             }
+
             return uniqueData;
         }
 
-        public static Car GetDetailsForElectricCar(string i_LicenseNumber)
+        public static Car GetDetailsForFuelCar(string i_LicenseNumber, string o_ModelName)
         {
-            GetDetailsForGenericVehicle(out string modelName, out string manufacturerName, out float currentEnergyAmount, out float currentAirPressure, "ElectricCar");
-            Car userCar = SystemVehiclesCreator.NewGenericElectricCar(modelName, i_LicenseNumber);
-            userCar.SetDynamicData(manufacturerName, currentAirPressure, currentEnergyAmount); // as a vehicle
-            string[] uniqueData = getUniqueDataFromAnyVehicle(userCar);
-            userCar.SetUniqueData(uniqueData);
+         //  GetDetailsForGenericVehicle(out string modelName, out string manufacturerName, out float currentEnergyAmount, out float currentAirPressure, "FuelCar");
+            // unique data for car: color (red white green blue)
+            // number of doors (2,3,4,5)
+            // octan 95
+            Car userCar = SystemVehiclesCreator.NewGenericFuelCar(o_ModelName, i_LicenseNumber);
+            return userCar;
+        }
+        public static Car GetDetailsForElectricCar(string i_LicenseNumber, string o_ModelName)
+        {
+            //  GetDetailsForGenericVehicle(out string modelName, out string manufacturerName, out float currentEnergyAmount, out float currentAirPressure, "ElectricCar");
+            Car userCar = SystemVehiclesCreator.NewGenericElectricCar(o_ModelName, i_LicenseNumber);
+            //userCar.SetDynamicData(manufacturerName, currentAirPressure, currentEnergyAmount); // as a vehicle
+            //string[] uniqueData = getUniqueDataFromAnyVehicle(userCar);
+            //userCar.SetUniqueData(uniqueData);
             return userCar;
         }
 
-        
-        public static Vehicle getDetailsForOtherVehicle(string i_LicenseNumber)
+
+     
+        public static void GetDetailsForOtherVehicle(string i_LicenseNumber, Vehicle userVehicle)
+
         {
             float currentEnergyAmount, currentAirPressure;
-            string manufacturerName, modelName = getModelName();
+            string manufacturerName;
 
-            getDetailsForSpecificVehicle(out currentEnergyAmount);
+            getEnergyDetailsForVehicle(out currentEnergyAmount);
 
-            Vehicle userVehicle = SystemVehiclesCreator.NewGenericTypeOfVehicle(modelName, i_LicenseNumber);
+          //  Vehicle userVehicle = SystemVehiclesCreator.NewGenericTypeOfVehicle(modelName, i_LicenseNumber);
 
             if(userVehicle.EnergySource.MaxEnergy < currentEnergyAmount)
             {
@@ -477,28 +516,22 @@ namespace Ex03.ConsoleUI
             }
 
             getDetailsForGenericWheel(out manufacturerName, out currentAirPressure, userVehicle.Wheels[0].MaxAirPressure);
-
-
             userVehicle.SetDynamicData(manufacturerName, currentAirPressure, currentEnergyAmount);
             string[] uniqueData = getUniqueDataFromAnyVehicle(userVehicle);
             userVehicle.SetUniqueData(uniqueData);
-            return userVehicle;
         }
 
-        public static Truck GetDetailsForTruck(string i_LicenseNumber)
+        public static Truck GetDetailsForTruck(string i_LicenseNumber, string o_ModelName)
         {
-            GetDetailsForGenericVehicle(out string modelName, out string manufacturerName, out float currentEnergyAmount, out float currentAirPressure, "Truck");
-            Truck truckFromUser = SystemVehiclesCreator.NewGenericFuelTruck(modelName, i_LicenseNumber);
-            truckFromUser.SetDynamicData(manufacturerName, currentAirPressure, currentEnergyAmount);
-            string[] uniqueData = getUniqueDataFromAnyVehicle(truckFromUser);
-            truckFromUser.SetUniqueData(uniqueData);
+            Truck truckFromUser = SystemVehiclesCreator.NewGenericFuelTruck(o_ModelName, i_LicenseNumber);
             return truckFromUser;
         }
 
-        private static string getModelName()
+        public static string getModelName()
         {
             Console.WriteLine("Enter model name: ");
             string name = Console.ReadLine();
+
             return name;
         }
 
@@ -509,7 +542,7 @@ namespace Ex03.ConsoleUI
             out float o_CurrentAirPressure, string i_vehicleType)
         {
             o_ModelName = getModelName();
-            getDetailsForSpecificVehicle(out float currentEnergyAmount);
+            getEnergyDetailsForVehicle(out float currentEnergyAmount);
             checkValidEnergyAmount(i_vehicleType, currentEnergyAmount, out o_CurrentEnergyAmount);
             getDetailsForWheel(out o_ManufacturerName, out o_CurrentAirPressure, i_vehicleType);
         }
