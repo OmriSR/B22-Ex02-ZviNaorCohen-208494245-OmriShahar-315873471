@@ -13,10 +13,12 @@ namespace Ex03.GarageLogic
             base(i_VehicleModel, i_LicenseNumber, i_EnergySource)
         {
             m_Wheels = new Wheel[16];
+
             for(int i = 0; i < 16; i++)
             {
                 m_Wheels[i] = new Wheel();
             }
+
             foreach (Wheel wheel in m_Wheels)
             {
                 wheel.MaxAirPressure = 24;
@@ -41,7 +43,7 @@ namespace Ex03.GarageLogic
 
         bool isValidCapacity(string i_TrunkCapacity)
         {
-            return float.TryParse(i_TrunkCapacity, out float TrunkCapacity);
+            return float.TryParse(i_TrunkCapacity, out float trunkCapacity);
         }
 
         public override short ValidateUniqueData(string[] i_UniqueData)

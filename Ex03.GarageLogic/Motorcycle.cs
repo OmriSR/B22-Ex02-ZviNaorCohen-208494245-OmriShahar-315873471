@@ -21,7 +21,7 @@ namespace Ex03.GarageLogic
         }
 
         //-----------unique data check
-        bool isValidLicenseType(string i_License)
+        private bool isValidLicenseType(string i_License)
         {
             bool validLicense = false;
 
@@ -38,7 +38,7 @@ namespace Ex03.GarageLogic
             return validLicense;
         }
 
-        bool isValidEngineCapacity(string i_EngineCapacity)
+        private bool isValidEngineCapacity(string i_EngineCapacity)
         {
             return float.TryParse(i_EngineCapacity, out _);
         }
@@ -70,6 +70,7 @@ namespace Ex03.GarageLogic
         public override string[] PrintUniqueData()
         {
             string[] UniqueDataMembers = { string.Format("License type: {0}\n.", "Engine Capacity: {1}.", m_LicenseType, m_EngineCapacity) };
+
             return UniqueDataMembers;
         }
 

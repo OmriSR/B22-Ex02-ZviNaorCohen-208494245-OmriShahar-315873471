@@ -6,21 +6,21 @@ namespace Ex03.GarageLogic
 {
     public abstract class EnergySource
     {
-        protected float m_MaxEnrgy;
-        protected float m_CurrentEnrgy;
+        protected float m_MaxEnergy;
+        protected float m_CurrentEnergy;
 
         protected EnergySource(float i_MaxEnergy)
         {
-            m_MaxEnrgy = i_MaxEnergy;
+            m_MaxEnergy = i_MaxEnergy;
         }
 
-        virtual public void FillEnergy(float i_AmountToFill)
+        public virtual void FillEnergy(float i_AmountToFill)
         {
-            float newEnergyAmount = m_CurrentEnrgy + i_AmountToFill;
+            float newEnergyAmount = m_CurrentEnergy + i_AmountToFill;
 
-            if (newEnergyAmount < m_MaxEnrgy)
+            if (newEnergyAmount < m_MaxEnergy)
             {
-                m_CurrentEnrgy = newEnergyAmount;
+                m_CurrentEnergy = newEnergyAmount;
             }
             else
             {
@@ -32,12 +32,12 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return m_CurrentEnrgy;
+                return m_CurrentEnergy;
             }
 
             set
             {
-                m_CurrentEnrgy = value;
+                m_CurrentEnergy = value;
             }
         }
 
@@ -45,7 +45,7 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return ((m_CurrentEnrgy / m_MaxEnrgy) * 100);
+                return ((m_CurrentEnergy / m_MaxEnergy) * 100);
             }
         }
 
@@ -53,12 +53,12 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return m_MaxEnrgy;
+                return m_MaxEnergy;
             }
 
             set
             {
-                m_MaxEnrgy = value;
+                m_MaxEnergy = value;
             }
         }
     }
