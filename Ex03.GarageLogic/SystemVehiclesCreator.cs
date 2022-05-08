@@ -10,7 +10,6 @@ namespace Ex03.GarageLogic
 
         public static List<Type> m_VehicleTypes = new List<Type>() { typeof(Motorcycle) };
 
-
         public static List<Type> VehicleTypes
         {
             get
@@ -18,7 +17,6 @@ namespace Ex03.GarageLogic
                 return m_VehicleTypes;
             }
         }
-
 
         public static Car NewGenericElectricCar(string i_VehicleModel, string i_LicenseNumber)
         {
@@ -56,17 +54,23 @@ namespace Ex03.GarageLogic
         }
 
         
-        public static Vehicle NewGenericTypeOfVehicle(string i_VehicleModel, string i_LicenseNumber)
+        public static Vehicle NewGenericTypeOfVehicle(string i_VehicleModel, string i_LicenseNumber, string i_VehicleType)
         {
-            /*
-            Electric electricEngine = new Electric(Convert.ToSingle(ENTER_MAXIMUM_HOURS_HERE));
+            Vehicle newVehicle = null;
 
-            OR
+            switch (i_VehicleType)
+            {
+                /*
+                case (New Vehicle Class Name):
+                        newVehicle = Call_creation_method( i_VehicleModel,  i_LicenseNumber);
+                        break;
+                */
 
-            Fuel fuelEngine = new Fuel(Fuel.eFuelType.(ENTER_FUELTYPE_HERE), Convert.ToSingle(ENTER_MAXIMUM_LITERS_HERE));
+                default:
+                    break;
+            }
 
-            return new (ENTER_NEW_TYPE_CLASS_NAME_HERE)(i_VehicleModel, i_LicenseNumber, electricEngine);
-            */
+            return newVehicle;
         }
     }
 }

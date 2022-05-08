@@ -151,7 +151,7 @@ namespace Ex03.ConsoleUI
 
 
                 string modelName = Scan.getModelName();
-                Vehicle chassis = SystemVehiclesCreator.NewGenericTypeOfVehicle(modelName, licenseNumber);
+                Vehicle chassis = SystemVehiclesCreator. NewGenericTypeOfVehicle(modelName, licenseNumber);
                 
                 try
                 {
